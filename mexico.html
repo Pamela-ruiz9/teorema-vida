@@ -760,38 +760,55 @@
     }
 
     function showResults() {
-        // Calculate variable scores from answers
         const scores = { E:[], T:[], C:[], V:[], I:[], A:[], F:[] };
         let birthYear = null;
+        let urbanScore = 5;
         
         questions.forEach((q, i) => {
             if (quizAnswers[i] === null) return;
-            if (q.variable === '_age') {
-                birthYear = quizAnswers[i];
-                return;
-            }
-            if (q.variable.startsWith('_')) return; // skip non-variable questions
+            if (q.variable === '_age') { birthYear = quizAnswers[i]; return; }
+            if (q.variable === '_state') { urbanScore = q.options[quizAnswers[i]].v; return; }
+            if (q.variable === '_edu') return; // used for context, not scoring
+            if (q.variable.startsWith('_')) return;
             const varName = q.variable.replace('E_income','E');
             if (!scores[varName]) scores[varName] = [];
-            if (q.options) {
-                scores[varName].push(q.options[quizAnswers[i]].v);
-            }
+            if (q.options) scores[varName].push(q.options[quizAnswers[i]].v);
         });
         
-        // Birth year enrichment: how many crises in formative window
+        // Birth year is the STRONGEST signal for E and T
         if (birthYear) {
             const crises = [1976,1982,1987,1994,2001,2008,2020];
             const windowStart = birthYear + 10;
             const windowEnd = birthYear + 25;
             const crisesInWindow = crises.filter(y => y >= windowStart && y <= windowEnd).length;
-            scores.E.push(Math.min(10, crisesInWindow * 2.5)); // 0 crises=0, 4 crises=10
+            // Crisis count is the PRIMARY escasez signal (weighted 2x)
+            scores.E.push(Math.min(10, crisesInWindow * 2.5));
+            scores.E.push(Math.min(10, crisesInWindow * 2.5)); // double weight
             
-            // Tech score from birth year
-            if (birthYear < 1970) scores.T.push(1);
-            else if (birthYear < 1980) scores.T.push(3);
-            else if (birthYear < 1990) scores.T.push(5);
-            else if (birthYear < 2000) scores.T.push(7);
-            else scores.T.push(9);
+            // Violence: war on drugs (2008+) in formative window
+            if (windowStart <= 2020 && windowEnd >= 2008) {
+                const yearsInNarcoWar = Math.min(windowEnd, 2025) - Math.max(windowStart, 2008);
+                scores.V.push(Math.min(10, yearsInNarcoWar * 0.8));
+            }
+            
+            // Tech from birth year (weighted 2x — structural, not personal)
+            let techScore = 1;
+            if (birthYear >= 2000) techScore = 9;
+            else if (birthYear >= 1990) techScore = 7;
+            else if (birthYear >= 1980) techScore = 5;
+            else if (birthYear >= 1970) techScore = 3;
+            scores.T.push(techScore);
+            scores.T.push(techScore); // double weight
+            
+            // Institutional trust collapse: post-2000 = low C
+            if (birthYear >= 1990) scores.C.push(2);
+            else if (birthYear >= 1980) scores.C.push(3);
+            else if (birthYear >= 1970) scores.C.push(4);
+            
+            // Info saturation by generation
+            if (birthYear >= 1995) scores.I.push(9);
+            else if (birthYear >= 1985) scores.I.push(6);
+            else if (birthYear >= 1975) scores.I.push(3);
         }
 
         const avg = obj => obj.length ? obj.reduce((a,b)=>a+b,0)/obj.length : 5;
