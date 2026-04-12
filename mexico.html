@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,149 +19,180 @@
             <a href="mexico.html" class="nav-tab active">México</a>
             <a href="#" class="nav-tab disabled">EE.UU. <span class="soon">pronto</span></a>
             <a href="#" class="nav-tab disabled">Global <span class="soon">pronto</span></a>
+            <button class="theme-toggle" onclick="toggleTheme()">☀️</button>
         </div>
     </nav>
 
-    <!-- HERO MÉXICO -->
+    <!-- HERO -->
     <section class="panel" style="text-align:center;">
         <div class="content fade-in">
             <p class="small gold" style="margin-bottom:1rem;">El modelo aplicado</p>
-            <h1 style="font-size:clamp(2rem,5vw,3.5rem); line-height:1.15; margin-bottom:1.5rem;">México no es el modelo gringo.</h1>
-            <p class="dim" style="max-width:560px; margin:0 auto; font-size:1rem;">Las etiquetas generacionales nacieron en Estados Unidos. Pero las fuerzas que forman el sentido de vida en México son radicalmente diferentes: crisis económicas crónicas, violencia estructural, y una confianza institucional que nunca fue alta.</p>
-            <div class="line" style="margin:2.5rem auto;"></div>
-            <p class="dim" style="max-width:500px; margin:0 auto; font-size:0.9rem;">Aquí el modelo se aplica con <strong style="color:var(--white)">eventos mexicanos</strong>, <strong style="color:var(--white)">datos mexicanos</strong>, y <strong style="color:var(--white)">generaciones definidas por la historia de México</strong>.</p>
+            <h1 style="font-size:clamp(2rem,5vw,3.5rem); line-height:1.15; margin-bottom:1.5rem;">México no es<br>el modelo gringo.</h1>
+            <p class="dim" style="max-width:560px; margin:0 auto; font-size:1rem;">Las etiquetas generacionales nacieron en Estados Unidos. Pero las fuerzas que forman el sentido de vida en México son radicalmente diferentes.</p>
         </div>
     </section>
 
-    <!-- DATO CLAVE -->
-    <section style="padding:3rem 2rem 5rem;">
+    <!-- TIMELINE DE CRISIS -->
+    <section style="padding:2rem 2rem 4rem;">
         <div class="content fade-in" style="margin:0 auto;">
             <div class="insight-box">
-                <h3>El dato que cambia todo</h3>
-                <p>México ha tenido una crisis económica cada 7 años desde 1976.<br>1976 · 1982 · 1987 · 1994 · 2001 · 2008 · 2020</p>
-                <p class="insight-key">La escasez en México no es episódica. Es crónica.<br>Eso significa que el vector de Resiliencia es permanentemente alto para todas las generaciones post-1970.</p>
+                <h3>Una crisis cada 7 años</h3>
+                <div class="timeline-bar" style="margin:2rem 0 1rem;">
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">1976</div></div>
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">1982</div></div>
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">1987</div></div>
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">1994</div></div>
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">2001</div></div>
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">2008</div></div>
+                    <div class="timeline-dot"><div class="dot"></div><div class="year">2020</div></div>
+                </div>
+                <p class="insight-key">La escasez en México no es episódica. Es crónica.</p>
             </div>
         </div>
     </section>
 
-    <!-- GENERACIONES MEXICANAS -->
-    <section style="padding:2rem 2rem 5rem;">
+    <!-- GENERACIONES -->
+    <section style="padding:0 2rem 5rem;">
         <div class="content fade-in" style="margin:0 auto;">
             <p class="small gold" style="margin-bottom:0.5rem;">Radiografía generacional</p>
             <h2 style="font-size:clamp(1.4rem,3vw,2rem); margin-bottom:2.5rem;">Cuatro generaciones, cuatro Méxicos</h2>
 
-            <!-- BOOMERS MX -->
-            <div class="gen-card">
-                <div class="gen-period">1946 — 1964</div>
-                <h3>Generación del Milagro</h3>
-                <div class="gen-narrative">"El sistema funciona. Si te esfuerzas, avanzas."</div>
-                <p class="gen-context"><strong>Ventana formativa:</strong> 1956–1989</p>
-                <p class="gen-context"><strong>E (Escasez):</strong> Baja → media. "Milagro mexicano" + boom petrolero. Pero vivieron la crisis del 76 y 82 al final de su ventana.</p>
-                <p class="gen-context"><strong>C (Confianza):</strong> Alta. PRI hegemónico = estabilidad percibida. No había alternativa, pero tampoco incertidumbre.</p>
-                <p class="gen-context"><strong>T (Tecnología):</strong> Baja. TV (Televisa como monopolio informativo), radio, prensa.</p>
-                <p class="gen-context"><strong>V (Violencia):</strong> Baja-moderada. Guerra sucia silenciada. Tlatelolco 1968 (trauma para los que lo vivieron).</p>
-                <p class="gen-context"><strong>I (Info):</strong> Controlada. 2-3 canales de TV. Información curada por el Estado.</p>
-                <p class="gen-context"><strong>F (Familia):</strong> Nuclear, grande (4-6 hijos), patriarcal, divorcio estigmatizado.</p>
-                <div class="gen-vector">
-                    <span class="gen-tag high">↑ Seguridad</span>
-                    <span class="gen-tag high">↑ Estatus</span>
-                    <span class="gen-tag high">↑ Afiliación</span>
-                    <span class="gen-tag low">↓ Identidad individual</span>
-                    <span class="gen-tag low">↓ Resiliencia (no la necesitaban)</span>
+            <!-- MILAGRO -->
+            <div class="accordion">
+                <div class="accordion-header">
+                    <div class="gen-left">
+                        <div class="gen-period">1946 — 1964</div>
+                        <h3>Generación del Milagro</h3>
+                        <div class="gen-narrative">"El sistema funciona. Si te esfuerzas, avanzas."</div>
+                    </div>
+                    <div class="accordion-arrow">▼</div>
+                </div>
+                <div class="accordion-body">
+                    <p class="gen-context"><strong>Ventana formativa:</strong> 1956–1989</p>
+                    <p class="gen-context"><strong>E (Escasez):</strong> Baja → media. "Milagro mexicano" + boom petrolero. Crecimiento sostenido que se rompió con la crisis del 76 y 82.</p>
+                    <p class="gen-context"><strong>C (Confianza):</strong> Alta. PRI hegemónico = estabilidad percibida. No había alternativa, pero tampoco incertidumbre. El gobierno era el padre.</p>
+                    <p class="gen-context"><strong>T (Tecnología):</strong> Baja. Televisa como monopolio informativo. Radio, prensa. La información era escasa y controlada.</p>
+                    <p class="gen-context"><strong>V (Violencia):</strong> Baja-moderada. Guerra sucia silenciada por los medios. Tlatelolco 1968 — trauma para quien lo vivió, invisible para quien no.</p>
+                    <p class="gen-context"><strong>F (Familia):</strong> Nuclear, grande (4-6 hijos), patriarcal. Divorcio estigmatizado. Roles claros: él trabaja, ella cuida.</p>
+                    <div class="gen-vector">
+                        <span class="gen-tag high">↑ Seguridad</span>
+                        <span class="gen-tag high">↑ Estatus</span>
+                        <span class="gen-tag high">↑ Afiliación</span>
+                        <span class="gen-tag low">↓ Identidad individual</span>
+                        <span class="gen-tag low">↓ Resiliencia</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- GEN X MX -->
-            <div class="gen-card">
-                <div class="gen-period">1965 — 1980</div>
-                <h3>Generación de las Crisis</h3>
-                <div class="gen-narrative">"No confíes en nadie. Hazte cargo."</div>
-                <p class="gen-context"><strong>Ventana formativa:</strong> 1975–2005</p>
-                <p class="gen-context"><strong>E (Escasez):</strong> Altísima. TRES crisis en su ventana: 1982 (deuda), 1987 (crack, inflación 159%), 1994 (Tequila). El peso se devaluó repetidamente.</p>
-                <p class="gen-context"><strong>C (Confianza):</strong> Cayendo. El PRI se erosiona. Fraude del 88. Asesinato de Colosio (1994). Las instituciones se revelan como corruptas.</p>
-                <p class="gen-context"><strong>T (Tecnología):</strong> Creciente. TV cable, primeros celulares, internet dial-up al final.</p>
-                <p class="gen-context"><strong>V (Violencia):</strong> Moderada-creciente. Narcotráfico emerge como fuerza. Pero aún no es guerra abierta.</p>
-                <p class="gen-context"><strong>I (Info):</strong> Más diversa pero aún curada. Revistas, cable, inicio de internet.</p>
-                <p class="gen-context"><strong>F (Familia):</strong> Empieza la fragmentación. Divorcios emergen. Familia más pequeña (2-3 hijos).</p>
-                <div class="gen-vector">
-                    <span class="gen-tag high">↑ Autonomía</span>
-                    <span class="gen-tag high">↑ Resiliencia</span>
-                    <span class="gen-tag high">↑ Seguridad (por necesidad)</span>
-                    <span class="gen-tag low">↓ Afiliación</span>
-                    <span class="gen-tag low">↓ Trascendencia</span>
+            <!-- CRISIS -->
+            <div class="accordion">
+                <div class="accordion-header">
+                    <div class="gen-left">
+                        <div class="gen-period">1965 — 1980</div>
+                        <h3>Generación de las Crisis</h3>
+                        <div class="gen-narrative">"No confíes en nadie. Hazte cargo."</div>
+                    </div>
+                    <div class="accordion-arrow">▼</div>
+                </div>
+                <div class="accordion-body">
+                    <p class="gen-context"><strong>Ventana formativa:</strong> 1975–2005</p>
+                    <p class="gen-context"><strong>E (Escasez):</strong> Altísima. TRES crisis en su ventana: 1982 (deuda externa, devaluación 48%), 1987 (crack bursátil, inflación 159%), 1994 (Tequila, PIB cayó 6.2%). El peso se devaluó una y otra vez.</p>
+                    <p class="gen-context"><strong>C (Confianza):</strong> En caída libre. El PRI se erosiona. Fraude electoral del 88. Asesinato de Colosio (1994). Las instituciones se revelan como lo que son: corruptas.</p>
+                    <p class="gen-context"><strong>T (Tecnología):</strong> Creciente. TV cable abre el mundo. Primeros celulares. Internet dial-up al final de su ventana.</p>
+                    <p class="gen-context"><strong>V (Violencia):</strong> Moderada-creciente. El narcotráfico emerge como poder paralelo. Pero aún no es guerra abierta — es negocio silencioso.</p>
+                    <p class="gen-context"><strong>F (Familia):</strong> Empieza la fragmentación. Divorcios dejan de ser tabú. Familias más pequeñas (2-3 hijos). La mujer entra al mercado laboral por necesidad, no por elección.</p>
+                    <div class="gen-vector">
+                        <span class="gen-tag high">↑ Autonomía</span>
+                        <span class="gen-tag high">↑ Resiliencia</span>
+                        <span class="gen-tag high">↑ Seguridad (por necesidad)</span>
+                        <span class="gen-tag low">↓ Afiliación</span>
+                        <span class="gen-tag low">↓ Trascendencia</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- MILLENNIALS MX -->
-            <div class="gen-card">
-                <div class="gen-period">1981 — 1996</div>
-                <h3>Generación de la Transición</h3>
-                <div class="gen-narrative">"Quiero que mi vida tenga sentido — pero todo tiembla."</div>
-                <p class="gen-context"><strong>Ventana formativa:</strong> 1991–2021</p>
-                <p class="gen-context"><strong>E (Escasez):</strong> Inestable. Vivieron el Tequilazo de niños, la crisis de 2008 entrando al mercado laboral, COVID cerrando negocios.</p>
-                <p class="gen-context"><strong>C (Confianza):</strong> Baja. Alternancia 2000 (Fox) generó esperanza, pero se desinfló. Después: guerra narco, corrupción expuesta, desencanto generalizado.</p>
-                <p class="gen-context"><strong>T (Tecnología):</strong> Explosiva. Internet, redes sociales, smartphones. Primeros nativos digitales mexicanos. Facebook llegó ~2007, WhatsApp ~2012.</p>
-                <p class="gen-context"><strong>V (Violencia):</strong> Disparada. Guerra contra el narco (2008+): la tasa de homicidios pasó de 8 a 24 por 100K. Terremoto CDMX 2017.</p>
-                <p class="gen-context"><strong>I (Info):</strong> Alta. 24/7 news, redes sociales, comparación constante.</p>
-                <p class="gen-context"><strong>F (Familia):</strong> Diversificada. Hogares monoparentales aumentan. 1-2 hijos. Roles de género en transición.</p>
-                <div class="gen-vector">
-                    <span class="gen-tag high">↑ Trascendencia</span>
-                    <span class="gen-tag high">↑ Identidad</span>
-                    <span class="gen-tag high">↑ Afiliación</span>
-                    <span class="gen-tag high">↑ Resiliencia (forzada)</span>
-                    <span class="gen-tag low">↓ Estatus tradicional</span>
+            <!-- TRANSICIÓN -->
+            <div class="accordion">
+                <div class="accordion-header">
+                    <div class="gen-left">
+                        <div class="gen-period">1981 — 1996</div>
+                        <h3>Generación de la Transición</h3>
+                        <div class="gen-narrative">"Quiero que mi vida tenga sentido — pero todo tiembla."</div>
+                    </div>
+                    <div class="accordion-arrow">▼</div>
+                </div>
+                <div class="accordion-body">
+                    <p class="gen-context"><strong>Ventana formativa:</strong> 1991–2021</p>
+                    <p class="gen-context"><strong>E (Escasez):</strong> Inestable. Vivieron el Tequilazo de niños, la crisis de 2008 entrando al mercado laboral, COVID cerrando negocios. Nunca un periodo largo de calma.</p>
+                    <p class="gen-context"><strong>C (Confianza):</strong> Baja. La alternancia del 2000 (Fox) generó esperanza real — pero se desinfló rápido. Después: guerra narco, corrupción expuesta en redes, desencanto generalizado.</p>
+                    <p class="gen-context"><strong>T (Tecnología):</strong> Explosiva. Internet transformó todo. Redes sociales, smartphones. Primeros nativos digitales mexicanos. Hi5 → Facebook (~2007) → WhatsApp (~2012) → Instagram → TikTok.</p>
+                    <p class="gen-context"><strong>V (Violencia):</strong> Disparada. Guerra contra el narco (2008+): la tasa de homicidios pasó de 8 a 24 por 100K en pocos años. Terremoto CDMX 2017 — trauma compartido.</p>
+                    <p class="gen-context"><strong>F (Familia):</strong> Diversificada. Hogares monoparentales aumentan. 1-2 hijos. Roles de género en transición activa. Más educación, menos hijos, más opciones.</p>
+                    <div class="gen-vector">
+                        <span class="gen-tag high">↑ Trascendencia</span>
+                        <span class="gen-tag high">↑ Identidad</span>
+                        <span class="gen-tag high">↑ Afiliación</span>
+                        <span class="gen-tag high">↑ Resiliencia (forzada)</span>
+                        <span class="gen-tag low">↓ Estatus tradicional</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- GEN Z MX -->
-            <div class="gen-card">
-                <div class="gen-period">1997 — 2012</div>
-                <h3>Generación de la Saturación</h3>
-                <div class="gen-narrative">"No es seguro. Mejor me adapto."</div>
-                <p class="gen-context"><strong>Ventana formativa:</strong> 2007–2037</p>
-                <p class="gen-context"><strong>E (Escasez):</strong> Crónica. Nunca conocieron estabilidad económica. Crisis de 2008, COVID 2020, inflación post-pandemia. El empleo informal como norma.</p>
-                <p class="gen-context"><strong>C (Confianza):</strong> Mínima. Crecieron con narcoviolencia, corrupción como meme, polarización AMLO. Las instituciones son chiste, no refugio.</p>
-                <p class="gen-context"><strong>T (Tecnología):</strong> Total. Smartphone desde la infancia. TikTok, algoritmos, IA. 83% de México en internet (2024). No conocen mundo sin pantalla.</p>
-                <p class="gen-context"><strong>V (Violencia):</strong> Normalizada. 25-29 homicidios/100K durante toda su ventana. 2024: 33,241 homicidios — récord histórico.</p>
-                <p class="gen-context"><strong>I (Info):</strong> Saturada. Algoritmos, desinformación, comparación infinita. Consciencia de todo, capacidad de cambiar poco.</p>
-                <p class="gen-context"><strong>A (Ambiental):</strong> Alta. Huracán Otis destruyó Acapulco (2023). Sequías. Olas de calor récord. Consciencia climática como parte de su identidad.</p>
-                <p class="gen-context"><strong>H (Salud):</strong> Esperanza de vida cayó de 74 a 69 años con COVID. México fue de los países más golpeados del mundo.</p>
-                <div class="gen-vector">
-                    <span class="gen-tag high">↑ Resiliencia</span>
-                    <span class="gen-tag high">↑ Identidad</span>
-                    <span class="gen-tag high">↑ Autonomía</span>
-                    <span class="gen-tag low">↓ Horizonte largo</span>
-                    <span class="gen-tag low">↓ Confianza en sistemas</span>
+            <!-- SATURACIÓN -->
+            <div class="accordion">
+                <div class="accordion-header">
+                    <div class="gen-left">
+                        <div class="gen-period">1997 — 2012</div>
+                        <h3>Generación de la Saturación</h3>
+                        <div class="gen-narrative">"No es seguro. Mejor me adapto."</div>
+                    </div>
+                    <div class="accordion-arrow">▼</div>
+                </div>
+                <div class="accordion-body">
+                    <p class="gen-context"><strong>Ventana formativa:</strong> 2007–2037</p>
+                    <p class="gen-context"><strong>E (Escasez):</strong> Crónica. Nunca conocieron estabilidad económica. Crisis de 2008, COVID 2020, inflación post-pandemia. El empleo informal como norma, no como excepción.</p>
+                    <p class="gen-context"><strong>C (Confianza):</strong> Mínima. Crecieron con narcoviolencia como paisaje de fondo, corrupción como meme, polarización política. Las instituciones no son refugio — son chiste.</p>
+                    <p class="gen-context"><strong>T (Tecnología):</strong> Total. Smartphone desde la infancia. TikTok, algoritmos, IA generativa. 83% de México conectado (2024). No conocen un mundo sin pantalla.</p>
+                    <p class="gen-context"><strong>V (Violencia):</strong> Normalizada. 25-29 homicidios por cada 100K durante TODA su ventana formativa. 2024: 33,241 homicidios — récord histórico absoluto.</p>
+                    <p class="gen-context"><strong>A (Ambiental):</strong> Alta. Huracán Otis destruyó Acapulco (2023). Sequías extremas. Olas de calor récord. La crisis climática no es futuro — es presente.</p>
+                    <p class="gen-context"><strong>H (Salud):</strong> La esperanza de vida cayó de 74 a 69 años con COVID. México fue de los países más golpeados del mundo. Epidemia de diabetes y obesidad como fondo permanente.</p>
+                    <div class="gen-vector">
+                        <span class="gen-tag high">↑ Resiliencia</span>
+                        <span class="gen-tag high">↑ Identidad</span>
+                        <span class="gen-tag high">↑ Autonomía</span>
+                        <span class="gen-tag low">↓ Horizonte largo</span>
+                        <span class="gen-tag low">↓ Confianza en sistemas</span>
+                    </div>
                 </div>
             </div>
 
         </div>
     </section>
 
-    <!-- INSIGHT MÉXICO -->
+    <!-- INSIGHTS -->
     <section style="padding:2rem 2rem 5rem;">
         <div class="content fade-in" style="margin:0 auto;">
             <div class="insight-box">
                 <h3>El insight mexicano</h3>
-                <p>En la mayoría de los modelos generacionales, la Resiliencia es una dimensión que se activa en momentos de crisis y luego baja.</p>
-                <p class="insight-key">En México, la Resiliencia no baja. Es una constante estructural.<br>Todas las generaciones post-1970 la tienen alta.<br>Eso cambia fundamentalmente el modelo.</p>
+                <p>En otros modelos, la Resiliencia se activa en crisis y luego baja.</p>
+                <p class="insight-key">En México, la Resiliencia no baja.<br>Es una constante estructural.<br>Todas las generaciones post-1970 la tienen alta.</p>
             </div>
 
             <div class="insight-box" style="margin-top:2rem;">
                 <h3>Lo que esto significa</h3>
-                <p>Cuando la Resiliencia es permanente, las otras dimensiones compiten por el espacio restante. La Trascendencia y la Identidad se vuelven lujos que se pelean contra la Seguridad y la Autonomía.</p>
+                <p>Cuando la Resiliencia es permanente, las otras dimensiones compiten por el espacio restante.</p>
                 <p class="insight-key">En México, buscar propósito no es un acto de libertad.<br>Es un acto de resistencia.</p>
             </div>
         </div>
     </section>
 
-    <!-- TESIS MÉXICO -->
+    <!-- TESIS MX -->
     <section class="panel" style="text-align:center; min-height:60vh;">
         <div class="content fade-in">
-            <h2 style="font-family:var(--serif); font-size:clamp(1.4rem,3.5vw,2.2rem); font-style:italic; line-height:1.35; margin-bottom:2rem;">Construyen sentido sin instituciones confiables.<br>Sin estabilidad económica.<br>Sin garantía de seguridad.</h2>
+            <h2 style="font-family:var(--serif); font-size:clamp(1.4rem,3.5vw,2.2rem); font-style:italic; line-height:1.35; margin-bottom:2rem;">Construyen sentido<br>sin instituciones confiables.<br>Sin estabilidad económica.<br>Sin garantía de seguridad.</h2>
             <div class="line"></div>
             <p class="gold" style="font-size:1rem;">La carga psicológica de construir sentido en México<br>es estructuralmente mayor que en cualquier modelo occidental.</p>
-            <p class="dim" style="font-size:0.85rem; margin-top:2rem;">Datos y simulaciones interactivas — próximamente.</p>
+            <p class="dim" style="font-size:0.85rem; margin-top:2rem;">Datos, gráficas y simulaciones — próximamente.</p>
         </div>
     </section>
 
