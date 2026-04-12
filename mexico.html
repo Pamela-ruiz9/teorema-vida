@@ -493,17 +493,18 @@
     }
 
     function calcVector(E, T, C, V, I) {
-        // Calibrado para que las generaciones MX se diferencien claramente
-        // Cada dimensión tiene drivers principales y secundarios
+        // Calibrado para generaciones MX
+        // E_personal (ingreso) baja E efectiva pero NO baja Resiliencia/Autonomía
+        // (vivir bien no te quita haber crecido en crisis)
         return [
-            Math.min(10, Math.max(1, 9 - E*0.5 + C*0.4 - V*0.2)),                    // Seguridad: alta cuando hay estabilidad
-            Math.min(10, Math.max(1, 7 - E*0.5 + C*0.3 - T*0.3)),                    // Estatus: baja con escasez y tech (tech democratiza)
-            Math.min(10, Math.max(1, 1 + E*0.4 + T*0.3 - C*0.3 + V*0.1)),            // Autonomía: sube cuando no puedes depender del sistema
-            Math.min(10, Math.max(1, 4 + C*0.4 - V*0.3 - T*0.1 - E*0.1)),            // Afiliación: necesita confianza, violencia la destruye
-            Math.min(10, Math.max(1, 1 + T*0.5 + I*0.2 - E*0.1)),                    // Experiencia: tech y acceso a info la disparan
-            Math.min(10, Math.max(1, 0.5 + T*0.4 + I*0.4 - C*0.2)),                  // Identidad: explota con tech+info, baja con instituciones fuertes
-            Math.min(10, Math.max(1, 6 - E*0.4 - V*0.3 + C*0.3 - I*0.1)),            // Trascendencia: lujo que requiere estabilidad
-            Math.min(10, Math.max(1, 0.5 + E*0.5 + V*0.4 - C*0.2))                   // Resiliencia: forjada por escasez y violencia
+            Math.min(10, Math.max(1, 9 - E*0.4 + C*0.3 - V*0.15)),                   // Seguridad
+            Math.min(10, Math.max(1, 7 - E*0.35 + C*0.2 - T*0.3)),                   // Estatus
+            Math.min(10, Math.max(1, 1 + E*0.35 + T*0.25 - C*0.25 + V*0.1)),         // Autonomía
+            Math.min(10, Math.max(1, 4 + C*0.35 - V*0.25 - T*0.05)),                 // Afiliación
+            Math.min(10, Math.max(1, 1 + T*0.45 + I*0.15)),                           // Experiencia
+            Math.min(10, Math.max(1, 0.5 + T*0.35 + I*0.35 - C*0.15)),               // Identidad
+            Math.min(10, Math.max(1, 3 - E*0.2 - V*0.2 + C*0.15 + T*0.2 + I*0.1)),  // Trascendencia: tech e info la suben (acceso a ideas)
+            Math.min(10, Math.max(1, 0.5 + E*0.45 + V*0.35 - C*0.15))                // Resiliencia
         ].map(v => Math.round(v * 10) / 10);
     }
 
@@ -768,7 +769,13 @@
             if (quizAnswers[i] === null) return;
             if (q.variable === '_age') { birthYear = quizAnswers[i]; return; }
             if (q.variable === '_state') { urbanScore = q.options[quizAnswers[i]].v; return; }
-            if (q.variable === '_edu') return; // used for context, not scoring
+            if (q.variable === '_edu') {
+                // Educación sube Identidad y Trascendencia
+                const eduVal = q.options[quizAnswers[i]].v;
+                if (!scores.I_edu) scores.I_edu = [];
+                scores.I_edu.push(eduVal);
+                return;
+            }
             if (q.variable.startsWith('_')) return;
             const varName = q.variable.replace('E_income','E');
             if (!scores[varName]) scores[varName] = [];
@@ -781,9 +788,9 @@
             const windowStart = birthYear + 10;
             const windowEnd = birthYear + 25;
             const crisesInWindow = crises.filter(y => y >= windowStart && y <= windowEnd).length;
-            // Crisis count is the PRIMARY escasez signal (weighted 2x)
+            // Crisis count is important but not overwhelming
             scores.E.push(Math.min(10, crisesInWindow * 2.5));
-            scores.E.push(Math.min(10, crisesInWindow * 2.5)); // double weight
+            scores.E.push(Math.min(10, crisesInWindow * 2)); // 1.5x total weight
             
             // Violence: war on drugs (2008+) in formative window
             if (windowStart <= 2020 && windowEnd >= 2008) {
@@ -956,7 +963,7 @@
     const genProfiles = {
         milagro:    { label: 'Milagro', color: colors.milagro, data: [9,8,3,7,3,2,6,2] },
         crisis:     { label: 'Crisis', color: colors.crisis, data: [5,4,8,3,4,4,2,9] },
-        transicion: { label: 'Transición', color: colors.transicion, data: [4,2,6,6,7,8,7,7] },
+        transicion: { label: 'Transición', color: colors.transicion, data: [4,2,6,6,7,9,8,7] },
         saturacion: { label: 'Saturación', color: colors.saturacion, data: [2,1,9,4,8,10,3,10] }
     };
 
