@@ -327,6 +327,7 @@
     </section>
 
     <!-- QUIZ: DESCUBRE TU VECTOR -->
+    <a id="quiz"></a>
     <section style="padding:2rem 2rem 4rem;">
         <div class="content fade-in" style="margin:0 auto; max-width:700px;">
             <p class="small gold" style="margin-bottom:0.5rem;">Interactivo</p>
@@ -361,6 +362,14 @@
                 <div id="result-detail" style="margin-top:2rem; font-size:0.9rem; color:var(--text-dim);"></div>
                 <div style="text-align:center; margin-top:2rem;">
                     <button onclick="resetQuiz()" class="gen-tag high" style="cursor:pointer; border:none; padding:0.5rem 1.5rem; font-size:0.85rem;">Volver a hacer el quiz</button>
+                </div>
+                <!-- Share buttons -->
+                <div id="share-buttons" style="display:none; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--card-border);">
+                    <p style="width:100%; text-align:center; font-size:0.8rem; color:var(--text-dim); margin-bottom:0.3rem;">Comparte tu resultado</p>
+                    <button onclick="shareResult('whatsapp')" style="padding:0.4rem 1rem; background:#25D366; color:white; border:none; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">WhatsApp</button>
+                    <button onclick="shareResult('twitter')" style="padding:0.4rem 1rem; background:#1DA1F2; color:white; border:none; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">Twitter</button>
+                    <button onclick="shareResult('facebook')" style="padding:0.4rem 1rem; background:#1877F2; color:white; border:none; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">Facebook</button>
+                    <button onclick="shareResult('copy')" style="padding:0.4rem 1rem; background:var(--card-bg); color:var(--text); border:1px solid var(--card-border); border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">Copiar enlace</button>
                 </div>
             </div>
         </div>
@@ -700,19 +709,16 @@
     });
     // ============ QUIZ ============
     const questions = [
-        // DATOS DUROS
         { variable: '_age', type: 'input', text: '¿En qué año naciste?', inputType: 'number', placeholder: 'ej: 1995', min: 1940, max: 2015 },
         { variable: 'E_income', text: '¿Cuál era el ingreso aproximado de tu hogar cuando tenías 16 años?', options: [{t:'Menos de $5,000/mes',v:9},{t:'$5,000 - $15,000/mes',v:6},{t:'$15,000 - $40,000/mes',v:3},{t:'Más de $40,000/mes',v:1}] },
         { variable: 'F', text: '¿Con quién creciste?', options: [{t:'Ambos padres juntos',v:2},{t:'Padres separados / reconstituida',v:5},{t:'Un solo padre/madre',v:7},{t:'Abuelos u otros familiares',v:6}] },
         { variable: '_edu', text: '¿Cuál es tu nivel de estudios (o el que estás cursando)?', options: [{t:'Básica (primaria/secundaria)',v:2},{t:'Preparatoria',v:4},{t:'Universidad',v:7},{t:'Posgrado',v:9}] },
         { variable: '_state', text: '¿En qué zona creciste principalmente?', options: [{t:'Rural / pueblo pequeño',v:2},{t:'Ciudad mediana',v:5},{t:'Ciudad grande (MTY, GDL, PUE...)',v:7},{t:'Zona metropolitana CDMX',v:9}] },
-        // HECHOS PERSONALES
         { variable: 'V', text: '¿Alguna vez te asaltaron, robaron o fuiste víctima directa de un delito?', options: [{t:'Nunca',v:1},{t:'Una vez',v:4},{t:'Varias veces',v:7},{t:'Es parte de mi cotidiano',v:9}] },
-        { variable: 'V', text: '¿Alguien cercano a ti fue víctima de violencia grave (secuestro, homicidio, desaparición)?', options: [{t:'No',v:1},{t:'Conozco casos lejanos',v:4},{t:'Sí, alguien cercano',v:8}] },
+        { variable: 'V2', text: '¿Alguien cercano a ti fue víctima de violencia grave (secuestro, homicidio, desaparición)?', options: [{t:'No',v:1},{t:'Conozco casos lejanos',v:4},{t:'Sí, alguien cercano',v:8}] },
         { variable: 'T', text: '¿A qué edad tuviste acceso regular a internet?', options: [{t:'Después de los 25 / nunca tuve de joven',v:1},{t:'Entre 18 y 25',v:4},{t:'Entre 12 y 17',v:7},{t:'Antes de los 12',v:9}] },
-        // PERCEPCIONES (complemento)
         { variable: 'C', text: '¿Confías en que el gobierno resuelve los problemas del país?', options: [{t:'Sí, en general',v:8},{t:'Depende del tema',v:5},{t:'Casi nunca',v:2},{t:'Para nada',v:1}] },
-        { variable: 'E', text: '¿Sientes que tu generación vive mejor, igual o peor que la de tus padres?', options: [{t:'Mejor',v:2},{t:'Igual',v:5},{t:'Peor económicamente pero mejor en otras cosas',v:6},{t:'Peor en general',v:8}] },
+        { variable: 'E_perc', text: '¿Sientes que tu generación vive mejor, igual o peor que la de tus padres?', options: [{t:'Mejor',v:2},{t:'Igual',v:5},{t:'Peor económicamente pero mejor en otras cosas',v:6},{t:'Peor en general',v:8}] },
         { variable: 'I', text: '¿Sientes que la cantidad de información disponible te ayuda o te abruma?', options: [{t:'Me ayuda',v:2},{t:'Depende',v:5},{t:'Me abruma más de lo que ayuda',v:8}] },
         { variable: 'A', text: '¿El cambio climático afecta tus decisiones de vida (dónde vivir, tener hijos, etc.)?', options: [{t:'No',v:1},{t:'Lo pienso pero no cambia mis planes',v:4},{t:'Sí, influye en mis decisiones',v:8}] }
     ];
@@ -724,7 +730,6 @@
         const q = questions[currentQ];
         const selected = quizAnswers[currentQ];
         let html = `<p style="font-family:var(--serif); font-size:1.3rem; margin-bottom:1.5rem;">${q.text}</p>`;
-        
         if (q.type === 'input') {
             const val = selected !== null ? selected : '';
             html += `<input type="${q.inputType}" id="quiz-input" value="${val}" placeholder="${q.placeholder}" min="${q.min||''}" max="${q.max||''}" style="padding:1rem 1.2rem; width:100%; background:var(--card-bg); border:1px solid var(--card-border); color:var(--text); border-radius:4px; font-family:var(--sans); font-size:1.1rem; text-align:center;" oninput="quizAnswers[currentQ]=+this.value">`;
@@ -741,138 +746,135 @@
         document.getElementById('quiz-next').textContent = currentQ === questions.length - 1 ? 'Ver resultado →' : 'Siguiente →';
     }
 
-    function selectAnswer(i) {
-        quizAnswers[currentQ] = i;
-        renderQuestion();
-    }
-
+    function selectAnswer(i) { quizAnswers[currentQ] = i; renderQuestion(); }
     function quizNext() {
         if (quizAnswers[currentQ] === null) return;
-        if (currentQ < questions.length - 1) {
-            currentQ++;
-            renderQuestion();
-        } else {
-            showResults();
-        }
+        if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+        else { showResults(); }
     }
-
-    function quizBack() {
-        if (currentQ > 0) { currentQ--; renderQuestion(); }
-    }
+    function quizBack() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
 
     function showResults() {
-        const scores = { E:[], T:[], C:[], V:[], I:[], A:[], F:[] };
-        let birthYear = null;
-        let urbanScore = 5;
-        
+        // Canonical generation profiles — SAME as radar chart and comparator
+        const GP = {
+            'Generación del Milagro':      { data:[8,8,4,7,4,3,5,3], period:'1946-1964', narrative:'"El sistema funciona. Si te esfuerzas, avanzas."' },
+            'Generación de las Crisis':     { data:[7,5,8,4,5,5,3,9], period:'1965-1980', narrative:'"No confíes en nadie. Hazte cargo."' },
+            'Generación de la Transición':  { data:[5,3,6,7,7,8,8,7], period:'1981-1996', narrative:'"Quiero que mi vida tenga sentido — pero todo tiembla."' },
+            'Generación de la Saturación':  { data:[4,2,8,5,7,9,5,9], period:'1997-2012', narrative:'"No es seguro. Mejor me adapto."' }
+        };
+
+        // Collect raw answers
+        let birthYear = null, eduScore = 5, urbanScore = 5, incomeScore = 5;
+        const raw = { V:[], V2:[], T:[], C:[], E_perc:[], I:[], A:[], F:[] };
         questions.forEach((q, i) => {
             if (quizAnswers[i] === null) return;
-            if (q.variable === '_age') { birthYear = quizAnswers[i]; return; }
-            if (q.variable === '_state') { urbanScore = q.options[quizAnswers[i]].v; return; }
-            if (q.variable === '_edu') {
-                // Educación sube Identidad y Trascendencia
-                const eduVal = q.options[quizAnswers[i]].v;
-                if (!scores.I_edu) scores.I_edu = [];
-                scores.I_edu.push(eduVal);
-                return;
-            }
+            if (q.variable === '_age')     { birthYear = quizAnswers[i]; return; }
+            if (q.variable === '_edu')     { eduScore  = q.options[quizAnswers[i]].v; return; }
+            if (q.variable === '_state')   { urbanScore = q.options[quizAnswers[i]].v; return; }
+            if (q.variable === 'E_income') { incomeScore = q.options[quizAnswers[i]].v; return; }
             if (q.variable.startsWith('_')) return;
-            const varName = q.variable.replace('E_income','E');
-            if (!scores[varName]) scores[varName] = [];
-            if (q.options) scores[varName].push(q.options[quizAnswers[i]].v);
+            if (raw[q.variable]) raw[q.variable].push(q.options[quizAnswers[i]].v);
         });
-        
-        // Birth year is the STRONGEST signal for E and T
+
+        const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 5;
+
+        // STRUCTURAL variables from birth year (75% weight — generational, not personal)
+        let E_s=5, T_s=5, C_s=5, V_s=5, I_s=5;
         if (birthYear) {
+            const ws = birthYear+10, we = birthYear+25;
             const crises = [1976,1982,1987,1994,2001,2008,2020];
-            const windowStart = birthYear + 10;
-            const windowEnd = birthYear + 25;
-            const crisesInWindow = crises.filter(y => y >= windowStart && y <= windowEnd).length;
-            // Crisis count is important but not overwhelming
-            scores.E.push(Math.min(10, crisesInWindow * 2.5));
-            scores.E.push(Math.min(10, crisesInWindow * 2)); // 1.5x total weight
-            
-            // Violence: war on drugs (2008+) in formative window
-            if (windowStart <= 2020 && windowEnd >= 2008) {
-                const yearsInNarcoWar = Math.min(windowEnd, 2025) - Math.max(windowStart, 2008);
-                scores.V.push(Math.min(10, yearsInNarcoWar * 0.8));
-            }
-            
-            // Tech from birth year (weighted 2x — structural, not personal)
-            let techScore = 1;
-            if (birthYear >= 2000) techScore = 9;
-            else if (birthYear >= 1990) techScore = 7;
-            else if (birthYear >= 1980) techScore = 5;
-            else if (birthYear >= 1970) techScore = 3;
-            scores.T.push(techScore);
-            scores.T.push(techScore); // double weight
-            
-            // Institutional trust collapse: post-2000 = low C
-            if (birthYear >= 1990) scores.C.push(2);
-            else if (birthYear >= 1980) scores.C.push(3);
-            else if (birthYear >= 1970) scores.C.push(4);
-            
-            // Info saturation by generation
-            if (birthYear >= 1995) scores.I.push(9);
-            else if (birthYear >= 1985) scores.I.push(6);
-            else if (birthYear >= 1975) scores.I.push(3);
+            const cc = crises.filter(y => y>=ws && y<=we).length;
+            E_s = Math.min(10, Math.max(2, cc * 2.2));
+
+            if      (birthYear >= 2000) T_s = 10;
+            else if (birthYear >= 1993) T_s = 7.5;
+            else if (birthYear >= 1985) T_s = 5.5;
+            else if (birthYear >= 1975) T_s = 3.5;
+            else if (birthYear >= 1965) T_s = 2;
+            else                        T_s = 1;
+
+            if      (birthYear >= 1995) C_s = 1.5;
+            else if (birthYear >= 1985) C_s = 2.5;
+            else if (birthYear >= 1975) C_s = 3.5;
+            else if (birthYear >= 1965) C_s = 5;
+            else                        C_s = 7;
+
+            if (we >= 2008 && ws <= 2025) {
+                const narcoYrs = Math.min(we,2025) - Math.max(ws,2008);
+                V_s = Math.min(10, 3 + narcoYrs * 0.55);
+            } else { V_s = 3; }
+
+            if      (birthYear >= 1997) I_s = 9;
+            else if (birthYear >= 1990) I_s = 7;
+            else if (birthYear >= 1982) I_s = 5;
+            else if (birthYear >= 1970) I_s = 3;
+            else                        I_s = 1.5;
         }
 
-        const avg = obj => obj.length ? obj.reduce((a,b)=>a+b,0)/obj.length : 5;
-        const E = avg(scores.E||[]);
-        const T = avg(scores.T||[]);
-        const C = avg(scores.C||[]);
-        const V = avg(scores.V||[]);
-        const I = avg(scores.I||[]);
+        // Blend: 75% structural + 25% personal
+        const sw = 0.75, pw = 0.25;
+        const E = E_s*sw + avg([incomeScore, ...raw.E_perc])*pw;
+        const T = T_s*sw + avg(raw.T)*pw;
+        const C = C_s*sw + avg(raw.C)*pw;
+        const V = V_s*sw + avg([...raw.V, ...raw.V2])*pw;
+        const Iv = I_s*sw + avg(raw.I)*pw;
 
-        const vector = calcVector(E,T,C,V,I);
+        // Calculate vector + education/urban bonuses
+        const vec = calcVector(E, T, C, V, Iv);
+        const eb = (eduScore - 5) * 0.15;
+        const ub = (urbanScore - 5) * 0.1;
+        vec[5] = Math.min(10, Math.max(1, vec[5] + eb));     // Identidad
+        vec[6] = Math.min(10, Math.max(1, vec[6] + eb));     // Trascendencia
+        vec[4] = Math.min(10, Math.max(1, vec[4] + eb*0.5 + ub)); // Experiencia
+        vec[5] = Math.min(10, Math.max(1, vec[5] + ub));     // Identidad (urban too)
+        const vector = vec.map(v => Math.round(v*10)/10);
 
         // Find closest generation
-        const gens = {
-            'Generación del Milagro': [9,8,3,7,3,2,6,2],
-            'Generación de las Crisis': [5,4,8,3,4,4,2,9],
-            'Generación de la Transición': [4,2,6,6,7,8,7,7],
-            'Generación de la Saturación': [2,1,9,4,8,10,3,10]
-        };
-        const narratives = {
-            'Generación del Milagro': '"El sistema funciona. Si te esfuerzas, avanzas."',
-            'Generación de las Crisis': '"No confíes en nadie. Hazte cargo."',
-            'Generación de la Transición': '"Quiero que mi vida tenga sentido — pero todo tiembla."',
-            'Generación de la Saturación': '"No es seguro. Mejor me adapto."'
-        };
-
         let closest = '', minDist = Infinity;
-        Object.entries(gens).forEach(([name, profile]) => {
-            const dist = profile.reduce((sum, v, i) => sum + Math.pow(v - vector[i], 2), 0);
+        Object.entries(GP).forEach(([name, p]) => {
+            const dist = p.data.reduce((s,v,i) => s + (v-vector[i])**2, 0);
             if (dist < minDist) { minDist = dist; closest = name; }
         });
 
-        // Show results
+        // Birth year sanity: prefer expected gen if within 40% of best
+        if (birthYear) {
+            let expected = null;
+            if (birthYear>=1946 && birthYear<=1964) expected = 'Generación del Milagro';
+            else if (birthYear>=1965 && birthYear<=1980) expected = 'Generación de las Crisis';
+            else if (birthYear>=1981 && birthYear<=1996) expected = 'Generación de la Transición';
+            else if (birthYear>=1997 && birthYear<=2012) expected = 'Generación de la Saturación';
+            if (expected && expected !== closest) {
+                const ed = GP[expected].data.reduce((s,v,i) => s + (v-vector[i])**2, 0);
+                if (ed <= minDist * 1.4) closest = expected;
+            }
+        }
+
+        const rp = GP[closest];
         document.getElementById('quiz-container').style.display = 'none';
         document.getElementById('quiz-results').style.display = 'block';
         document.getElementById('result-gen').textContent = 'Tu perfil: ' + closest;
-        document.getElementById('result-narrative').textContent = narratives[closest];
+        document.getElementById('result-narrative').textContent = rp.narrative;
 
-        // Detail
-        const dimNames = ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
-        let topDims = vector.map((v,i) => ({name: dimNames[i], val: v})).sort((a,b) => b.val - a.val);
-        let detailHtml = '<p style="margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus dimensiones más fuertes:</strong></p>';
-        topDims.slice(0,3).forEach(d => {
-            detailHtml += `<p>⭐ <strong style="color:var(--gold);">${d.name}</strong> (${d.val.toFixed(1)}/10)</p>`;
-        });
-        detailHtml += '<p style="margin-top:1rem; margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus variables formativas:</strong></p>';
-        detailHtml += `<p>Escasez: ${E.toFixed(1)} | Tecnología: ${T.toFixed(1)} | Confianza: ${C.toFixed(1)} | Violencia: ${V.toFixed(1)} | Info: ${I.toFixed(1)}</p>`;
-        document.getElementById('result-detail').innerHTML = detailHtml;
+        const dn = ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
+        let topDims = vector.map((v,i) => ({name:dn[i], val:v})).sort((a,b) => b.val-a.val);
+        let dh = '<p style="margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus dimensiones más fuertes:</strong></p>';
+        topDims.slice(0,3).forEach(d => { dh += `<p>⭐ <strong style="color:var(--gold);">${d.name}</strong> (${d.val.toFixed(1)}/10)</p>`; });
+        dh += '<p style="margin-top:1rem; margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus variables formativas:</strong></p>';
+        dh += `<p>Escasez: ${E.toFixed(1)} | Tecnología: ${T.toFixed(1)} | Confianza: ${C.toFixed(1)} | Violencia: ${V.toFixed(1)} | Info: ${Iv.toFixed(1)}</p>`;
+        if (birthYear) dh += '<p style="margin-top:1rem; font-size:0.85rem; color:var(--text-dim);"><em>Tu resultado combina las condiciones estructurales de tu generación (75%) con tu experiencia personal (25%). Aunque tu situación individual sea diferente, tu generación te formó.</em></p>';
+        document.getElementById('result-detail').innerHTML = dh;
 
-        // Radar
-        const rCtx = document.getElementById('resultRadar').getContext('2d');
-        new Chart(rCtx, {
+        window._quizResult = { closest, narrative: rp.narrative, vector, dn, E, T, C, V, I: Iv };
+
+        const rCanvas = document.getElementById('resultRadar');
+        const ex = Chart.getChart(rCanvas); if (ex) ex.destroy();
+        new Chart(rCanvas.getContext('2d'), {
             type: 'radar',
             data: {
-                labels: dimNames,
+                labels: dn,
                 datasets: [
                     { label: 'Tu perfil', data: vector, backgroundColor: 'rgba(196,163,90,0.25)', borderColor: gold, borderWidth: 2, pointRadius: 4, pointBackgroundColor: gold },
-                    { label: closest, data: gens[closest], backgroundColor: 'rgba(65,105,225,0.1)', borderColor: '#4169e1', borderWidth: 1.5, pointRadius: 2, borderDash: [4,4] }
+                    { label: closest.replace(/Generación de (la |las |el )/,'').replace('Generación del ',''), data: rp.data, backgroundColor: 'rgba(65,105,225,0.1)', borderColor: '#4169e1', borderWidth: 1.5, pointRadius: 2, borderDash: [4,4] }
                 ]
             },
             options: {
@@ -881,6 +883,26 @@
                 plugins: { legend: { labels: { color: getTextColor(), font: { size: 11, family: 'Inter' }, usePointStyle: true } } }
             }
         });
+        document.getElementById('share-buttons').style.display = 'flex';
+    }
+
+    // Share functionality
+    function shareResult(platform) {
+        const r = window._quizResult; if (!r) return;
+        const text = 'Según el Teorema de Vida, soy de la ' + r.closest + '. ' + r.narrative + '\nDescubre tu perfil generacional 👉';
+        const url = 'https://pamela-ruiz9.github.io/teorema-vida/mexico.html#quiz';
+        if (platform === 'copy') {
+            navigator.clipboard.writeText(text + ' ' + url).then(function() {
+                var btn = event.target;
+                if (btn) { var orig = btn.textContent; btn.textContent = '✓ Copiado'; setTimeout(function() { btn.textContent = orig; }, 2000); }
+            });
+        } else if (platform === 'twitter') {
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank');
+        } else if (platform === 'whatsapp') {
+            window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank');
+        } else if (platform === 'facebook') {
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url) + '&quote=' + encodeURIComponent(text), '_blank');
+        }
     }
 
     function resetQuiz() {
@@ -888,6 +910,9 @@
         currentQ = 0;
         document.getElementById('quiz-container').style.display = 'block';
         document.getElementById('quiz-results').style.display = 'none';
+        document.getElementById('share-buttons').style.display = 'none';
+        var rc = document.getElementById('resultRadar');
+        var ex = Chart.getChart(rc); if (ex) ex.destroy();
         renderQuestion();
     }
 
@@ -941,7 +966,7 @@
         document.getElementById('val-I').textContent = I;
         simChart.data.datasets[0].data = calcVector(E,T,C,V,I);
         simChart.update();
-        document.getElementById('simNarrative').textContent = getNarrative(E,T,C,V,I);
+        const simNarEl = document.getElementById('simNarrative'); if (simNarEl) simNarEl.textContent = getNarrative(E,T,C,V,I);
     }
 
     ['E','T','C','V','I'].forEach(v => {
