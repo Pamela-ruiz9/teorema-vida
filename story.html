@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia — Teorema de Vida</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --black:#0a0a0a; --gold:#c4a35a; --gray:#888; --white:#f0ece4; --serif:'Cormorant Garamond',Georgia,serif; --sans:'Inter',sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { background:var(--black); color:var(--white); scroll-snap-type:y mandatory; }
+        body { font-family:var(--sans); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+
+        .slide {
+            min-height:100vh; display:flex; align-items:center; justify-content:center;
+            scroll-snap-align:start; padding:3rem 2rem; text-align:center; position:relative;
+        }
+        .slide-content { max-width:700px; opacity:0; transform:translateY(40px); transition:opacity 1s ease, transform 1s ease; }
+        .slide-content.visible { opacity:1; transform:translateY(0); }
+
+        .slide h1 { font-family:var(--serif); font-size:clamp(2.5rem,7vw,5rem); font-weight:300; line-height:1.1; letter-spacing:-0.03em; }
+        .slide h2 { font-family:var(--serif); font-size:clamp(1.5rem,4vw,3rem); font-weight:300; line-height:1.3; }
+        .slide p { font-size:1.1rem; color:var(--gray); line-height:1.8; margin-top:1.5rem; max-width:500px; margin-left:auto; margin-right:auto; }
+        .gold { color:var(--gold); }
+        .dim { color:var(--gray); }
+        .small { font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+
+        /* Dimension reveal */
+        .dim-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin:2rem auto; max-width:600px; }
+        @media(max-width:600px) { .dim-grid { grid-template-columns:repeat(2,1fr); } }
+        .dim-item { padding:1.5rem 0.5rem; text-align:center; opacity:0; transform:scale(0.8); transition:opacity 0.5s ease, transform 0.5s ease; }
+        .dim-item.show { opacity:1; transform:scale(1); }
+        .dim-item .icon { font-size:2rem; }
+        .dim-item .name { font-family:var(--serif); font-size:1rem; margin-top:0.3rem; }
+
+        /* Equation build */
+        .eq-part { display:inline; opacity:0; transition:opacity 0.8s ease; }
+        .eq-part.show { opacity:1; }
+        .equation-line { font-family:'Courier New',monospace; font-size:clamp(0.9rem,2.5vw,1.3rem); color:var(--gold); line-height:2; }
+
+        /* Timeline */
+        .crisis-dots { display:flex; justify-content:space-around; align-items:center; max-width:500px; margin:2rem auto; position:relative; }
+        .crisis-dots::before { content:''; position:absolute; top:50%; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--gold),rgba(196,163,90,0.2)); }
+        .crisis-dot { position:relative; z-index:1; opacity:0; transform:scale(0); transition:all 0.4s ease; }
+        .crisis-dot.show { opacity:1; transform:scale(1); }
+        .crisis-dot .dot { width:14px; height:14px; border-radius:50%; background:var(--gold); margin:0 auto 0.3rem; }
+        .crisis-dot .year { font-size:0.65rem; color:var(--gray); }
+
+        /* Radar in story */
+        .story-radar { max-width:350px; margin:1.5rem auto; }
+
+        /* Nav minimal */
+        .story-nav { position:fixed; top:1rem; left:1rem; z-index:100; }
+        .story-nav a { font-size:0.75rem; color:var(--gray); text-decoration:none; letter-spacing:0.05em; }
+        .story-nav a:hover { color:var(--gold); }
+
+        /* Progress */
+        .progress-bar { position:fixed; top:0; left:0; height:3px; background:var(--gold); z-index:101; transition:width 0.3s; }
+
+        /* Scroll hint */
+        .scroll-hint { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); font-size:0.7rem; color:var(--gray); letter-spacing:0.1em; text-transform:uppercase; animation:bounce 2s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="story-nav"><a href="index.html">← Volver</a></div>
+
+<!-- 1 -->
+<section class="slide">
+    <div class="slide-content">
+        <h1>¿Sabes cuál es el sentido de la vida?</h1>
+    </div>
+    <div class="scroll-hint">↓ scroll</div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+    <div class="slide-content">
+        <h2>Depende de <em class="gold">cuándo</em> naciste.</h2>
+        <p>Lo que consideras importante no es casualidad. Es la mejor respuesta que tu generación encontró a las presiones que enfrentó.</p>
+    </div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+    <div class="slide-content">
+        <p class="small">El vector</p>
+        <h2>El sentido de vida tiene<br><span class="gold">8 dimensiones</span></h2>
+        <div class="dim-grid" id="dimGrid">
+            <div class="dim-item"><div class="icon">🛡️</div><div class="name">Seguridad</div></div>
+            <div class="dim-item"><div class="icon">👑</div><div class="name">Estatus</div></div>
+            <div class="dim-item"><div class="icon">🦅</div><div class="name">Autonomía</div></div>
+            <div class="dim-item"><div class="icon">🤝</div><div class="name">Afiliación</div></div>
+            <div class="dim-item"><div class="icon">✨</div><div class="name">Experiencia</div></div>
+            <div class="dim-item"><div class="icon">🪞</div><div class="name">Identidad</div></div>
+            <div class="dim-item"><div class="icon">🌱</div><div class="name">Trascendencia</div></div>
+            <div class="dim-item"><div class="icon">🔥</div><div class="name">Resiliencia</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+    <div class="slide-content">
+        <p class="small">La ecuación</p>
+        <div class="equation-line">
+            <span class="eq-part" id="eq1">S(g) = </span>
+            <span class="eq-part" id="eq2">f( Régimen ⊙ Matiz )</span>
+            <span class="eq-part" id="eq3"> + Herencia</span>
+            <span class="eq-part" id="eq4"> + R(g)</span>
+            <span class="eq-part" id="eq5"> + ε</span>
+        </div>
+        <p style="margin-top:2rem; font-size:0.9rem; color:var(--gray);">Cada término cuenta una historia.<br>Las fuerzas que te formaron. Lo que heredaste. La corrección. Y lo impredecible.</p>
+    </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+    <div class="slide-content">
+        <p class="small">El caso</p>
+        <h2>Veamos <span class="gold">México</span></h2>
+        <p>Una crisis económica cada 7 años desde 1976.</p>
+        <div class="crisis-dots" id="crisisDots">
+            <div class="crisis-dot"><div class="dot"></div><div class="year">1976</div></div>
+            <div class="crisis-dot"><div class="dot"></div><div class="year">1982</div></div>
+            <div class="crisis-dot"><div class="dot"></div><div class="year">1987</div></div>
+            <div class="crisis-dot"><div class="dot"></div><div class="year">1994</div></div>
+            <div class="crisis-dot"><div class="dot"></div><div class="year">2001</div></div>
+            <div class="crisis-dot"><div class="dot"></div><div class="year">2008</div></div>
+            <div class="crisis-dot"><div class="dot"></div><div class="year">2020</div></div>
+        </div>
+        <p style="font-size:0.9rem;" class="gold">La escasez no es episódica. Es crónica.</p>
+    </div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+    <div class="slide-content">
+        <p class="small">Las generaciones</p>
+        <h2 id="storyGenName" style="transition:all 0.5s;">Generación del Milagro</h2>
+        <p id="storyGenNarrative" class="gold" style="font-family:var(--serif); font-style:italic; transition:all 0.5s;">"El sistema funciona."</p>
+        <div class="story-radar"><canvas id="storyRadar"></canvas></div>
+        <div style="display:flex; gap:0.5rem; justify-content:center; margin-top:1rem;">
+            <button onclick="storyGen(0)" style="padding:0.3rem 0.8rem; background:none; border:1px solid #6b8e23; color:#6b8e23; border-radius:3px; cursor:pointer; font-size:0.7rem; font-family:var(--sans);">Milagro</button>
+            <button onclick="storyGen(1)" style="padding:0.3rem 0.8rem; background:none; border:1px solid #dc143c; color:#dc143c; border-radius:3px; cursor:pointer; font-size:0.7rem; font-family:var(--sans);">Crisis</button>
+            <button onclick="storyGen(2)" style="padding:0.3rem 0.8rem; background:none; border:1px solid #4169e1; color:#4169e1; border-radius:3px; cursor:pointer; font-size:0.7rem; font-family:var(--sans);">Transición</button>
+            <button onclick="storyGen(3)" style="padding:0.3rem 0.8rem; background:none; border:1px solid #ffa500; color:#ffa500; border-radius:3px; cursor:pointer; font-size:0.7rem; font-family:var(--sans);">Saturación</button>
+        </div>
+    </div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+    <div class="slide-content">
+        <h2 style="font-style:italic; line-height:1.4;">El sentido de vida<br>no es una elección libre.<br><br><span class="gold">Es una adaptación estructural<br>que luego interpretamos<br>como identidad.</span></h2>
+    </div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+    <div class="slide-content">
+        <h2>¿Y tú?</h2>
+        <p>Descubre tu vector de sentido.</p>
+        <a href="mexico.html#quiz-container" style="display:inline-block; margin-top:2rem; padding:1rem 2.5rem; border:1px solid var(--gold); color:var(--gold); text-decoration:none; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; transition:all 0.3s;">Hacer el quiz →</a>
+        <p style="margin-top:3rem; font-size:0.85rem;">Un teorema de <strong style="color:var(--white);">Pame Ruiz</strong></p>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+// Slide visibility
+const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.querySelector('.slide-content')?.classList.add('visible');
+            triggerSlideAnim(e.target);
+        }
+    });
+}, { threshold: 0.4 });
+document.querySelectorAll('.slide').forEach(s => obs.observe(s));
+
+// Progress bar
+window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+});
+
+// Slide-specific animations
+function triggerSlideAnim(slide) {
+    const idx = [...document.querySelectorAll('.slide')].indexOf(slide);
+
+    // Slide 3: dimensions appear one by one
+    if (idx === 2) {
+        document.querySelectorAll('#dimGrid .dim-item').forEach((el, i) => {
+            setTimeout(() => el.classList.add('show'), i * 200);
+        });
+    }
+
+    // Slide 4: equation builds
+    if (idx === 3) {
+        for (let i = 1; i <= 5; i++) {
+            setTimeout(() => document.getElementById('eq'+i)?.classList.add('show'), i * 600);
+        }
+    }
+
+    // Slide 5: crisis dots appear
+    if (idx === 4) {
+        document.querySelectorAll('#crisisDots .crisis-dot').forEach((el, i) => {
+            setTimeout(() => el.classList.add('show'), i * 300);
+        });
+    }
+}
+
+// Slide 6: Generation radar
+const storyGens = [
+    { name:'Generación del Milagro', narrative:'"El sistema funciona. Si te esfuerzas, avanzas."', data:[9,8,3,7,3,2,6,2], color:'#6b8e23' },
+    { name:'Generación de las Crisis', narrative:'"No confíes en nadie. Hazte cargo."', data:[5,4,8,3,4,4,2,9], color:'#dc143c' },
+    { name:'Generación de la Transición', narrative:'"Quiero que mi vida tenga sentido — pero todo tiembla."', data:[4,2,6,6,7,9,8,7], color:'#4169e1' },
+    { name:'Generación de la Saturación', narrative:'"No es seguro. Mejor me adapto."', data:[2,1,9,4,8,10,3,10], color:'#ffa500' }
+];
+
+let storyChart = null;
+function storyGen(i) {
+    const g = storyGens[i];
+    document.getElementById('storyGenName').textContent = g.name;
+    document.getElementById('storyGenNarrative').textContent = g.narrative;
+    if (!storyChart) {
+        storyChart = new Chart(document.getElementById('storyRadar').getContext('2d'), {
+            type: 'radar',
+            data: {
+                labels: ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'],
+                datasets: [{ data: g.data, backgroundColor: g.color+'30', borderColor: g.color, borderWidth: 2, pointRadius: 4, pointBackgroundColor: g.color }]
+            },
+            options: {
+                responsive: true,
+                animation: { duration: 800 },
+                scales: { r: { beginAtZero:true, max:10, ticks:{display:false}, grid:{color:'rgba(255,255,255,0.08)'}, angleLines:{color:'rgba(255,255,255,0.08)'}, pointLabels:{color:'#ccc', font:{size:10, family:'Inter'}} } },
+                plugins: { legend:{display:false} }
+            }
+        });
+    } else {
+        storyChart.data.datasets[0].data = g.data;
+        storyChart.data.datasets[0].backgroundColor = g.color+'30';
+        storyChart.data.datasets[0].borderColor = g.color;
+        storyChart.data.datasets[0].pointBackgroundColor = g.color;
+        storyChart.update();
+    }
+}
+storyGen(0);
+</script>
+</body>
+</html>
