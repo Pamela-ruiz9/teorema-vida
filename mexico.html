@@ -345,11 +345,32 @@
             </div>
 
             <!-- INTERNET -->
-            <div>
+            <div style="margin-bottom:3rem;">
                 <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Disrupción tecnológica: de 0 a 83% en 30 años</h3>
                 <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Porcentaje de la población con acceso a internet. Fuente: INEGI/ENDUTIH.</p>
                 <div style="max-width:700px; margin:0 auto;">
                     <canvas id="techChart"></canvas>
+                </div>
+            </div>
+
+            <!-- GINI -->
+            <div style="margin-bottom:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Desigualdad: el Gini que no baja</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Coeficiente de Gini para México (0 = igualdad perfecta, 100 = desigualdad total). Fuente: World Bank.</p>
+                <div style="max-width:700px; margin:0 auto;">
+                    <canvas id="giniChart"></canvas>
+                </div>
+            </div>
+
+            <!-- SUICIDIOS JÓVENES -->
+            <div>
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Salud mental: la crisis silenciosa</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Tasa de suicidio en jóvenes (15-29 años) por cada 100,000 habitantes. Fuente: INEGI/OMS.</p>
+                <div style="max-width:700px; margin:0 auto;">
+                    <canvas id="suicideChart"></canvas>
+                </div>
+                <div style="margin-top:1.5rem; padding:1.5rem; border-left:3px solid #dc143c; background:rgba(220,20,60,0.05); border-radius:0 4px 4px 0;">
+                    <p style="font-size:0.88rem; color:var(--text-dim); line-height:1.6;"><strong style="color:var(--text);">Gen Z:</strong> 70% se sienten abrumados, 50% ha necesitado ayuda psicológica <span class="dim" style="font-size:0.8rem;">(UNICEF, 2024)</span>. En 2024, se registraron <strong style="color:var(--text);">399,000 consultas por depresión</strong> en el sistema de salud público <span class="dim" style="font-size:0.8rem;">(Gob.mx)</span>.</p>
                 </div>
             </div>
         </div>
@@ -846,6 +867,63 @@
             }
         }
     });
+    // ============ GINI CHART ============
+    const giniCtx = document.getElementById('giniChart').getContext('2d');
+    new Chart(giniCtx, {
+        type: 'line',
+        data: {
+            labels: ['1984','1989','1992','1994','1996','1998','2000','2002','2004','2006','2008','2010','2012','2014','2016','2018','2020','2022'],
+            datasets: [{
+                label: 'Coeficiente de Gini',
+                data: [48.5,50.1,52.3,53.4,52.0,53.3,53.4,50.6,50.3,49.7,50.8,47.7,49.6,48.9,46.9,46.0,44.6,43.5],
+                borderColor: gold,
+                backgroundColor: goldDim,
+                tension: 0.3, fill: true, borderWidth: 2,
+                pointBackgroundColor: gold, pointRadius: 5, pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { min: 40, max: 56, grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } }, title: { display: true, text: 'Gini', color: getTextColor(), font: { size: 11 } } },
+                x: { grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 }, maxRotation: 45 } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)', callbacks: { label: ctx => 'Gini: ' + ctx.raw } }
+            }
+        }
+    });
+
+    // ============ SUICIDE CHART ============
+    const suicideCtx = document.getElementById('suicideChart').getContext('2d');
+    new Chart(suicideCtx, {
+        type: 'bar',
+        data: {
+            labels: ['2000','2005','2010','2015','2018','2020','2022'],
+            datasets: [{
+                label: 'Tasa por 100K (15-29 años)',
+                data: [3.5,4.2,5.1,5.8,6.5,7.4,8.0],
+                backgroundColor: 'rgba(220,20,60,0.6)',
+                borderColor: '#dc143c',
+                borderWidth: 1,
+                borderRadius: 4,
+                hoverBackgroundColor: '#dc143c'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, max: 10, grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } }, title: { display: true, text: 'Tasa por 100K', color: getTextColor(), font: { size: 11 } } },
+                x: { grid: { display: false }, ticks: { color: getTextColor(), font: { size: 10 } } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)', callbacks: { label: ctx => ctx.raw + ' por cada 100,000' } }
+            }
+        }
+    });
+
     // ============ QUIZ ============
     const questions = [
         { variable: '_age', type: 'input', text: '¿En qué año naciste?', inputType: 'number', placeholder: 'ej: 1995', min: 1940, max: 2015 },
