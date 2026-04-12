@@ -357,7 +357,7 @@
             <!-- GINI -->
             <div style="margin-bottom:3rem;">
                 <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Desigualdad: el Gini que no baja</h3>
-                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Coeficiente de Gini para México (0 = igualdad perfecta, 100 = desigualdad total). Fuente: World Bank.</p>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Coeficiente de Gini para México (0 = igualdad perfecta, 100 = desigualdad total). <strong style="color:var(--text);">2024: 39.1 — mínimo histórico</strong> (ENIGH/INEGI). Fuente: World Bank + ENIGH 2024.</p>
                 <div style="max-width:700px; margin:0 auto;">
                     <canvas id="giniChart"></canvas>
                 </div>
@@ -366,7 +366,7 @@
             <!-- SUICIDIOS JÓVENES -->
             <div>
                 <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Salud mental: la crisis silenciosa</h3>
-                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Tasa de suicidio en jóvenes (15-29 años) por cada 100,000 habitantes. Fuente: INEGI/OMS.</p>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Tasa de suicidio en jóvenes (15-29 años) por cada 100,000 habitantes. <strong style="color:var(--text);">2024: 8,856 suicidios totales, tasa 6.8/100K</strong> (INEGI). Fuente: INEGI/CONASAMA.</p>
                 <div style="max-width:700px; margin:0 auto;">
                     <canvas id="suicideChart"></canvas>
                 </div>
@@ -901,10 +901,10 @@
     new Chart(giniCtx, {
         type: 'line',
         data: {
-            labels: ['1984','1989','1992','1994','1996','1998','2000','2002','2004','2006','2008','2010','2012','2014','2016','2018','2020','2022'],
+            labels: ['1984','1989','1992','1994','1996','1998','2000','2002','2004','2006','2008','2010','2012','2014','2016','2018','2020','2022','2024'],
             datasets: [{
                 label: 'Coeficiente de Gini',
-                data: [48.5,50.1,52.3,53.4,52.0,53.3,53.4,50.6,50.3,49.7,50.8,47.7,49.6,48.9,46.9,46.0,44.6,43.5],
+                data: [48.5,50.1,52.3,53.4,52.0,53.3,53.4,50.6,50.3,49.7,50.8,47.7,49.6,48.9,46.9,46.0,44.6,43.5,39.1],
                 borderColor: gold,
                 backgroundColor: goldDim,
                 tension: 0.3, fill: true, borderWidth: 2,
@@ -929,10 +929,10 @@
     new Chart(suicideCtx, {
         type: 'bar',
         data: {
-            labels: ['2000','2005','2010','2015','2018','2020','2022'],
+            labels: ['2000','2005','2010','2015','2018','2020','2023','2024'],
             datasets: [{
                 label: 'Tasa por 100K (15-29 años)',
-                data: [3.5,4.2,5.1,5.8,6.5,7.4,8.0],
+                data: [3.5,4.2,5.1,5.8,6.5,7.4,6.8,6.8],
                 backgroundColor: 'rgba(220,20,60,0.6)',
                 borderColor: '#dc143c',
                 borderWidth: 1,
