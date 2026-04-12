@@ -925,6 +925,9 @@
         }
     });
 
+    // ============ QUIZ ============
+    const questions = [
+        { variable: '_age', type: 'input', text: '¿En qué año naciste?', inputType: 'number', placeholder: 'ej: 1995', min: 1940, max: 2015 },
         { variable: 'E_income', text: '¿Cuál era el ingreso aproximado de tu hogar cuando tenías 16 años?', options: [{t:'Menos de $5,000/mes',v:9},{t:'$5,000 - $15,000/mes',v:6},{t:'$15,000 - $40,000/mes',v:3},{t:'Más de $40,000/mes',v:1}] },
         { variable: 'F', text: '¿Con quién creciste?', options: [{t:'Ambos padres juntos',v:2},{t:'Padres separados / reconstituida',v:5},{t:'Un solo padre/madre',v:7},{t:'Abuelos u otros familiares',v:6}] },
         { variable: '_edu', text: '¿Cuál es tu nivel de estudios (o el que estás cursando)?', options: [{t:'Básica (primaria/secundaria)',v:2},{t:'Preparatoria',v:4},{t:'Universidad',v:7},{t:'Posgrado',v:9}] },
