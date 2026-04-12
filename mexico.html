@@ -697,18 +697,21 @@
     });
     // ============ QUIZ ============
     const questions = [
-        { variable: 'E', text: '¿Tus papás tenían trabajo estable cuando creciste?', options: [{t:'Sí, siempre',v:2},{t:'A veces',v:5},{t:'No, era inestable',v:8}] },
-        { variable: 'E', text: '¿Viviste alguna crisis económica fuerte entre los 15 y 25 años?', options: [{t:'No realmente',v:2},{t:'Una',v:5},{t:'Varias',v:9}] },
-        { variable: 'V', text: '¿Conoces personalmente a alguien que haya sido víctima de un crimen violento?', options: [{t:'No',v:2},{t:'De lejos',v:5},{t:'Sí, cercano',v:9}] },
-        { variable: 'V', text: '¿Cambiaste rutinas o hábitos por miedo a la inseguridad?', options: [{t:'Nunca',v:1},{t:'Algo',v:5},{t:'Constantemente',v:9}] },
-        { variable: 'C', text: '¿Confías en que el gobierno te va a ayudar si lo necesitas?', options: [{t:'Sí',v:8},{t:'Depende',v:5},{t:'Para nada',v:1}] },
-        { variable: 'C', text: '¿Crees que las leyes se aplican igual para todos?', options: [{t:'Sí',v:8},{t:'A veces',v:5},{t:'No, depende de quién seas',v:1}] },
-        { variable: 'T', text: '¿A qué edad tuviste tu primer smartphone?', options: [{t:'Después de los 25',v:2},{t:'Entre 15 y 25',v:6},{t:'Antes de los 15',v:9}] },
-        { variable: 'T', text: '¿La tecnología cambió fundamentalmente cómo vives?', options: [{t:'No mucho',v:2},{t:'Bastante',v:6},{t:'Totalmente, no imagino vida sin ella',v:9}] },
-        { variable: 'I', text: '¿Sientes que tienes DEMASIADA información sobre lo que pasa en el mundo?', options: [{t:'No, me informo bien',v:2},{t:'A veces es mucho',v:5},{t:'Sí, es abrumador',v:9}] },
-        { variable: 'I', text: '¿Te comparas con lo que ves en redes sociales?', options: [{t:'No uso redes / no me afecta',v:1},{t:'A veces',v:5},{t:'Más de lo que quisiera',v:8}] },
-        { variable: 'A', text: '¿Te preocupa el cambio climático como algo que va a afectar TU vida?', options: [{t:'No realmente',v:2},{t:'Algo',v:5},{t:'Sí, mucho',v:9}] },
-        { variable: 'F', text: '¿Cómo era tu estructura familiar al crecer?', options: [{t:'Familia nuclear estable',v:2},{t:'Familia diversa / reconstituida',v:5},{t:'Monoparental o inestable',v:8}] }
+        // DATOS DUROS
+        { variable: '_age', type: 'input', text: '¿En qué año naciste?', inputType: 'number', placeholder: 'ej: 1995', min: 1940, max: 2015 },
+        { variable: 'E_income', text: '¿Cuál era el ingreso aproximado de tu hogar cuando tenías 16 años?', options: [{t:'Menos de $5,000/mes',v:9},{t:'$5,000 - $15,000/mes',v:6},{t:'$15,000 - $40,000/mes',v:3},{t:'Más de $40,000/mes',v:1}] },
+        { variable: 'F', text: '¿Con quién creciste?', options: [{t:'Ambos padres juntos',v:2},{t:'Padres separados / reconstituida',v:5},{t:'Un solo padre/madre',v:7},{t:'Abuelos u otros familiares',v:6}] },
+        { variable: '_edu', text: '¿Cuál es tu nivel de estudios (o el que estás cursando)?', options: [{t:'Básica (primaria/secundaria)',v:2},{t:'Preparatoria',v:4},{t:'Universidad',v:7},{t:'Posgrado',v:9}] },
+        { variable: '_state', text: '¿En qué zona creciste principalmente?', options: [{t:'Rural / pueblo pequeño',v:2},{t:'Ciudad mediana',v:5},{t:'Ciudad grande (MTY, GDL, PUE...)',v:7},{t:'Zona metropolitana CDMX',v:9}] },
+        // HECHOS PERSONALES
+        { variable: 'V', text: '¿Alguna vez te asaltaron, robaron o fuiste víctima directa de un delito?', options: [{t:'Nunca',v:1},{t:'Una vez',v:4},{t:'Varias veces',v:7},{t:'Es parte de mi cotidiano',v:9}] },
+        { variable: 'V', text: '¿Alguien cercano a ti fue víctima de violencia grave (secuestro, homicidio, desaparición)?', options: [{t:'No',v:1},{t:'Conozco casos lejanos',v:4},{t:'Sí, alguien cercano',v:8}] },
+        { variable: 'T', text: '¿A qué edad tuviste acceso regular a internet?', options: [{t:'Después de los 25 / nunca tuve de joven',v:1},{t:'Entre 18 y 25',v:4},{t:'Entre 12 y 17',v:7},{t:'Antes de los 12',v:9}] },
+        // PERCEPCIONES (complemento)
+        { variable: 'C', text: '¿Confías en que el gobierno resuelve los problemas del país?', options: [{t:'Sí, en general',v:8},{t:'Depende del tema',v:5},{t:'Casi nunca',v:2},{t:'Para nada',v:1}] },
+        { variable: 'E', text: '¿Sientes que tu generación vive mejor, igual o peor que la de tus padres?', options: [{t:'Mejor',v:2},{t:'Igual',v:5},{t:'Peor económicamente pero mejor en otras cosas',v:6},{t:'Peor en general',v:8}] },
+        { variable: 'I', text: '¿Sientes que la cantidad de información disponible te ayuda o te abruma?', options: [{t:'Me ayuda',v:2},{t:'Depende',v:5},{t:'Me abruma más de lo que ayuda',v:8}] },
+        { variable: 'A', text: '¿El cambio climático afecta tus decisiones de vida (dónde vivir, tener hijos, etc.)?', options: [{t:'No',v:1},{t:'Lo pienso pero no cambia mis planes',v:4},{t:'Sí, influye en mis decisiones',v:8}] }
     ];
 
     let quizAnswers = new Array(questions.length).fill(null);
@@ -718,10 +721,16 @@
         const q = questions[currentQ];
         const selected = quizAnswers[currentQ];
         let html = `<p style="font-family:var(--serif); font-size:1.3rem; margin-bottom:1.5rem;">${q.text}</p>`;
-        q.options.forEach((opt, i) => {
-            const isSelected = selected === i;
-            html += `<button onclick="selectAnswer(${i})" style="display:block; width:100%; text-align:left; padding:1rem 1.2rem; margin-bottom:0.6rem; background:${isSelected ? 'var(--gold-dim)' : 'var(--card-bg)'}; border:1px solid ${isSelected ? 'var(--gold)' : 'var(--card-border)'}; color:${isSelected ? 'var(--gold)' : 'var(--text)'}; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.9rem; transition:all 0.2s;">${opt.t}</button>`;
-        });
+        
+        if (q.type === 'input') {
+            const val = selected !== null ? selected : '';
+            html += `<input type="${q.inputType}" id="quiz-input" value="${val}" placeholder="${q.placeholder}" min="${q.min||''}" max="${q.max||''}" style="padding:1rem 1.2rem; width:100%; background:var(--card-bg); border:1px solid var(--card-border); color:var(--text); border-radius:4px; font-family:var(--sans); font-size:1.1rem; text-align:center;" oninput="quizAnswers[currentQ]=+this.value">`;
+        } else {
+            q.options.forEach((opt, i) => {
+                const isSelected = selected === i;
+                html += `<button onclick="selectAnswer(${i})" style="display:block; width:100%; text-align:left; padding:1rem 1.2rem; margin-bottom:0.6rem; background:${isSelected ? 'var(--gold-dim)' : 'var(--card-bg)'}; border:1px solid ${isSelected ? 'var(--gold)' : 'var(--card-border)'}; color:${isSelected ? 'var(--gold)' : 'var(--text)'}; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.9rem; transition:all 0.2s;">${opt.t}</button>`;
+            });
+        }
         document.getElementById('quiz-question').innerHTML = html;
         document.getElementById('quiz-bar').style.width = ((currentQ + 1) / questions.length * 100) + '%';
         document.getElementById('quiz-counter').textContent = (currentQ + 1) + ' / ' + questions.length;
@@ -749,14 +758,40 @@
     }
 
     function showResults() {
-        // Calculate variable scores
+        // Calculate variable scores from answers
         const scores = { E:[], T:[], C:[], V:[], I:[], A:[], F:[] };
+        let birthYear = null;
+        
         questions.forEach((q, i) => {
-            if (quizAnswers[i] !== null) {
-                if (!scores[q.variable]) scores[q.variable] = [];
-                scores[q.variable].push(q.options[quizAnswers[i]].v);
+            if (quizAnswers[i] === null) return;
+            if (q.variable === '_age') {
+                birthYear = quizAnswers[i];
+                return;
+            }
+            if (q.variable.startsWith('_')) return; // skip non-variable questions
+            const varName = q.variable.replace('E_income','E');
+            if (!scores[varName]) scores[varName] = [];
+            if (q.options) {
+                scores[varName].push(q.options[quizAnswers[i]].v);
             }
         });
+        
+        // Birth year enrichment: how many crises in formative window
+        if (birthYear) {
+            const crises = [1976,1982,1987,1994,2001,2008,2020];
+            const windowStart = birthYear + 10;
+            const windowEnd = birthYear + 25;
+            const crisesInWindow = crises.filter(y => y >= windowStart && y <= windowEnd).length;
+            scores.E.push(Math.min(10, crisesInWindow * 2.5)); // 0 crises=0, 4 crises=10
+            
+            // Tech score from birth year
+            if (birthYear < 1970) scores.T.push(1);
+            else if (birthYear < 1980) scores.T.push(3);
+            else if (birthYear < 1990) scores.T.push(5);
+            else if (birthYear < 2000) scores.T.push(7);
+            else scores.T.push(9);
+        }
+
         const avg = obj => obj.length ? obj.reduce((a,b)=>a+b,0)/obj.length : 5;
         const E = avg(scores.E||[]);
         const T = avg(scores.T||[]);
