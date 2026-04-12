@@ -377,23 +377,6 @@
         </div>
     </section>
 
-    <!-- GINI + SALUD MENTAL -->
-    <section style="padding:2rem 2rem 4rem;">
-        <div class="content fade-in" style="margin:0 auto; max-width:900px;">
-            <div style="margin-bottom:3rem;">
-                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Desigualdad: el Gini que no baja</h3>
-                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Coeficiente de Gini (0=igualdad perfecta, 100=desigualdad total). México nunca ha bajado de 43. Fuente: World Bank.</p>
-                <div style="max-width:700px; margin:0 auto;"><canvas id="giniChart"></canvas></div>
-            </div>
-            <div>
-                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Salud mental: la crisis silenciosa</h3>
-                <p class="dim" style="font-size:0.85rem; margin-bottom:0.5rem;">Tasa de suicidio en jóvenes (15-29 años) por cada 100,000. Fuente: INEGI/SciELO.</p>
-                <p class="dim" style="font-size:0.8rem; margin-bottom:1.5rem; font-style:italic;">Gen Z: 70% se sienten abrumados, 50% ha necesitado ayuda psicológica (UNICEF 2024). 399,000 consultas por depresión en 2024.</p>
-                <div style="max-width:700px; margin:0 auto;"><canvas id="mentalChart"></canvas></div>
-            </div>
-        </div>
-    </section>
-
     <!-- QUIZ: DESCUBRE TU VECTOR -->
     <a id="quiz"></a>
     <section style="padding:2rem 2rem 4rem;">
@@ -942,60 +925,6 @@
         }
     });
 
-    // ============ GINI CHART ============
-    try {
-    const giniCtx = document.getElementById('giniChart').getContext('2d');
-    new Chart(giniCtx, {
-        type: 'line',
-        data: {
-            labels: ['1984','1989','1992','1994','1996','1998','2000','2002','2004','2006','2008','2010','2012','2014','2016','2018','2020','2022'],
-            datasets: [{
-                label: 'Gini',
-                data: [48.5,50.1,52.3,53.4,52.0,53.3,53.4,50.6,50.3,49.7,50.8,47.7,49.6,48.9,46.9,46.0,44.6,43.5],
-                borderColor: gold, backgroundColor: goldDim,
-                tension: 0.3, fill: true, borderWidth: 2, pointRadius: 4, pointBackgroundColor: gold
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { min:40, max:55, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}}, title:{display:true, text:'Coeficiente Gini', color:getTextColor(), font:{size:11}} },
-                x: { grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:9}, maxRotation:45} }
-            },
-            plugins: { legend:{display:false}, tooltip:{backgroundColor:'rgba(10,10,10,0.9)'} }
-        }
-    });
-    } catch(e) { console.error('Gini chart error:', e); }
-
-    // ============ MENTAL HEALTH CHART ============
-    try {
-    const mentalCtx = document.getElementById('mentalChart').getContext('2d');
-    new Chart(mentalCtx, {
-        type: 'bar',
-        data: {
-            labels: ['2000','2005','2010','2015','2018','2020','2022'],
-            datasets: [{
-                label: 'Suicidios 15-29 /100K',
-                data: [3.5, 4.2, 5.1, 5.8, 6.5, 7.4, 8.0],
-                backgroundColor: 'rgba(220,60,60,0.6)',
-                borderColor: '#dc3c3c',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero:true, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}}, title:{display:true, text:'por 100,000 (15-29 años)', color:getTextColor(), font:{size:11}} },
-                x: { grid:{display:false}, ticks:{color:getTextColor(), font:{size:10}} }
-            },
-            plugins: { legend:{display:false}, tooltip:{backgroundColor:'rgba(10,10,10,0.9)'} }
-        }
-    });
-    } catch(e) { console.error('Mental chart error:', e); }
-
-    // ============ QUIZ ============
-    const questions = [
-        { variable: '_age', type: 'input', text: '¿En qué año naciste?', inputType: 'number', placeholder: 'ej: 1995', min: 1940, max: 2015 },
         { variable: 'E_income', text: '¿Cuál era el ingreso aproximado de tu hogar cuando tenías 16 años?', options: [{t:'Menos de $5,000/mes',v:9},{t:'$5,000 - $15,000/mes',v:6},{t:'$15,000 - $40,000/mes',v:3},{t:'Más de $40,000/mes',v:1}] },
         { variable: 'F', text: '¿Con quién creciste?', options: [{t:'Ambos padres juntos',v:2},{t:'Padres separados / reconstituida',v:5},{t:'Un solo padre/madre',v:7},{t:'Abuelos u otros familiares',v:6}] },
         { variable: '_edu', text: '¿Cuál es tu nivel de estudios (o el que estás cursando)?', options: [{t:'Básica (primaria/secundaria)',v:2},{t:'Preparatoria',v:4},{t:'Universidad',v:7},{t:'Posgrado',v:9}] },
