@@ -326,54 +326,90 @@
         </div>
     </section>
 
-    <!-- SIMULADOR -->
+    <!-- QUIZ: DESCUBRE TU VECTOR -->
     <section style="padding:2rem 2rem 4rem;">
-        <div class="content fade-in" style="margin:0 auto; max-width:900px;">
+        <div class="content fade-in" style="margin:0 auto; max-width:700px;">
             <p class="small gold" style="margin-bottom:0.5rem;">Interactivo</p>
-            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:0.5rem;">Simulador de Sentido Generacional</h2>
-            <p class="dim" style="font-size:0.85rem; margin-bottom:2rem;">Mueve las variables y observa cómo cambia el vector de sentido en tiempo real.</p>
+            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:0.5rem;">Descubre tu vector de sentido</h2>
+            <p class="dim" style="font-size:0.85rem; margin-bottom:2rem;">Responde 12 preguntas sobre tu experiencia de vida. El modelo calcula tu perfil generacional.</p>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start;">
-                <!-- SLIDERS -->
-                <div>
-                    <div style="margin-bottom:1.5rem;">
-                        <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">E</strong> Escasez económica</span><span id="val-E">5</span></label>
-                        <input type="range" id="slider-E" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
-                    </div>
-                    <div style="margin-bottom:1.5rem;">
-                        <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">T</strong> Disrupción tecnológica</span><span id="val-T">5</span></label>
-                        <input type="range" id="slider-T" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
-                    </div>
-                    <div style="margin-bottom:1.5rem;">
-                        <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">C</strong> Confianza institucional</span><span id="val-C">5</span></label>
-                        <input type="range" id="slider-C" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
-                    </div>
-                    <div style="margin-bottom:1.5rem;">
-                        <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">V</strong> Exposición a violencia</span><span id="val-V">5</span></label>
-                        <input type="range" id="slider-V" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
-                    </div>
-                    <div style="margin-bottom:1.5rem;">
-                        <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">I</strong> Carga informacional</span><span id="val-I">5</span></label>
-                        <input type="range" id="slider-I" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
-                    </div>
-
-                    <!-- PRESETS -->
-                    <div style="margin-top:1rem;">
-                        <p style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.5rem;">Presets</p>
-                        <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
-                            <button onclick="setPreset(3,2,7,2,2)" class="gen-tag high" style="cursor:pointer; border:none;">Milagro</button>
-                            <button onclick="setPreset(9,4,4,5,4)" class="gen-tag high" style="cursor:pointer; border:none;">Crisis</button>
-                            <button onclick="setPreset(7,7,3,8,7)" class="gen-tag high" style="cursor:pointer; border:none;">Transición</button>
-                            <button onclick="setPreset(9,10,2,9,10)" class="gen-tag high" style="cursor:pointer; border:none;">Saturación</button>
-                            <button onclick="setPreset(9,10,1,9,10)" class="gen-tag high" style="cursor:pointer; border:none;">Alpha 🔮</button>
-                        </div>
-                    </div>
+            <!-- QUIZ CONTAINER -->
+            <div id="quiz-container">
+                <div id="quiz-progress" style="height:3px; background:var(--card-border); border-radius:2px; margin-bottom:2rem; overflow:hidden;">
+                    <div id="quiz-bar" style="height:100%; background:var(--gold); width:0%; transition:width 0.4s;"></div>
                 </div>
 
-                <!-- RADAR RESULT -->
-                <div>
-                    <canvas id="simRadar"></canvas>
-                    <p id="simNarrative" style="font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--gold); text-align:center; margin-top:1rem;"></p>
+                <div id="quiz-question" style="min-height:200px;"></div>
+
+                <div id="quiz-nav" style="display:flex; justify-content:space-between; margin-top:2rem;">
+                    <button id="quiz-back" onclick="quizBack()" style="padding:0.5rem 1.5rem; background:none; border:1px solid var(--card-border); color:var(--text-dim); border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem; transition:all 0.2s;">← Anterior</button>
+                    <span id="quiz-counter" style="font-size:0.8rem; color:var(--text-dim); align-self:center;"></span>
+                    <button id="quiz-next" onclick="quizNext()" style="padding:0.5rem 1.5rem; background:none; border:1px solid var(--gold); color:var(--gold); border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem; transition:all 0.2s;">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- RESULTS (hidden initially) -->
+            <div id="quiz-results" style="display:none;">
+                <div style="text-align:center; margin-bottom:2rem;">
+                    <p class="small gold" style="margin-bottom:0.5rem;">Tu resultado</p>
+                    <h3 id="result-gen" style="font-family:var(--serif); font-size:1.8rem; font-weight:400;"></h3>
+                    <p id="result-narrative" style="font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--gold); margin-top:0.5rem;"></p>
+                </div>
+                <div style="max-width:400px; margin:0 auto;">
+                    <canvas id="resultRadar"></canvas>
+                </div>
+                <div id="result-detail" style="margin-top:2rem; font-size:0.9rem; color:var(--text-dim);"></div>
+                <div style="text-align:center; margin-top:2rem;">
+                    <button onclick="resetQuiz()" class="gen-tag high" style="cursor:pointer; border:none; padding:0.5rem 1.5rem; font-size:0.85rem;">Volver a hacer el quiz</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODO EXPERTO (sliders colapsable) -->
+    <section style="padding:0 2rem 4rem;">
+        <div class="content" style="margin:0 auto; max-width:900px;">
+            <div class="accordion">
+                <div class="accordion-header">
+                    <div class="gen-left">
+                        <div class="gen-period">Modo experto</div>
+                        <h3>Simulador con sliders</h3>
+                        <div class="gen-narrative">Controla las variables directamente</div>
+                    </div>
+                    <div class="accordion-arrow">▼</div>
+                </div>
+                <div class="accordion-body">
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;">
+                        <div>
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">E</strong> Escasez</span><span id="val-E">5</span></label>
+                                <input type="range" id="slider-E" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
+                            </div>
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">T</strong> Tecnología</span><span id="val-T">5</span></label>
+                                <input type="range" id="slider-T" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
+                            </div>
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">C</strong> Confianza</span><span id="val-C">5</span></label>
+                                <input type="range" id="slider-C" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
+                            </div>
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">V</strong> Violencia</span><span id="val-V">5</span></label>
+                                <input type="range" id="slider-V" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
+                            </div>
+                            <div style="margin-bottom:1.2rem;">
+                                <label style="font-size:0.8rem; color:var(--text-dim); display:flex; justify-content:space-between;"><span><strong style="color:var(--gold);">I</strong> Info</span><span id="val-I">5</span></label>
+                                <input type="range" id="slider-I" min="0" max="10" value="5" style="width:100%; accent-color:var(--gold);">
+                            </div>
+                            <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.5rem;">
+                                <button onclick="setPreset(3,2,7,2,2)" class="gen-tag high" style="cursor:pointer; border:none;">Milagro</button>
+                                <button onclick="setPreset(9,4,4,5,4)" class="gen-tag high" style="cursor:pointer; border:none;">Crisis</button>
+                                <button onclick="setPreset(7,7,3,8,7)" class="gen-tag high" style="cursor:pointer; border:none;">Transición</button>
+                                <button onclick="setPreset(9,10,2,9,10)" class="gen-tag high" style="cursor:pointer; border:none;">Saturación</button>
+                            </div>
+                        </div>
+                        <div><canvas id="simRadar"></canvas></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -635,6 +671,143 @@
             }
         }
     });
+    // ============ QUIZ ============
+    const questions = [
+        { variable: 'E', text: '¿Tus papás tenían trabajo estable cuando creciste?', options: [{t:'Sí, siempre',v:2},{t:'A veces',v:5},{t:'No, era inestable',v:8}] },
+        { variable: 'E', text: '¿Viviste alguna crisis económica fuerte entre los 15 y 25 años?', options: [{t:'No realmente',v:2},{t:'Una',v:5},{t:'Varias',v:9}] },
+        { variable: 'V', text: '¿Conoces personalmente a alguien que haya sido víctima de un crimen violento?', options: [{t:'No',v:2},{t:'De lejos',v:5},{t:'Sí, cercano',v:9}] },
+        { variable: 'V', text: '¿Cambiaste rutinas o hábitos por miedo a la inseguridad?', options: [{t:'Nunca',v:1},{t:'Algo',v:5},{t:'Constantemente',v:9}] },
+        { variable: 'C', text: '¿Confías en que el gobierno te va a ayudar si lo necesitas?', options: [{t:'Sí',v:8},{t:'Depende',v:5},{t:'Para nada',v:1}] },
+        { variable: 'C', text: '¿Crees que las leyes se aplican igual para todos?', options: [{t:'Sí',v:8},{t:'A veces',v:5},{t:'No, depende de quién seas',v:1}] },
+        { variable: 'T', text: '¿A qué edad tuviste tu primer smartphone?', options: [{t:'Después de los 25',v:2},{t:'Entre 15 y 25',v:6},{t:'Antes de los 15',v:9}] },
+        { variable: 'T', text: '¿La tecnología cambió fundamentalmente cómo vives?', options: [{t:'No mucho',v:2},{t:'Bastante',v:6},{t:'Totalmente, no imagino vida sin ella',v:9}] },
+        { variable: 'I', text: '¿Sientes que tienes DEMASIADA información sobre lo que pasa en el mundo?', options: [{t:'No, me informo bien',v:2},{t:'A veces es mucho',v:5},{t:'Sí, es abrumador',v:9}] },
+        { variable: 'I', text: '¿Te comparas con lo que ves en redes sociales?', options: [{t:'No uso redes / no me afecta',v:1},{t:'A veces',v:5},{t:'Más de lo que quisiera',v:8}] },
+        { variable: 'A', text: '¿Te preocupa el cambio climático como algo que va a afectar TU vida?', options: [{t:'No realmente',v:2},{t:'Algo',v:5},{t:'Sí, mucho',v:9}] },
+        { variable: 'F', text: '¿Cómo era tu estructura familiar al crecer?', options: [{t:'Familia nuclear estable',v:2},{t:'Familia diversa / reconstituida',v:5},{t:'Monoparental o inestable',v:8}] }
+    ];
+
+    let quizAnswers = new Array(questions.length).fill(null);
+    let currentQ = 0;
+
+    function renderQuestion() {
+        const q = questions[currentQ];
+        const selected = quizAnswers[currentQ];
+        let html = `<p style="font-family:var(--serif); font-size:1.3rem; margin-bottom:1.5rem;">${q.text}</p>`;
+        q.options.forEach((opt, i) => {
+            const isSelected = selected === i;
+            html += `<button onclick="selectAnswer(${i})" style="display:block; width:100%; text-align:left; padding:1rem 1.2rem; margin-bottom:0.6rem; background:${isSelected ? 'var(--gold-dim)' : 'var(--card-bg)'}; border:1px solid ${isSelected ? 'var(--gold)' : 'var(--card-border)'}; color:${isSelected ? 'var(--gold)' : 'var(--text)'}; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.9rem; transition:all 0.2s;">${opt.t}</button>`;
+        });
+        document.getElementById('quiz-question').innerHTML = html;
+        document.getElementById('quiz-bar').style.width = ((currentQ + 1) / questions.length * 100) + '%';
+        document.getElementById('quiz-counter').textContent = (currentQ + 1) + ' / ' + questions.length;
+        document.getElementById('quiz-back').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+        document.getElementById('quiz-next').textContent = currentQ === questions.length - 1 ? 'Ver resultado →' : 'Siguiente →';
+    }
+
+    function selectAnswer(i) {
+        quizAnswers[currentQ] = i;
+        renderQuestion();
+    }
+
+    function quizNext() {
+        if (quizAnswers[currentQ] === null) return;
+        if (currentQ < questions.length - 1) {
+            currentQ++;
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function quizBack() {
+        if (currentQ > 0) { currentQ--; renderQuestion(); }
+    }
+
+    function showResults() {
+        // Calculate variable scores
+        const scores = { E:[], T:[], C:[], V:[], I:[], A:[], F:[] };
+        questions.forEach((q, i) => {
+            if (quizAnswers[i] !== null) {
+                if (!scores[q.variable]) scores[q.variable] = [];
+                scores[q.variable].push(q.options[quizAnswers[i]].v);
+            }
+        });
+        const avg = obj => obj.length ? obj.reduce((a,b)=>a+b,0)/obj.length : 5;
+        const E = avg(scores.E||[]);
+        const T = avg(scores.T||[]);
+        const C = avg(scores.C||[]);
+        const V = avg(scores.V||[]);
+        const I = avg(scores.I||[]);
+
+        const vector = calcVector(E,T,C,V,I);
+
+        // Find closest generation
+        const gens = {
+            'Generación del Milagro': [8,8,4,7,4,3,5,3],
+            'Generación de las Crisis': [7,5,8,4,5,5,3,9],
+            'Generación de la Transición': [5,3,6,7,7,8,8,7],
+            'Generación de la Saturación': [4,2,8,5,7,9,5,9]
+        };
+        const narratives = {
+            'Generación del Milagro': '"El sistema funciona. Si te esfuerzas, avanzas."',
+            'Generación de las Crisis': '"No confíes en nadie. Hazte cargo."',
+            'Generación de la Transición': '"Quiero que mi vida tenga sentido — pero todo tiembla."',
+            'Generación de la Saturación': '"No es seguro. Mejor me adapto."'
+        };
+
+        let closest = '', minDist = Infinity;
+        Object.entries(gens).forEach(([name, profile]) => {
+            const dist = profile.reduce((sum, v, i) => sum + Math.pow(v - vector[i], 2), 0);
+            if (dist < minDist) { minDist = dist; closest = name; }
+        });
+
+        // Show results
+        document.getElementById('quiz-container').style.display = 'none';
+        document.getElementById('quiz-results').style.display = 'block';
+        document.getElementById('result-gen').textContent = 'Tu perfil: ' + closest;
+        document.getElementById('result-narrative').textContent = narratives[closest];
+
+        // Detail
+        const dimNames = ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
+        let topDims = vector.map((v,i) => ({name: dimNames[i], val: v})).sort((a,b) => b.val - a.val);
+        let detailHtml = '<p style="margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus dimensiones más fuertes:</strong></p>';
+        topDims.slice(0,3).forEach(d => {
+            detailHtml += `<p>⭐ <strong style="color:var(--gold);">${d.name}</strong> (${d.val.toFixed(1)}/10)</p>`;
+        });
+        detailHtml += '<p style="margin-top:1rem; margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus variables formativas:</strong></p>';
+        detailHtml += `<p>Escasez: ${E.toFixed(1)} | Tecnología: ${T.toFixed(1)} | Confianza: ${C.toFixed(1)} | Violencia: ${V.toFixed(1)} | Info: ${I.toFixed(1)}</p>`;
+        document.getElementById('result-detail').innerHTML = detailHtml;
+
+        // Radar
+        const rCtx = document.getElementById('resultRadar').getContext('2d');
+        new Chart(rCtx, {
+            type: 'radar',
+            data: {
+                labels: dimNames,
+                datasets: [
+                    { label: 'Tu perfil', data: vector, backgroundColor: 'rgba(196,163,90,0.25)', borderColor: gold, borderWidth: 2, pointRadius: 4, pointBackgroundColor: gold },
+                    { label: closest, data: gens[closest], backgroundColor: 'rgba(65,105,225,0.1)', borderColor: '#4169e1', borderWidth: 1.5, pointRadius: 2, borderDash: [4,4] }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: { r: { beginAtZero:true, max:10, ticks:{display:false}, grid:{color:getGridColor()}, angleLines:{color:getGridColor()}, pointLabels:{color:getTextColor(), font:{size:10, family:'Inter'}} } },
+                plugins: { legend: { labels: { color: getTextColor(), font: { size: 11, family: 'Inter' }, usePointStyle: true } } }
+            }
+        });
+    }
+
+    function resetQuiz() {
+        quizAnswers = new Array(questions.length).fill(null);
+        currentQ = 0;
+        document.getElementById('quiz-container').style.display = 'block';
+        document.getElementById('quiz-results').style.display = 'none';
+        renderQuestion();
+    }
+
+    renderQuestion();
+
     // ============ SIMULADOR ============
     const simCtx = document.getElementById('simRadar').getContext('2d');
     const dims = ['Seguridad', 'Estatus', 'Autonomía', 'Afiliación', 'Experiencia', 'Identidad', 'Trascendencia', 'Resiliencia'];
