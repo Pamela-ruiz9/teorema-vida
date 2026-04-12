@@ -770,29 +770,29 @@
     new Chart(varCtx, {
         type: 'line',
         data: {
-            labels: ['1960', '1970', '1980', '1990', '2000', '2010', '2020'],
+            labels: ['1960', '1970', '1980', '1990', '2000', '2010', '2020', '2025'],
             datasets: [
                 {
                     label: 'E (Escasez)',
-                    data: [3, 3, 4, 8, 6, 7, 9],
+                    data: [3, 3, 4, 8, 6, 7, 9, 8],
                     borderColor: '#dc143c', backgroundColor: 'rgba(220,20,60,0.1)',
                     tension: 0.3, fill: true, borderWidth: 2
                 },
                 {
                     label: 'T (Tecnología)',
-                    data: [1, 1, 2, 3, 5, 7, 9],
+                    data: [1, 1, 2, 3, 5, 7, 9, 10],
                     borderColor: '#4169e1', backgroundColor: 'rgba(65,105,225,0.1)',
                     tension: 0.3, fill: true, borderWidth: 2
                 },
                 {
                     label: 'C (Confianza)',
-                    data: [7, 7, 6, 5, 6, 3, 2],
+                    data: [7, 7, 6, 5, 6, 3, 2, 2],
                     borderColor: '#6b8e23', backgroundColor: 'rgba(107,142,35,0.1)',
                     tension: 0.3, fill: true, borderWidth: 2
                 },
                 {
                     label: 'V (Violencia)',
-                    data: [3, 3, 3, 4, 3, 8, 9],
+                    data: [3, 3, 3, 4, 3, 8, 9, 6],
                     borderColor: '#ffa500', backgroundColor: 'rgba(255,165,0,0.1)',
                     tension: 0.3, fill: true, borderWidth: 2
                 }
@@ -807,7 +807,7 @@
             plugins: {
                 legend: { labels: { color: getTextColor(), font: { size: 11, family: 'Inter' }, usePointStyle: true, pointStyle: 'circle' } },
                 tooltip: { backgroundColor: 'rgba(10,10,10,0.95)', callbacks:{ afterTitle: ctx => {
-                    const notes = {'1980':'Crisis de deuda + inflación 159%','1990':'Tequilazo + NAFTA + Colosio','2000':'Alternancia: Fox (PAN)','2010':'Guerra narco plena','2020':'COVID + TikTok + IA'};
+                    const notes = {'1980':'Crisis de deuda + inflación 159%','1990':'Tequilazo + NAFTA + Colosio','2000':'Alternancia: Fox (PAN)','2010':'Guerra narco plena','2020':'COVID + TikTok + IA','2025':'PIB 0.4%, inflación 4.6%, aranceles Trump, IA generativa'};
                     return notes[ctx[0].label] || '';
                 }}},
                 annotation: { annotations: {
@@ -866,10 +866,10 @@
     new Chart(techCtx, {
         type: 'line',
         data: {
-            labels: ['1995', '2000', '2005', '2010', '2015', '2020', '2024'],
+            labels: ['1995', '2000', '2005', '2010', '2015', '2020', '2024', '2025'],
             datasets: [{
                 label: '% población con internet',
-                data: [1, 5, 18, 34, 57, 72, 83],
+                data: [1, 5, 18, 34, 57, 72, 83, 85],
                 borderColor: gold,
                 backgroundColor: goldDim,
                 tension: 0.4, fill: true, borderWidth: 2,
