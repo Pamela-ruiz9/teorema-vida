@@ -381,5 +381,137 @@
     renderBars('example-transicion', [5,3,6,7,7,8,8,7], '#4169e1');
     renderBars('example-saturacion', [4,2,8,5,7,9,5,9], '#ffa500');
     </script>
+
+    <!-- TIMELAPSE -->
+    <section style="padding:4rem 2rem 5rem;">
+        <div class="content fade-in" style="margin:0 auto; max-width:800px;">
+            <p class="small gold" style="margin-bottom:0.5rem;">Animación</p>
+            <h2 style="font-size:clamp(1.4rem,3vw,2rem); margin-bottom:0.5rem;">El vector de México a través del tiempo</h2>
+            <p class="dim" style="font-size:0.9rem; margin-bottom:2rem;">Observa cómo cambió el sentido generacional década por década. Dale play.</p>
+
+            <div style="text-align:center; margin-bottom:1rem;">
+                <span id="tl-decade" style="font-family:var(--serif); font-size:3rem; color:var(--gold); transition:opacity 0.3s;">1960</span>
+                <p id="tl-label" style="font-size:0.85rem; color:var(--text-dim); margin-top:0.3rem; min-height:1.2em;"></p>
+            </div>
+
+            <div style="max-width:450px; margin:0 auto;">
+                <canvas id="tlRadar"></canvas>
+            </div>
+
+            <!-- Controls -->
+            <div style="display:flex; align-items:center; justify-content:center; gap:1rem; margin-top:1.5rem;">
+                <button id="tl-play" onclick="tlToggle()" style="padding:0.6rem 2rem; background:none; border:1px solid var(--gold); color:var(--gold); border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.85rem; transition:all 0.2s; min-width:100px;">&#9654; Play</button>
+                <input type="range" id="tl-slider" min="0" max="6" value="0" style="flex:1; max-width:300px; accent-color:var(--gold);" oninput="tlSeek(+this.value)">
+            </div>
+
+            <!-- Decade bar labels -->
+            <div style="display:flex; justify-content:space-between; max-width:300px; margin:0.3rem auto 0; padding:0 0.5rem;">
+                <span style="font-size:0.6rem; color:var(--text-dim);">1960</span>
+                <span style="font-size:0.6rem; color:var(--text-dim);">1990</span>
+                <span style="font-size:0.6rem; color:var(--text-dim);">2020</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    // Timelapse data: Mexico's vector by decade
+    // [Seguridad, Estatus, Autonomía, Afiliación, Experiencia, Identidad, Trascendencia, Resiliencia]
+    const tlDecades = [
+        { year:'1960', label:'Milagro mexicano. Crecimiento estable. PRI hegemónico. Televisa. Familias grandes.',
+          data:[9,8,2,8,2,1,5,2], color:'#6b8e23' },
+        { year:'1970', label:'Boom petrolero. Tlatelolco aún reciente. Urbanización acelerada. Primer celular aún no existe.',
+          data:[8,7,3,7,3,2,5,3], color:'#6b8e23' },
+        { year:'1980', label:'Crisis de deuda (82). Inflación 159% (87). El peso se devalua. Todo se rompe.',
+          data:[5,5,6,5,3,3,3,7], color:'#dc143c' },
+        { year:'1990', label:'Tequilazo (94). NAFTA. Asesinato de Colosio. Internet llega. EZLN.',
+          data:[4,4,7,4,4,4,3,8], color:'#dc143c' },
+        { year:'2000', label:'Alternancia (Fox). Esperanza democrática. Celulares se masifican. Hi5, después Facebook.',
+          data:[5,3,6,6,5,6,6,6], color:'#4169e1' },
+        { year:'2010', label:'Guerra narco plena. Homicidios x3. Smartphones. Redes sociales. Arab Spring eco.',
+          data:[3,2,7,5,7,8,5,8], color:'#ffa500' },
+        { year:'2020', label:'COVID. Esperanza de vida cae 5 años. 83% internet. TikTok. IA. Otis destruye Acapulco.',
+          data:[2,1,9,4,8,10,3,10], color:'#ff4444' }
+    ];
+
+    const tlDims = ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
+
+    const tlCtx = document.getElementById('tlRadar').getContext('2d');
+    const tlChart = new Chart(tlCtx, {
+        type: 'radar',
+        data: {
+            labels: tlDims,
+            datasets: [{
+                label: '1960',
+                data: tlDecades[0].data,
+                backgroundColor: tlDecades[0].color + '30',
+                borderColor: tlDecades[0].color,
+                borderWidth: 2.5,
+                pointRadius: 5,
+                pointBackgroundColor: tlDecades[0].color
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: { duration: 800, easing: 'easeInOutQuart' },
+            scales: { r: { beginAtZero:true, max:10, min:0, ticks:{display:false}, grid:{color:getGridColor()}, angleLines:{color:getGridColor()}, pointLabels:{color:getTextColor(), font:{size:11, family:'Inter'}} } },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    let tlIndex = 0;
+    let tlPlaying = false;
+    let tlInterval = null;
+
+    function tlUpdate(i) {
+        tlIndex = i;
+        const d = tlDecades[i];
+        tlChart.data.datasets[0].data = d.data;
+        tlChart.data.datasets[0].backgroundColor = d.color + '30';
+        tlChart.data.datasets[0].borderColor = d.color;
+        tlChart.data.datasets[0].pointBackgroundColor = d.color;
+        tlChart.data.datasets[0].label = d.year;
+        tlChart.update();
+        document.getElementById('tl-decade').textContent = d.year;
+        document.getElementById('tl-decade').style.color = d.color;
+        document.getElementById('tl-label').textContent = d.label;
+        document.getElementById('tl-slider').value = i;
+    }
+
+    function tlToggle() {
+        if (tlPlaying) {
+            clearInterval(tlInterval);
+            tlPlaying = false;
+            document.getElementById('tl-play').innerHTML = '&#9654; Play';
+        } else {
+            if (tlIndex >= tlDecades.length - 1) tlIndex = -1;
+            tlPlaying = true;
+            document.getElementById('tl-play').innerHTML = '&#9646;&#9646; Pausa';
+            tlInterval = setInterval(() => {
+                tlIndex++;
+                if (tlIndex >= tlDecades.length) {
+                    clearInterval(tlInterval);
+                    tlPlaying = false;
+                    document.getElementById('tl-play').innerHTML = '&#9654; Replay';
+                    return;
+                }
+                tlUpdate(tlIndex);
+            }, 2000);
+            // Play first immediately
+            tlIndex++;
+            tlUpdate(tlIndex);
+        }
+    }
+
+    function tlSeek(i) {
+        if (tlPlaying) {
+            clearInterval(tlInterval);
+            tlPlaying = false;
+            document.getElementById('tl-play').innerHTML = '&#9654; Play';
+        }
+        tlUpdate(i);
+    }
+
+    tlUpdate(0);
+    </script>
 </body>
 </html>
