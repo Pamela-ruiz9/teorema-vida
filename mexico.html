@@ -243,19 +243,19 @@
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:2rem;">
                 <div style="padding:1.2rem; border:1px solid var(--card-border); border-radius:4px; text-align:center;">
                     <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">83%</div>
-                    <div style="font-size:0.75rem; color:var(--text-dim);">conectados a internet (2024)</div>
+                    <div style="font-size:0.75rem; color:var(--text-dim);">internet (100.2M usuarios, 2024)</div>
                 </div>
                 <div style="padding:1.2rem; border:1px solid var(--card-border); border-radius:4px; text-align:center;">
-                    <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">25.6</div>
-                    <div style="font-size:0.75rem; color:var(--text-dim);">homicidios por 100K hab. (2024)</div>
+                    <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">17.5</div>
+                    <div style="font-size:0.75rem; color:var(--text-dim);">homicidios/100K (2025, SNSP)</div>
                 </div>
                 <div style="padding:1.2rem; border:1px solid var(--card-border); border-radius:4px; text-align:center;">
-                    <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">69</div>
-                    <div style="font-size:0.75rem; color:var(--text-dim);">años esperanza de vida (2020, caída COVID)</div>
+                    <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">0.4%</div>
+                    <div style="font-size:0.75rem; color:var(--text-dim);">PIB 2025 (Banxico)</div>
                 </div>
                 <div style="padding:1.2rem; border:1px solid var(--card-border); border-radius:4px; text-align:center;">
-                    <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">7</div>
-                    <div style="font-size:0.75rem; color:var(--text-dim);">crisis económicas desde 1976</div>
+                    <div style="font-size:2rem; font-family:var(--serif); color:var(--gold);">4.63%</div>
+                    <div style="font-size:0.75rem; color:var(--text-dim);">inflación (mar 2026, INEGI)</div>
                 </div>
             </div>
 
@@ -339,7 +339,7 @@
             <!-- VIOLENCIA -->
             <div style="margin-bottom:3rem;">
                 <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Tasa de homicidios: el quiebre de 2008</h3>
-                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Homicidios por cada 100,000 habitantes. Fuente: INEGI/UNODC.</p>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Homicidios por cada 100,000 habitantes. Fuente: INEGI/SNSP. Dato 2025: 17.5/100K (Watchboard/SNSP), con controversia por aumento de desapariciones +16%.</p>
                 <div style="max-width:700px; margin:0 auto;">
                     <canvas id="violenceChart"></canvas>
                 </div>
@@ -824,10 +824,10 @@
     new Chart(violCtx, {
         type: 'bar',
         data: {
-            labels: ['1990', '1995', '2000', '2005', '2007', '2010', '2012', '2015', '2018', '2020', '2024'],
+            labels: ['1990', '1995', '2000', '2005', '2007', '2010', '2012', '2015', '2018', '2020', '2024', '2025'],
             datasets: [{
                 label: 'Homicidios/100K',
-                data: [18, 17, 11, 10, 8, 22, 24, 20, 29, 28, 25.6],
+                data: [18, 17, 11, 10, 8, 22, 24, 20, 29, 28, 25.6, 17.5],
                 backgroundColor: function(ctx) {
                     return ctx.raw > 20 ? 'rgba(220,20,60,0.7)' : ctx.raw > 15 ? 'rgba(255,165,0,0.6)' : 'rgba(107,142,35,0.5)';
                 },
@@ -846,7 +846,7 @@
             plugins: {
                 legend: { display:false },
                 tooltip: { backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ label: ctx => ctx.raw + ' homicidios por cada 100,000 habitantes', afterLabel: ctx => {
-                    const notes = {'2007':'Punto más bajo antes de la guerra','2010':'Calderón: guerra contra el narco','2018':'Récord histórico hasta entonces','2020':'Pandemia + violencia','2024':'33,241 homicidios — récord absoluto'};
+                    const notes = {'2007':'Punto más bajo antes de la guerra','2010':'Calderón: guerra contra el narco','2018':'Récord histórico hasta entonces','2020':'Pandemia + violencia','2024':'33,241 homicidios — récord absoluto','2025':'Baja oficial 30%, pero desapariciones +16% (SNSP)'};
                     return notes[ctx.label] || '';
                 }}},
                 annotation: { annotations: {
