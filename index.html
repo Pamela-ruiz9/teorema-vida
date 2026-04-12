@@ -4,469 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teorema de Vida</title>
-    <meta name="description" content="¿Sabes cuál es el sentido de la vida? Depende de cuándo naciste.">
+    <meta name="description" content="¿Sabes cuál es el sentido de la vida? Un modelo matemático del sentido generacional.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --black: #0a0a0a;
-            --dark: #141414;
-            --gold: #c4a35a;
-            --gold-dim: rgba(196,163,90,0.15);
-            --gray: #888;
-            --white: #f0ece4;
-            --serif: 'Cormorant Garamond', Georgia, serif;
-            --sans: 'Inter', sans-serif;
-        }
-
-        * { margin:0; padding:0; box-sizing:border-box; }
-
-        html {
-            scroll-behavior: smooth;
-            background: var(--black);
-            color: var(--white);
-        }
-
-        body {
-            font-family: var(--sans);
-            line-height: 1.8;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        /* ---- Scroll sections ---- */
-        .panel {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 4rem 2rem;
-            position: relative;
-        }
-
-        .content {
-            max-width: 720px;
-            width: 100%;
-        }
-
-        /* ---- Typography ---- */
-        .serif { font-family: var(--serif); }
-        .gold { color: var(--gold); }
-        .dim { color: var(--gray); }
-        .small { font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; }
-        
-        h1, h2, h3 {
-            font-family: var(--serif);
-            font-weight: 300;
-            letter-spacing: -0.02em;
-        }
-
-        /* ---- Panels ---- */
-
-        /* 1. INTRO — La pregunta */
-        .intro h1 {
-            font-size: clamp(2.2rem, 6vw, 4.5rem);
-            line-height: 1.15;
-            margin-bottom: 2rem;
-        }
-
-        .intro p {
-            font-size: 1.15rem;
-            color: var(--gray);
-            max-width: 500px;
-        }
-
-        .intro .cursor {
-            display: inline-block;
-            width: 2px;
-            height: 1.1em;
-            background: var(--gold);
-            margin-left: 4px;
-            animation: blink 1s infinite;
-            vertical-align: text-bottom;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        /* 2. REVEAL */
-        .reveal {
-            text-align: center;
-        }
-
-        .reveal h2 {
-            font-size: clamp(1.8rem, 4vw, 3rem);
-            line-height: 1.3;
-            font-style: italic;
-        }
-
-        .reveal h2 em {
-            color: var(--gold);
-            font-style: italic;
-        }
-
-        /* 3. VECTOR */
-        .dimensions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            margin: 2.5rem 0;
-            background: rgba(255,255,255,0.05);
-        }
-
-        @media (max-width: 600px) {
-            .dimensions { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        .dim-cell {
-            padding: 1.8rem 1rem;
-            text-align: center;
-            background: var(--black);
-            transition: background 0.3s;
-        }
-
-        .dim-cell:hover {
-            background: var(--gold-dim);
-        }
-
-        .dim-cell .icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .dim-cell .name {
-            font-family: var(--serif);
-            font-size: 1rem;
-            font-weight: 400;
-        }
-
-        .dim-cell .desc {
-            font-size: 0.7rem;
-            color: var(--gray);
-            margin-top: 0.3rem;
-        }
-
-        /* 4. EQUATION */
-        .eq-display {
-            font-family: 'Courier New', monospace;
-            font-size: clamp(0.85rem, 2vw, 1.1rem);
-            text-align: center;
-            padding: 2rem;
-            border: 1px solid rgba(196,163,90,0.2);
-            margin: 2rem 0;
-            color: var(--gold);
-            letter-spacing: 0.03em;
-            overflow-x: auto;
-        }
-
-        .var-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        @media (max-width: 600px) {
-            .var-grid { grid-template-columns: 1fr; }
-        }
-
-        .var-group h3 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--gold);
-            margin-bottom: 1rem;
-            font-family: var(--sans);
-            font-weight: 500;
-        }
-
-        .var-group ul {
-            list-style: none;
-        }
-
-        .var-group li {
-            padding: 0.4rem 0;
-            font-size: 0.9rem;
-            color: var(--gray);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-
-        .var-group li strong {
-            color: var(--white);
-            margin-right: 0.3rem;
-        }
-
-        /* 5. COROLARIOS */
-        .corolario {
-            margin-bottom: 3rem;
-        }
-
-        .corolario .num {
-            font-family: var(--serif);
-            font-size: 2.5rem;
-            color: rgba(196,163,90,0.2);
-            font-weight: 600;
-            line-height: 1;
-        }
-
-        .corolario h3 {
-            font-size: 1.3rem;
-            margin: 0.3rem 0 0.8rem;
-            font-weight: 400;
-        }
-
-        .corolario p {
-            font-size: 0.95rem;
-            color: var(--gray);
-            margin-bottom: 0.8rem;
-        }
-
-        .corolario blockquote {
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 1.1rem;
-            color: var(--gold);
-            padding-left: 1rem;
-            border-left: 2px solid rgba(196,163,90,0.3);
-        }
-
-        /* 6. THESIS */
-        .thesis {
-            text-align: center;
-        }
-
-        .thesis h2 {
-            font-size: clamp(1.6rem, 4vw, 2.8rem);
-            font-style: italic;
-            line-height: 1.35;
-            margin-bottom: 2rem;
-        }
-
-        .thesis .cost {
-            font-size: 1.1rem;
-            color: var(--gold);
-        }
-
-        /* DIVIDERS */
-        .line {
-            width: 40px;
-            height: 1px;
-            background: var(--gold);
-            margin: 2rem auto;
-            opacity: 0.4;
-        }
-
-        .line-left {
-            margin: 2rem 0;
-        }
-
-        /* FOOTER */
-        footer {
-            text-align: center;
-            padding: 4rem 2rem;
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        footer strong { color: var(--white); }
-        footer .phase { font-size: 0.75rem; margin-top: 0.5rem; }
-
-        /* Fade in */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
 </head>
 <body>
 
-    <!-- 1. INTRO -->
+    <!-- NAV -->
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">Teorema de Vida</a>
+        <div class="nav-tabs">
+            <a href="index.html" class="nav-tab active">Inicio</a>
+            <a href="teorema.html" class="nav-tab">Teorema</a>
+            <a href="mexico.html" class="nav-tab">México</a>
+            <a href="#" class="nav-tab disabled">EE.UU. <span class="soon">pronto</span></a>
+            <a href="#" class="nav-tab disabled">Global <span class="soon">pronto</span></a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
     <section class="panel intro">
         <div class="content fade-in">
-            <h1>¿Sabes cuál es el sentido de la vida?<span class="cursor"></span></h1>
-            <p>La respuesta depende de cuándo naciste.</p>
-        </div>
-    </section>
-
-    <!-- 2. REVEAL -->
-    <section class="panel reveal">
-        <div class="content fade-in">
-            <p class="small gold" style="margin-bottom:1.5rem;">Teorema del Sentido Generacional</p>
-            <h2>Lo que consideras importante no es casualidad. Es la mejor respuesta que tu generación encontró a las presiones que enfrentó <em>entre los 10 y 25 años</em>.</h2>
-            <div class="line"></div>
-            <p class="dim" style="max-width:550px; margin:0 auto; font-size:0.95rem;">El sentido de vida no es una elección libre. Es una adaptación estructural que luego interpretas como identidad.</p>
-        </div>
-    </section>
-
-    <!-- 3. VECTOR -->
-    <section class="panel">
-        <div class="content fade-in">
-            <p class="small gold" style="margin-bottom:0.5rem;">El vector</p>
-            <h2 style="font-size:clamp(1.5rem,3vw,2.2rem); margin-bottom:0.5rem;">El sentido de vida tiene 8 dimensiones</h2>
-            <p class="dim" style="font-size:0.95rem;">Cada generación activa diferentes combinaciones.</p>
-
-            <div class="dimensions">
-                <div class="dim-cell"><div class="icon">🛡️</div><div class="name">Seguridad</div><div class="desc">Estabilidad</div></div>
-                <div class="dim-cell"><div class="icon">👑</div><div class="name">Estatus</div><div class="desc">Reconocimiento</div></div>
-                <div class="dim-cell"><div class="icon">🦅</div><div class="name">Autonomía</div><div class="desc">Libertad</div></div>
-                <div class="dim-cell"><div class="icon">🤝</div><div class="name">Afiliación</div><div class="desc">Pertenencia</div></div>
-                <div class="dim-cell"><div class="icon">✨</div><div class="name">Experiencia</div><div class="desc">Vivir</div></div>
-                <div class="dim-cell"><div class="icon">🪞</div><div class="name">Identidad</div><div class="desc">Autenticidad</div></div>
-                <div class="dim-cell"><div class="icon">🌱</div><div class="name">Trascendencia</div><div class="desc">Dejar huella</div></div>
-                <div class="dim-cell"><div class="icon">🔥</div><div class="name">Resiliencia</div><div class="desc">Adaptarse</div></div>
-            </div>
-
-            <div class="eq-display">
-                S(g) = f( Régimen(g) ⊙ Matiz(g) ) + Herencia(g−1) + R(g) + ε
-            </div>
-
-            <div class="var-grid">
-                <div class="var-group">
-                    <h3>Régimen — transforman</h3>
-                    <ul>
-                        <li><strong>E</strong> Escasez económica</li>
-                        <li><strong>T</strong> Disrupción tecnológica</li>
-                        <li><strong>C</strong> Confianza institucional</li>
-                        <li><strong>V</strong> Exposición a violencia</li>
-                    </ul>
-                </div>
-                <div class="var-group">
-                    <h3>Matiz — ajustan</h3>
-                    <ul>
-                        <li><strong>I</strong> Carga informacional</li>
-                        <li><strong>A</strong> Presión ambiental</li>
-                        <li><strong>F</strong> Estructura familiar</li>
-                        <li><strong>H</strong> Salud</li>
-                        <li><strong>D</strong> Urbanización</li>
-                    </ul>
-                </div>
+            <h1>¿Sabes cuál es<br>el sentido de la vida?<span class="cursor"></span></h1>
+            <p class="sub">La respuesta depende de cuándo naciste.</p>
+            <div class="line" style="margin:2.5rem auto;"></div>
+            <p class="dim" style="max-width:520px; margin:0 auto; font-size:0.95rem; text-align:center;">Cada generación construye su sentido de vida como respuesta a las fuerzas que la formaron. Este modelo explica por qué — y predice qué viene.</p>
+            <div style="text-align:center; margin-top:3rem;">
+                <a href="teorema.html" class="cta">Explorar el teorema →</a>
             </div>
         </div>
     </section>
 
-    <!-- 4. DESARROLLO DE LA ECUACIÓN -->
-    <section class="panel">
-        <div class="content fade-in">
-            <p class="small gold" style="margin-bottom:0.5rem;">Dentro de la ecuación</p>
-            <h2 style="font-size:clamp(1.5rem,3vw,2.2rem); margin-bottom:2rem;">Cada término cuenta una historia</h2>
-
-            <div style="margin-bottom:3rem;">
-                <h3 style="font-family:var(--serif); font-size:1.4rem; font-weight:400; margin-bottom:0.8rem;">La Ventana Formativa</h3>
-                <p style="color:var(--gray); font-size:0.95rem; margin-bottom:1rem;">No todo momento de tu vida pesa igual. Entre los <strong style="color:var(--white)">10 y 25 años</strong> se define lo que vas a considerar importante el resto de tu vida. El pico está entre los <strong style="color:var(--gold)">16 y 21</strong> — las crisis, tecnologías y oportunidades de esos años te marcan para siempre.</p>
-                <div style="height:50px; margin:1.5rem 0; background:linear-gradient(90deg, rgba(196,163,90,0.05) 0%, rgba(196,163,90,0.2) 25%, rgba(196,163,90,0.7) 40%, rgba(196,163,90,1) 50%, rgba(196,163,90,0.7) 60%, rgba(196,163,90,0.2) 75%, rgba(196,163,90,0.05) 100%); border-radius:4px; display:flex; align-items:center; justify-content:center;">
-                    <span style="font-size:0.7rem; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--black);">16 — 21 años</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--gray);">
-                    <span>10 años</span><span>25 años</span>
-                </div>
-            </div>
-
-            <div style="margin-bottom:3rem; padding:2rem; border:1px solid rgba(255,255,255,0.06); border-radius:4px;">
-                <h3 style="font-family:var(--serif); font-size:1.4rem; font-weight:400; color:var(--gold); margin-bottom:0.8rem;">Herencia(g−1)</h3>
-                <p style="color:var(--gray); font-size:0.95rem; margin-bottom:0.8rem;">No naces en vacío. Cargas los valores, traumas y aspiraciones de la generación anterior. Lo que tus padres lograron — o no pudieron lograr — moldea tu punto de partida.</p>
-                <p style="color:var(--gray); font-size:0.95rem;">Si tu madre construyó estabilidad desde cero, tú puedes darte el lujo de buscar propósito. Si tus padres vivieron con miedo, parte de ese miedo vive en ti aunque nunca lo hayas experimentado directamente.</p>
-            </div>
-
-            <div style="margin-bottom:3rem; padding:2rem; border:1px solid rgba(255,255,255,0.06); border-radius:4px;">
-                <h3 style="font-family:var(--serif); font-size:1.4rem; font-weight:400; color:var(--gold); margin-bottom:0.8rem;">R(g) — Reacción Generacional</h3>
-                <p style="color:var(--gray); font-size:0.95rem; margin-bottom:1rem;">El vector de corrección activa. Cada generación empuja contra los excesos percibidos de la anterior.</p>
-                <div class="eq-display" style="margin:1rem 0;">
-                    R(g) = −β · (S(g−1) − S*)
-                </div>
-                <p style="color:var(--gray); font-size:0.95rem; margin-bottom:1.2rem;">Si la generación anterior se fue a un extremo, la siguiente empuja hacia el otro lado. <strong style="color:var(--white)">Es lo que hace que la historia oscile, no avance linealmente.</strong></p>
-                <div style="font-size:0.9rem; color:var(--gray);">
-                    <p style="margin-bottom:0.5rem;"><strong style="color:var(--white)">Boomers vs Silent:</strong> padres = orden, conformidad → hijos = libertad, identidad, ruptura</p>
-                    <p style="margin-bottom:0.5rem;"><strong style="color:var(--white)">Gen X vs Boomers:</strong> padres = idealismo, grandes narrativas → hijos = escepticismo, individualismo</p>
-                    <p style="margin-bottom:0.5rem;"><strong style="color:var(--white)">Millennials vs Gen X:</strong> padres = cinismo, desapego → hijos = propósito, comunidad</p>
-                    <p><strong style="color:var(--white)">Gen Z vs Millennials:</strong> padres = idealismo optimista → hijos = realismo, pragmatismo</p>
-                </div>
-            </div>
-
-            <div style="padding:2rem; border:1px solid rgba(255,255,255,0.06); border-radius:4px;">
-                <h3 style="font-family:var(--serif); font-size:1.4rem; font-weight:400; color:var(--gold); margin-bottom:0.8rem;">ε — El ruido</h3>
-                <p style="color:var(--gray); font-size:0.95rem;">Lo impredecible. Los eventos individuales, las subculturas, el azar. Porque ningún modelo captura la totalidad de una vida. Siempre hay margen para lo inesperado — y eso también importa.</p>
-            </div>
+    <!-- PREVIEW -->
+    <section class="panel" style="min-height:auto; padding:6rem 2rem;">
+        <div class="content fade-in" style="text-align:center;">
+            <p class="small gold" style="margin-bottom:1.5rem;">La tesis central</p>
+            <h2 class="serif" style="font-size:clamp(1.4rem,3.5vw,2.4rem); font-style:italic; line-height:1.35; margin-bottom:2rem;">El sentido de vida no es una elección libre.<br>Es una adaptación estructural<br>que luego interpretamos como identidad.</h2>
+            <p class="gold" style="font-size:1rem;">Y mientras más libertad tienes para construir tu vida,<br>mayor es el costo psicológico de hacerlo.</p>
         </div>
     </section>
 
-    <!-- 5. COROLARIOS -->
-    <section class="panel">
-        <div class="content fade-in">
-            <p class="small gold" style="margin-bottom:2rem;">Consecuencias</p>
-
-            <div class="corolario">
-                <div class="num">I</div>
-                <h3>Jerarquía Adaptativa</h3>
-                <p>Cuando las condiciones se endurecen, ciertas dimensiones dominan a las demás.</p>
-                <blockquote>No eliges tus prioridades. Las condiciones las eligen por ti.</blockquote>
+    <!-- EXPLORE -->
+    <section style="padding:4rem 2rem 6rem; text-align:center;">
+        <p class="small gold" style="margin-bottom:2rem;">Explora</p>
+        <div class="explore-grid">
+            <a href="teorema.html" class="explore-card">
+                <span class="explore-icon">📐</span>
+                <h3>El Teorema</h3>
+                <p>El modelo completo: 8 dimensiones, ecuación, corolarios.</p>
+            </a>
+            <a href="mexico.html" class="explore-card">
+                <span class="explore-icon">🇲🇽</span>
+                <h3>México</h3>
+                <p>El modelo aplicado con datos y eventos mexicanos.</p>
+            </a>
+            <div class="explore-card disabled-card">
+                <span class="explore-icon">🇺🇸</span>
+                <h3>Estados Unidos</h3>
+                <p>Próximamente.</p>
             </div>
-
-            <div class="corolario">
-                <div class="num">II</div>
-                <h3>Sustitución de Sentido</h3>
-                <p>Cuando la confianza institucional cae, el sentido deja de ser heredado y se vuelve construido.</p>
-                <blockquote>Antes te daban un camino. Hoy tienes que inventarlo.</blockquote>
+            <div class="explore-card disabled-card">
+                <span class="explore-icon">🌍</span>
+                <h3>Global</h3>
+                <p>Próximamente.</p>
             </div>
-
-            <div class="corolario">
-                <div class="num">III</div>
-                <h3>Compresión Temporal</h3>
-                <p>La incertidumbre reduce el horizonte de planeación. Boomers: 30 años. Gen Z: 1-3.</p>
-                <blockquote>No es que no piensen en el futuro. Es que el futuro es menos confiable.</blockquote>
-            </div>
-
-            <div class="corolario">
-                <div class="num">IV</div>
-                <h3>Saturación Informacional</h3>
-                <p>Más información no produce más acción. Produce más fricción.</p>
-                <blockquote>Ves todo. Puedes cambiar poco. Eso pesa.</blockquote>
-            </div>
-
-            <div class="corolario">
-                <div class="num">V</div>
-                <h3>Reacción Generacional</h3>
-                <p>Cada generación corrige a la anterior. La historia oscila, no avanza linealmente.</p>
-                <blockquote>No somos nuevos. Somos la corrección del pasado.</blockquote>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. THESIS -->
-    <section class="panel thesis">
-        <div class="content fade-in">
-            <h2>El sentido de vida no es una elección libre.<br>Es una adaptación estructural<br>que luego interpretamos como identidad.</h2>
-            <div class="line"></div>
-            <p class="cost">Y mientras más libertad tienes para construir tu vida,<br>mayor es el costo psicológico de hacerlo.</p>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
         <p>Un teorema de <strong>Pame Ruiz</strong></p>
-        <p class="phase">Fase 1: México · Próximamente: datos, simulaciones, comparador generacional</p>
     </footer>
 
-    <script>
-        // Simple fade-in on scroll
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    </script>
-
+    <script src="js/main.js"></script>
 </body>
 </html>
