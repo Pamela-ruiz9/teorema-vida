@@ -187,4 +187,13 @@ footer strong { color:var(--text); }
     .accordion-header { padding:1.2rem 1.2rem; }
     .accordion-body { padding:0 1.2rem; }
     .accordion.open .accordion-body { padding:0.8rem 1.2rem 1.5rem; }
+    .panel { padding:5rem 1.2rem 3rem; }
+    .intro h1 { font-size:2rem; }
+    .explore-grid { grid-template-columns:1fr 1fr; gap:0.8rem; }
+    .var-grid { grid-template-columns:1fr; }
+    .dimensions { grid-template-columns:repeat(2,1fr); }
+    .nav-tabs { gap:0.2rem; }
+    .nav-tab { padding:0.3rem 0.5rem; font-size:0.65rem; }
+    .eq-display { font-size:0.75rem; padding:1rem; }
+    .cta { padding:0.6rem 1.5rem; font-size:0.75rem; }
 }
