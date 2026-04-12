@@ -253,15 +253,58 @@
         </div>
     </section>
 
-    <!-- ROADMAP -->
+    <!-- DATOS Y GRÁFICAS -->
+    <section style="padding:2rem 2rem 4rem;">
+        <div class="content fade-in" style="margin:0 auto; max-width:900px;">
+            <p class="small gold" style="margin-bottom:0.5rem;">Los datos</p>
+            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:2rem;">El modelo con números reales</h2>
+
+            <!-- RADAR CHART -->
+            <div style="margin-bottom:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Vectores de sentido por generación</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Cada generación activa diferentes dimensiones. Toca una generación para aislarla.</p>
+                <div style="position:relative; max-width:500px; margin:0 auto;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-top:1rem;" id="radarLegend"></div>
+            </div>
+
+            <!-- VARIABLES HISTÓRICAS -->
+            <div style="margin-bottom:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Variables de régimen a través del tiempo</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Cómo cambiaron las fuerzas formativas en México por década.</p>
+                <div style="max-width:700px; margin:0 auto;">
+                    <canvas id="variablesChart"></canvas>
+                </div>
+            </div>
+
+            <!-- VIOLENCIA -->
+            <div style="margin-bottom:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Tasa de homicidios: el quiebre de 2008</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Homicidios por cada 100,000 habitantes. Fuente: INEGI/UNODC.</p>
+                <div style="max-width:700px; margin:0 auto;">
+                    <canvas id="violenceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- INTERNET -->
+            <div>
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Disrupción tecnológica: de 0 a 83% en 30 años</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Porcentaje de la población con acceso a internet. Fuente: INEGI/ENDUTIH.</p>
+                <div style="max-width:700px; margin:0 auto;">
+                    <canvas id="techChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIMULADOR TEASER -->
     <section style="padding:2rem 2rem 4rem;">
         <div class="content fade-in" style="margin:0 auto;">
-            <p class="small gold" style="margin-bottom:1.5rem;">Próximamente</p>
-            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:2rem;">Lo que viene para esta sección</h2>
+            <p class="small gold" style="margin-bottom:1.5rem;">En desarrollo</p>
+            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:2rem;">Lo que viene</h2>
             <div style="font-size:0.9rem; color:var(--text-dim);">
-                <p style="margin-bottom:0.8rem; padding-left:1.5rem; border-left:2px solid var(--gold);"><strong style="color:var(--text);">Gráficas interactivas</strong> — Cómo cada variable (E, T, C, V) cambió por década en México. Datos de World Bank, INEGI, Latinobarómetro.</p>
-                <p style="margin-bottom:0.8rem; padding-left:1.5rem; border-left:2px solid var(--gold);"><strong style="color:var(--text);">Radar charts por generación</strong> — Visualización del vector S(g) de cada generación mexicana. Compara perfiles de un vistazo.</p>
-                <p style="margin-bottom:0.8rem; padding-left:1.5rem; border-left:2px solid var(--gold);"><strong style="color:var(--text);">Simulador</strong> — Mueve los sliders de las variables y ve cómo cambia el vector de sentido en tiempo real.</p>
+                <p style="margin-bottom:0.8rem; padding-left:1.5rem; border-left:2px solid var(--gold);"><strong style="color:var(--text);">Simulador interactivo</strong> — Mueve los sliders de las variables y ve cómo cambia el vector de sentido en tiempo real.</p>
                 <p style="padding-left:1.5rem; border-left:2px solid var(--gold);"><strong style="color:var(--text);">Comparador generacional</strong> — Selecciona 2 generaciones y ve qué cambió, por qué, y qué corolario se activó.</p>
             </div>
         </div>
@@ -281,6 +324,208 @@
         <p>Un teorema de <strong>Pame Ruiz</strong></p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <script src="js/main.js"></script>
+    <script>
+    // Colors
+    const gold = '#c4a35a';
+    const goldDim = 'rgba(196,163,90,0.15)';
+    const colors = {
+        milagro: { bg: 'rgba(107,142,35,0.15)', border: '#6b8e23' },
+        crisis: { bg: 'rgba(220,20,60,0.15)', border: '#dc143c' },
+        transicion: { bg: 'rgba(65,105,225,0.15)', border: '#4169e1' },
+        saturacion: { bg: 'rgba(255,165,0,0.15)', border: '#ffa500' },
+        alpha: { bg: 'rgba(148,103,189,0.15)', border: '#9467bd' }
+    };
+
+    // Detect theme
+    function getTextColor() {
+        return document.documentElement.getAttribute('data-theme') === 'light' ? '#333' : '#ccc';
+    }
+    function getGridColor() {
+        return document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.08)';
+    }
+
+    // ============ RADAR CHART ============
+    const radarCtx = document.getElementById('radarChart').getContext('2d');
+    const radarData = {
+        labels: ['Seguridad', 'Estatus', 'Autonomía', 'Afiliación', 'Experiencia', 'Identidad', 'Trascendencia', 'Resiliencia'],
+        datasets: [
+            {
+                label: 'Milagro (1946-64)',
+                data: [8, 8, 4, 7, 4, 3, 5, 3],
+                backgroundColor: colors.milagro.bg,
+                borderColor: colors.milagro.border,
+                borderWidth: 2, pointRadius: 3
+            },
+            {
+                label: 'Crisis (1965-80)',
+                data: [7, 5, 8, 4, 5, 5, 3, 9],
+                backgroundColor: colors.crisis.bg,
+                borderColor: colors.crisis.border,
+                borderWidth: 2, pointRadius: 3
+            },
+            {
+                label: 'Transición (1981-96)',
+                data: [5, 3, 6, 7, 7, 8, 8, 7],
+                backgroundColor: colors.transicion.bg,
+                borderColor: colors.transicion.border,
+                borderWidth: 2, pointRadius: 3
+            },
+            {
+                label: 'Saturación (1997-12)',
+                data: [4, 2, 8, 5, 7, 9, 5, 9],
+                backgroundColor: colors.saturacion.bg,
+                borderColor: colors.saturacion.border,
+                borderWidth: 2, pointRadius: 3
+            }
+        ]
+    };
+
+    const radarChart = new Chart(radarCtx, {
+        type: 'radar',
+        data: radarData,
+        options: {
+            responsive: true,
+            scales: {
+                r: {
+                    beginAtZero: true, max: 10, min: 0,
+                    ticks: { display: false },
+                    grid: { color: getGridColor() },
+                    angleLines: { color: getGridColor() },
+                    pointLabels: { color: getTextColor(), font: { size: 11, family: 'Inter' } }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(10,10,10,0.9)',
+                    titleFont: { family: 'Inter' },
+                    bodyFont: { family: 'Inter' }
+                }
+            }
+        }
+    });
+
+    // Custom legend with toggle
+    const legendEl = document.getElementById('radarLegend');
+    radarData.datasets.forEach((ds, i) => {
+        const btn = document.createElement('button');
+        btn.style.cssText = `padding:0.3rem 0.7rem; font-size:0.72rem; border:1px solid ${ds.borderColor}; background:${ds.backgroundColor}; color:${ds.borderColor}; border-radius:20px; cursor:pointer; font-family:Inter,sans-serif; transition:opacity 0.2s;`;
+        btn.textContent = ds.label;
+        btn.addEventListener('click', () => {
+            const meta = radarChart.getDatasetMeta(i);
+            meta.hidden = !meta.hidden;
+            btn.style.opacity = meta.hidden ? '0.3' : '1';
+            radarChart.update();
+        });
+        legendEl.appendChild(btn);
+    });
+
+    // ============ VARIABLES CHART ============
+    const varCtx = document.getElementById('variablesChart').getContext('2d');
+    new Chart(varCtx, {
+        type: 'line',
+        data: {
+            labels: ['1960', '1970', '1980', '1990', '2000', '2010', '2020'],
+            datasets: [
+                {
+                    label: 'E (Escasez)',
+                    data: [3, 3, 4, 8, 6, 7, 9],
+                    borderColor: '#dc143c', backgroundColor: 'rgba(220,20,60,0.1)',
+                    tension: 0.3, fill: true, borderWidth: 2
+                },
+                {
+                    label: 'T (Tecnología)',
+                    data: [1, 1, 2, 3, 5, 7, 9],
+                    borderColor: '#4169e1', backgroundColor: 'rgba(65,105,225,0.1)',
+                    tension: 0.3, fill: true, borderWidth: 2
+                },
+                {
+                    label: 'C (Confianza)',
+                    data: [7, 7, 6, 5, 6, 3, 2],
+                    borderColor: '#6b8e23', backgroundColor: 'rgba(107,142,35,0.1)',
+                    tension: 0.3, fill: true, borderWidth: 2
+                },
+                {
+                    label: 'V (Violencia)',
+                    data: [3, 3, 3, 4, 3, 8, 9],
+                    borderColor: '#ffa500', backgroundColor: 'rgba(255,165,0,0.1)',
+                    tension: 0.3, fill: true, borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, max: 10, grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } }, title: { display: true, text: 'Intensidad (0-10)', color: getTextColor(), font: { size: 11 } } },
+                x: { grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } } }
+            },
+            plugins: {
+                legend: { labels: { color: getTextColor(), font: { size: 11, family: 'Inter' }, usePointStyle: true, pointStyle: 'circle' } },
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)' }
+            }
+        }
+    });
+
+    // ============ VIOLENCE CHART ============
+    const violCtx = document.getElementById('violenceChart').getContext('2d');
+    new Chart(violCtx, {
+        type: 'bar',
+        data: {
+            labels: ['1990', '1995', '2000', '2005', '2007', '2010', '2012', '2015', '2018', '2020', '2024'],
+            datasets: [{
+                label: 'Homicidios/100K',
+                data: [18, 17, 11, 10, 8, 22, 24, 20, 29, 28, 25.6],
+                backgroundColor: function(ctx) {
+                    return ctx.raw > 20 ? 'rgba(220,20,60,0.7)' : ctx.raw > 15 ? 'rgba(255,165,0,0.6)' : 'rgba(107,142,35,0.5)';
+                },
+                borderColor: function(ctx) {
+                    return ctx.raw > 20 ? '#dc143c' : ctx.raw > 15 ? '#ffa500' : '#6b8e23';
+                },
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } }, title: { display: true, text: 'por 100,000 hab.', color: getTextColor(), font: { size: 11 } } },
+                x: { grid: { display: false }, ticks: { color: getTextColor(), font: { size: 10 } } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)' }
+            }
+        }
+    });
+
+    // ============ TECH CHART ============
+    const techCtx = document.getElementById('techChart').getContext('2d');
+    new Chart(techCtx, {
+        type: 'line',
+        data: {
+            labels: ['1995', '2000', '2005', '2010', '2015', '2020', '2024'],
+            datasets: [{
+                label: '% población con internet',
+                data: [1, 5, 18, 34, 57, 72, 83],
+                borderColor: gold,
+                backgroundColor: goldDim,
+                tension: 0.4, fill: true, borderWidth: 2,
+                pointBackgroundColor: gold, pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, max: 100, grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 }, callback: v => v + '%' }, title: { display: true, text: '% población', color: getTextColor(), font: { size: 11 } } },
+                x: { grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } } }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)', callbacks: { label: ctx => ctx.raw + '% de la población' } }
+            }
+        }
+    });
+    </script>
 </body>
 </html>
