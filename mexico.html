@@ -1060,9 +1060,11 @@
     // ============ SIMULADOR (lazy init) ============
     let simChart = null;
     function initSim() {
+        try {
         if (simChart) return;
-        const simCtx = document.getElementById('simRadar').getContext('2d');
-        simChart = new Chart(simCtx, {
+        const simCtx = document.getElementById('simRadar');
+        if (!simCtx) return;
+        simChart = new Chart(simCtx.getContext('2d'), {
             type: 'radar',
             data: {
                 labels: dims,
@@ -1081,6 +1083,7 @@
             }
         });
         updateSim();
+        } catch(e) { console.error('Sim init error:', e); }
     }
 
     // Init sim when accordion opens
@@ -1124,6 +1127,7 @@
     updateSim();
 
     // ============ TIMELAPSE ============
+    try {
     const tlDecades = [
         { year:'1960', label:'Milagro mexicano. Crecimiento estable. PRI hegemónico. Televisa. Familias grandes.', data:[9,8,2,8,2,1,5,2], color:'#6b8e23' },
         { year:'1970', label:'Boom petrolero. Tlatelolco aún reciente. Urbanización acelerada.', data:[8,7,3,7,3,2,5,3], color:'#6b8e23' },
@@ -1192,6 +1196,7 @@
     }
 
     tlUpdate(0);
+    } catch(e) { console.error('Timelapse error:', e); }
 
     // ============ COMPARADOR ============
     const genProfiles = {
