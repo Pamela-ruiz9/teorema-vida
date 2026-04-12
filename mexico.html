@@ -640,6 +640,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
     <script src="js/main.js"></script>
     <script>
     // Colors
@@ -805,8 +806,15 @@
             },
             plugins: {
                 legend: { labels: { color: getTextColor(), font: { size: 11, family: 'Inter' }, usePointStyle: true, pointStyle: 'circle' } },
-                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)' }
-            }
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.95)', callbacks:{ afterTitle: ctx => {
+                    const notes = {'1980':'Crisis de deuda + inflación 159%','1990':'Tequilazo + NAFTA + Colosio','2000':'Alternancia: Fox (PAN)','2010':'Guerra narco plena','2020':'COVID + TikTok + IA'};
+                    return notes[ctx[0].label] || '';
+                }}},
+                annotation: { annotations: {
+                    crisis82: { type:'box', xMin:'1980', xMax:'1990', backgroundColor:'rgba(220,20,60,0.04)', borderWidth:0,
+                        label:{ display:true, content:'¿Década perdida', position:{x:'center',y:'start'}, color:'rgba(220,20,60,0.4)', font:{size:9} }
+                    }
+                }}
         }
     });
 
@@ -825,18 +833,29 @@
                 borderColor: function(ctx) {
                     return ctx.raw > 20 ? '#dc143c' : ctx.raw > 15 ? '#ffa500' : '#6b8e23';
                 },
-                borderWidth: 1
+                borderWidth: 1, borderRadius: 3
             }]
         },
         options: {
             responsive: true,
             scales: {
-                y: { beginAtZero: true, grid: { color: getGridColor() }, ticks: { color: getTextColor(), font: { size: 10 } }, title: { display: true, text: 'por 100,000 hab.', color: getTextColor(), font: { size: 11 } } },
-                x: { grid: { display: false }, ticks: { color: getTextColor(), font: { size: 10 } } }
+                y: { beginAtZero:true, max:35, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}}, title:{display:true, text:'por 100,000 hab.', color:getTextColor(), font:{size:11}} },
+                x: { grid:{display:false}, ticks:{color:getTextColor(), font:{size:10}} }
             },
             plugins: {
-                legend: { display: false },
-                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)' }
+                legend: { display:false },
+                tooltip: { backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ label: ctx => ctx.raw + ' homicidios por cada 100,000 habitantes', afterLabel: ctx => {
+                    const notes = {'2007':'Punto más bajo antes de la guerra','2010':'Calderón: guerra contra el narco','2018':'Récord histórico hasta entonces','2020':'Pandemia + violencia','2024':'33,241 homicidios — récord absoluto'};
+                    return notes[ctx.label] || '';
+                }}},
+                annotation: { annotations: {
+                    guerraNarco: { type:'line', xMin:'2007', xMax:'2007', borderColor:'rgba(196,163,90,0.5)', borderWidth:2, borderDash:[6,3],
+                        label:{ display:true, content:'Inicia guerra narco', position:'start', backgroundColor:'rgba(196,163,90,0.15)', color:'#c4a35a', font:{size:10, family:'Inter'} }
+                    },
+                    covid: { type:'line', xMin:'2020', xMax:'2020', borderColor:'rgba(255,255,255,0.2)', borderWidth:1, borderDash:[4,4],
+                        label:{ display:true, content:'COVID', position:'start', backgroundColor:'rgba(255,255,255,0.08)', color:'#888', font:{size:9, family:'Inter'} }
+                    }
+                }}
             }
         }
     });
@@ -864,7 +883,15 @@
             },
             plugins: {
                 legend: { display: false },
-                tooltip: { backgroundColor: 'rgba(10,10,10,0.9)', callbacks: { label: ctx => ctx.raw + '% de la población' } }
+                tooltip: { backgroundColor: 'rgba(10,10,10,0.95)', callbacks: { label: ctx => ctx.raw + '% de la población con internet' } },
+                annotation: { annotations: {
+                    fb: { type:'point', xValue:'2010', yValue:34, backgroundColor:'#4169e1', radius:6,
+                        label:{ display:true, content:'Facebook se masifica', position:'right', color:'#4169e1', font:{size:9}, backgroundColor:'transparent' }
+                    },
+                    wa: { type:'point', xValue:'2015', yValue:57, backgroundColor:'#25d366', radius:6,
+                        label:{ display:true, content:'WhatsApp estándar', position:'right', color:'#25d366', font:{size:9}, backgroundColor:'transparent' }
+                    }
+                }}
             }
         }
     });
