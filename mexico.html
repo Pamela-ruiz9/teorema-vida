@@ -1297,18 +1297,18 @@
 
         // Header
         ctx.fillStyle = '#888';
-        ctx.font = '13px Inter, sans-serif';
+        ctx.font = '16px Inter, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('La Vida que nos Tocó — Mi vector de sentido', 400, 45);
 
         // Generation name
         ctx.fillStyle = '#c4a35a';
-        ctx.font = 'bold 30px "Cormorant Garamond", Georgia, serif';
+        ctx.font = 'bold 36px "Cormorant Garamond", Georgia, serif';
         ctx.fillText(r.closest, 400, 85);
 
         // Narrative
         ctx.fillStyle = '#e0d8c8';
-        ctx.font = 'italic 18px "Cormorant Garamond", Georgia, serif';
+        ctx.font = 'italic 22px "Cormorant Garamond", Georgia, serif';
         ctx.fillText(r.narrative.replace(/[“”"]/g, ''), 400, 115);
 
         // Draw radar chart manually
@@ -1335,7 +1335,7 @@
 
         // Axis lines + labels
         ctx.fillStyle = '#999';
-        ctx.font = '12px Inter, sans-serif';
+        ctx.font = '14px Inter, sans-serif';
         ctx.textAlign = 'center';
         for (var i = 0; i < n; i++) {
             var angle = startAngle + i * angleStep;
@@ -1382,7 +1382,7 @@
 
         // Values next to points
         ctx.fillStyle = '#c4a35a';
-        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.font = 'bold 13px Inter, sans-serif';
         for (var i = 0; i < n; i++) {
             var angle = startAngle + i * angleStep;
             var val = r.vector[i] / 10;
@@ -1394,28 +1394,23 @@
         // Top 3 dims
         var topDims = r.vector.map(function(v, i) { return { name: dims[i], val: v }; }).sort(function(a, b) { return b.val - a.val; });
         ctx.fillStyle = '#888';
-        ctx.font = '13px Inter, sans-serif';
+        ctx.font = '16px Inter, sans-serif';
         ctx.fillText('⭐ ' + topDims.slice(0, 3).map(function(d) { return d.name + ' ' + d.val.toFixed(1); }).join('  ·  '), 400, 640);
-
-        // Variables
-        ctx.fillStyle = '#666';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.fillText('E:' + r.E.toFixed(1) + '  T:' + r.T.toFixed(1) + '  C:' + r.C.toFixed(1) + '  V:' + r.V.toFixed(1) + '  I:' + r.I.toFixed(1), 400, 665);
 
         // Divider
         ctx.strokeStyle = '#c4a35a44';
         ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(200, 690); ctx.lineTo(600, 690); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(200, 665); ctx.lineTo(600, 665); ctx.stroke();
 
         // CTA
         ctx.fillStyle = '#c4a35a';
-        ctx.font = '14px Inter, sans-serif';
-        ctx.fillText('Descubre tu vector → pamela-ruiz9.github.io/teorema-vida', 400, 720);
+        ctx.font = '17px Inter, sans-serif';
+        ctx.fillText('Descubre tu vector → pamela-ruiz9.github.io/teorema-vida', 400, 700);
 
         // Branding
         ctx.fillStyle = '#555';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.fillText('La Vida que nos Tocó — por Pame Ruiz', 400, 750);
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('La Vida que nos Tocó — por Pame Ruiz', 400, 735);
 
         // Download
         var link = document.createElement('a');
