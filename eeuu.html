@@ -194,7 +194,143 @@
         </div>
     </section>
 
-    <!-- GRÁFICAS (placeholder for push 3) -->
+    <!-- GRÁFICAS -->
+    <section style="padding:2rem 2rem 5rem;">
+        <div class="content fade-in" style="margin:0 auto; max-width:900px;">
+            <p class="small gold" style="margin-bottom:0.5rem;">Los datos</p>
+            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:2rem;">EE.UU. en números</h2>
+
+            <div style="margin-bottom:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Variables de régimen a través del tiempo</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Cómo cambiaron las fuerzas formativas en EE.UU. por década.</p>
+                <div style="max-width:700px; margin:0 auto;"><canvas id="usVarsChart"></canvas></div>
+            </div>
+
+            <div style="margin-bottom:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Confianza en el gobierno federal</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">% que confía en el gobierno “almost always or most of the time”. Fuente: Pew Research, 1958-2025.</p>
+                <div style="max-width:700px; margin:0 auto;"><canvas id="usTrustChart"></canvas></div>
+            </div>
+
+            <div>
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">Tasa de homicidios: el pico de los 80s y la caída</h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Homicidios por cada 100,000 habitantes. Fuente: FBI/CDC. 2025: 4.3/100K.</p>
+                <div style="max-width:700px; margin:0 auto;"><canvas id="usHomChart"></canvas></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+    <script>
+    function getTextColor() { return document.documentElement.getAttribute('data-theme') === 'light' ? '#333' : '#ccc'; }
+    function getGridColor() { return document.documentElement.getAttribute('data-theme') === 'light' ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.08)'; }
+    const gold = '#c4a35a', goldDim = 'rgba(196,163,90,0.15)';
+
+    // VARIABLES
+    try {
+    new Chart(document.getElementById('usVarsChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: ['1960','1970','1980','1990','2000','2010','2020','2025'],
+            datasets: [
+                { label:'E (Escasez)', data:[2,2,3,3,3,5,6,5], borderColor:'#dc143c', backgroundColor:'rgba(220,20,60,0.1)', tension:0.3, fill:true, borderWidth:2 },
+                { label:'T (Tecnología)', data:[1,2,3,4,6,8,9,10], borderColor:'#4169e1', backgroundColor:'rgba(65,105,225,0.1)', tension:0.3, fill:true, borderWidth:2 },
+                { label:'C (Confianza)', data:[8,6,4,4,4,3,2,2], borderColor:'#6b8e23', backgroundColor:'rgba(107,142,35,0.1)', tension:0.3, fill:true, borderWidth:2 },
+                { label:'V (Violencia)', data:[3,5,6,5,4,3,5,4], borderColor:'#ffa500', backgroundColor:'rgba(255,165,0,0.1)', tension:0.3, fill:true, borderWidth:2 }
+            ]
+        },
+        options: {
+            responsive:true,
+            scales: {
+                y: { beginAtZero:true, max:10, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}}, title:{display:true, text:'Intensidad (0-10)', color:getTextColor(), font:{size:11}} },
+                x: { grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}} }
+            },
+            plugins: {
+                legend: { labels:{color:getTextColor(), font:{size:11, family:'Inter'}, usePointStyle:true} },
+                tooltip: { backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ afterTitle: ctx => {
+                    const n = {'1970':'Vietnam + contracultura','1980':'Reagan + crack epidemic','2000':'Dot-com bust','2010':'Post-2008 recovery + smartphones','2020':'COVID + BLM + Jan 6','2025':'Trump 47, aranceles 145% China, guerra Irán'};
+                    return n[ctx[0].label] || '';
+                }}}
+            }
+        }
+    });
+    } catch(e) { console.error('US vars:', e); }
+
+    // TRUST
+    try {
+    new Chart(document.getElementById('usTrustChart').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: ['1958','1964','1970','1976','1980','1986','1994','2000','2001','2007','2010','2015','2020','2025'],
+            datasets: [{
+                label:'Confianza en gobierno (%)',
+                data: [73,77,54,36,25,47,21,42,55,24,22,19,20,22],
+                borderColor:gold, backgroundColor:goldDim,
+                tension:0.3, fill:true, borderWidth:2, pointRadius:4, pointBackgroundColor:gold
+            }]
+        },
+        options: {
+            responsive:true,
+            scales: {
+                y: { beginAtZero:true, max:80, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}, callback:v=>v+'%'}, title:{display:true, text:'% confianza', color:getTextColor(), font:{size:11}} },
+                x: { grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:9}, maxRotation:45} }
+            },
+            plugins: {
+                legend:{display:false},
+                tooltip: { backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ label:ctx=>ctx.raw+'% confía en el gobierno' } },
+                annotation: { annotations: {
+                    watergate: { type:'line', xMin:'1976', xMax:'1976', borderColor:'rgba(220,20,60,0.4)', borderWidth:1, borderDash:[4,3],
+                        label:{display:true, content:'Watergate', position:'start', color:'#dc143c', font:{size:9}, backgroundColor:'transparent'} },
+                    sep11: { type:'line', xMin:'2001', xMax:'2001', borderColor:'rgba(65,105,225,0.4)', borderWidth:1, borderDash:[4,3],
+                        label:{display:true, content:'9/11 rally', position:'start', color:'#4169e1', font:{size:9}, backgroundColor:'transparent'} },
+                    jan6: { type:'line', xMin:'2020', xMax:'2020', borderColor:'rgba(255,165,0,0.4)', borderWidth:1, borderDash:[4,3],
+                        label:{display:true, content:'COVID + Jan 6', position:'start', color:'#ffa500', font:{size:9}, backgroundColor:'transparent'} }
+                }}
+            }
+        }
+    });
+    } catch(e) { console.error('US trust:', e); }
+
+    // HOMICIDES
+    try {
+    new Chart(document.getElementById('usHomChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['1960','1970','1980','1990','2000','2010','2015','2020','2022','2025'],
+            datasets: [{
+                label:'Homicidios/100K',
+                data: [5,8,10,9,6,5,5,6.4,6.3,4.3],
+                backgroundColor: function(ctx) {
+                    return ctx.raw > 7 ? 'rgba(220,20,60,0.7)' : ctx.raw > 5.5 ? 'rgba(255,165,0,0.6)' : 'rgba(107,142,35,0.5)';
+                },
+                borderColor: function(ctx) {
+                    return ctx.raw > 7 ? '#dc143c' : ctx.raw > 5.5 ? '#ffa500' : '#6b8e23';
+                },
+                borderWidth:1, borderRadius:3
+            }]
+        },
+        options: {
+            responsive:true,
+            scales: {
+                y: { beginAtZero:true, max:12, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}}, title:{display:true, text:'por 100,000 hab.', color:getTextColor(), font:{size:11}} },
+                x: { grid:{display:false}, ticks:{color:getTextColor(), font:{size:10}} }
+            },
+            plugins: {
+                legend:{display:false},
+                tooltip: { backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ afterLabel:ctx => {
+                    const n = {'1980':'Crack epidemic peak','1990':'Aún alto pero bajando','2020':'COVID spike (+29% vs 2019)','2025':'4.3 — más bajo en décadas'};
+                    return n[ctx.label] || '';
+                }}},
+                annotation: { annotations: {
+                    crack: { type:'box', xMin:'1980', xMax:'1990', backgroundColor:'rgba(220,20,60,0.04)', borderWidth:0,
+                        label:{display:true, content:'Crack epidemic', position:{x:'center',y:'start'}, color:'rgba(220,20,60,0.4)', font:{size:9}} }
+                }}
+            }
+        }
+    });
+    } catch(e) { console.error('US hom:', e); }
+    </script>
 
     <!-- INSIGHTS (placeholder for push 4) -->
 
