@@ -205,6 +205,19 @@
                 <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Coeficiente de Gini por país (2022-2024). Más alto = más desigual. Fuente: World Bank.</p>
                 <div style="max-width:700px; margin:0 auto;"><canvas id="giniCompare"></canvas></div>
             </div>
+
+            <div style="margin-top:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">S: Confianza interpersonal <span style="color:var(--gold); font-size:0.8rem;">nueva</span></h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:0.5rem;">% que dice “se puede confiar en la mayoría de las personas”. Fuente: World Values Survey / IVS 2022.</p>
+                <p class="dim" style="font-size:0.8rem; margin-bottom:1.5rem; font-style:italic;">Nota: mide confianza en <em>extraños</em>, no en tu red cercana. México sale bajo (12%) pero la confianza en familia/vecinos es alta — el WVS no captura eso.</p>
+                <div style="max-width:700px; margin:0 auto;"><canvas id="trustInterChart"></canvas></div>
+            </div>
+
+            <div style="margin-top:3rem;">
+                <h3 style="font-family:var(--serif); font-size:1.2rem; font-weight:400; margin-bottom:0.5rem;">P: Presión de Performance (proxy: horas trabajadas) <span style="color:var(--gold); font-size:0.8rem;">nueva</span></h3>
+                <p class="dim" style="font-size:0.85rem; margin-bottom:1.5rem;">Horas trabajadas por año (2023). Más horas ≈ más presión de rendimiento. Fuente: OECD.</p>
+                <div style="max-width:700px; margin:0 auto;"><canvas id="hoursChart"></canvas></div>
+            </div>
         </div>
     </section>
 
@@ -313,6 +326,74 @@
         }
     });
     } catch(e) { console.error('gini compare:', e); }
+
+    // S: INTERPERSONAL TRUST
+    try {
+    new Chart(document.getElementById('trustInterChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Noruega','Suecia','Países Bajos','Alemania','Japón','EE.UU.','India','México','Brasil','Colombia','Nigeria','Turquía'],
+            datasets: [{
+                label: '% confianza interpersonal',
+                data: [73, 64, 58, 42, 39, 37, 23, 12, 7, 4, 8, 12],
+                backgroundColor: function(ctx) {
+                    return ctx.raw > 50 ? 'rgba(107,142,35,0.6)' : ctx.raw > 25 ? 'rgba(196,163,90,0.5)' : 'rgba(220,20,60,0.5)';
+                },
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive:true, indexAxis:'y',
+            scales: {
+                x: { beginAtZero:true, max:80, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}, callback:v=>v+'%'} },
+                y: { grid:{display:false}, ticks:{color:getTextColor(), font:{size:11}} }
+            },
+            plugins: {
+                legend:{display:false},
+                tooltip:{backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ afterLabel: ctx => {
+                    const notes = {'México':'Bajo en extraños, alto en familia/vecinos','Japón':'Alto en instituciones, bajo en personas','Colombia':'4% — el más bajo del mundo','Noruega':'73% — el más alto del mundo'};
+                    return notes[ctx.label] || '';
+                }}}
+            }
+        }
+    });
+    } catch(e) { console.error('trust inter:', e); }
+
+    // P: HOURS WORKED (proxy for Performance Pressure)
+    try {
+    new Chart(document.getElementById('hoursChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['México','Corea Sur','EE.UU.','Japón','Italia','UK','España','Francia','Noruega','Alemania'],
+            datasets: [{
+                label: 'Horas/año',
+                data: [2128, 1901, 1811, 1607, 1694, 1532, 1642, 1511, 1427, 1341],
+                backgroundColor: function(ctx) {
+                    return ctx.raw > 1900 ? 'rgba(220,20,60,0.6)' : ctx.raw > 1600 ? 'rgba(255,165,0,0.5)' : 'rgba(107,142,35,0.5)';
+                },
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive:true, indexAxis:'y',
+            scales: {
+                x: { beginAtZero:false, min:1200, max:2200, grid:{color:getGridColor()}, ticks:{color:getTextColor(), font:{size:10}} },
+                y: { grid:{display:false}, ticks:{color:getTextColor(), font:{size:11}} }
+            },
+            plugins: {
+                legend:{display:false},
+                tooltip:{backgroundColor:'rgba(10,10,10,0.95)', callbacks:{ afterLabel: ctx => {
+                    const notes = {'México':'#1 mundial OECD. P altísima pero S amortigua.','Corea Sur':'#2 OECD. P extrema, S baja. Hell Joseon.','Alemania':'1,341 hrs. P baja, S media, welfare state.','Noruega':'1,427 hrs. P baja, S alta, welfare state.'};
+                    return notes[ctx.label] || '';
+                }}},
+                annotation: { annotations: {
+                    mx: { type:'line', xMin:2128, xMax:2128, borderColor:'rgba(220,20,60,0.3)', borderWidth:1, borderDash:[4,4],
+                        label:{display:true, content:'México #1', position:'start', color:'#dc143c', font:{size:9}, backgroundColor:'transparent'} }
+                }}
+            }
+        }
+    });
+    } catch(e) { console.error('hours:', e); }
     </script>
     <!-- INSIGHTS GLOBALES -->
     <section style="padding:2rem 2rem 5rem;">
