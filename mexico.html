@@ -1114,12 +1114,13 @@
 
         // Calculate vector + education/urban bonuses
         const vec = calcVector(E, T, C, V, Iv);
-        const eb = (eduScore - 5) * 0.15;
-        const ub = (urbanScore - 5) * 0.1;
-        vec[5] = Math.min(10, Math.max(1, vec[5] + eb));     // Identidad
-        vec[6] = Math.min(10, Math.max(1, vec[6] + eb));     // Trascendencia
-        vec[4] = Math.min(10, Math.max(1, vec[4] + eb*0.5 + ub)); // Experiencia
-        vec[5] = Math.min(10, Math.max(1, vec[5] + ub));     // Identidad (urban too)
+        const eb = (eduScore - 5) * 0.3;  // educación: doble peso (posgrado = +1.2)
+        const ub = (urbanScore - 5) * 0.15; // urbanización: más peso
+        const ib = Math.max(0, (5 - incomeScore)) * 0.2; // ingreso medio+ sube Trascendencia
+        vec[5] = Math.min(10, Math.max(1, vec[5] + eb + ub*0.5));     // Identidad: edu + urban
+        vec[6] = Math.min(10, Math.max(1, vec[6] + eb + ib));         // Trascendencia: edu + ingreso
+        vec[4] = Math.min(10, Math.max(1, vec[4] + eb*0.5 + ub));     // Experiencia: edu + urban
+        vec[3] = Math.min(10, Math.max(1, vec[3] + ub*0.5));          // Afiliación: urban
         const vector = vec.map(v => Math.round(v*10)/10);
 
         // Find closest generation
@@ -1138,7 +1139,7 @@
             else if (birthYear>=1997 && birthYear<=2012) expected = 'Generación de la Saturación';
             if (expected && expected !== closest) {
                 const ed = GP[expected].data.reduce((s,v,i) => s + (v-vector[i])**2, 0);
-                if (ed <= minDist * 1.4) closest = expected;
+                if (ed <= minDist * 1.8) closest = expected;
             }
         }
 
