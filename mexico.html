@@ -1283,80 +1283,143 @@
     function generateShareCard() {
         var r = window._quizResult; if (!r) return;
         var canvas = document.createElement('canvas');
-        canvas.width = 600; canvas.height = 315;
+        canvas.width = 800; canvas.height = 800;
         var ctx = canvas.getContext('2d');
 
         // Background
-        ctx.fillStyle = '#1a1a1a';
-        ctx.fillRect(0, 0, 600, 315);
+        ctx.fillStyle = '#0a0a0a';
+        ctx.fillRect(0, 0, 800, 800);
 
-        // Subtle border
+        // Subtle gold border
         ctx.strokeStyle = '#c4a35a';
         ctx.lineWidth = 2;
-        ctx.strokeRect(8, 8, 584, 299);
+        ctx.strokeRect(10, 10, 780, 780);
 
-        // Corner accents
-        ctx.fillStyle = '#c4a35a';
-        ctx.fillRect(8, 8, 40, 3);
-        ctx.fillRect(8, 8, 3, 40);
-        ctx.fillRect(552, 8, 40, 3);
-        ctx.fillRect(589, 8, 3, 40);
-        ctx.fillRect(8, 304, 40, 3);
-        ctx.fillRect(8, 267, 3, 40);
-        ctx.fillRect(552, 304, 40, 3);
-        ctx.fillRect(589, 267, 3, 40);
-
-        // Header label
+        // Header
         ctx.fillStyle = '#888';
-        ctx.font = '12px Inter, sans-serif';
+        ctx.font = '13px Inter, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('Teorema de Vida — Mi resultado', 300, 45);
+        ctx.fillText('La Vida que nos Tocó — Mi vector de sentido', 400, 45);
 
-        // Generation name in gold
+        // Generation name
         ctx.fillStyle = '#c4a35a';
-        ctx.font = 'bold 28px "Cormorant Garamond", Georgia, serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(r.closest, 300, 95);
+        ctx.font = 'bold 30px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText(r.closest, 400, 85);
 
-        // Narrative in italic
+        // Narrative
         ctx.fillStyle = '#e0d8c8';
-        ctx.font = 'italic 17px "Cormorant Garamond", Georgia, serif';
-        var narrative = r.narrative.replace(/[“”"]/g, '');
-        var words = narrative.split(' ');
-        var lines = []; var currentLine = '';
-        words.forEach(function(word) {
-            var test = currentLine ? currentLine + ' ' + word : word;
-            if (ctx.measureText(test).width > 480) {
-                lines.push(currentLine); currentLine = word;
-            } else { currentLine = test; }
-        });
-        if (currentLine) lines.push(currentLine);
-        var startY = 135;
-        lines.forEach(function(line, i) {
-            ctx.fillText(line, 300, startY + i * 24);
+        ctx.font = 'italic 18px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText(r.narrative.replace(/[“”"]/g, ''), 400, 115);
+
+        // Draw radar chart manually
+        var centerX = 400, centerY = 380, radius = 200;
+        var dims = ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
+        var n = dims.length;
+        var angleStep = (Math.PI * 2) / n;
+        var startAngle = -Math.PI / 2;
+
+        // Grid circles
+        [2,4,6,8,10].forEach(function(level) {
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.lineWidth = 1;
+            for (var i = 0; i <= n; i++) {
+                var angle = startAngle + i * angleStep;
+                var r2 = (level / 10) * radius;
+                var x = centerX + r2 * Math.cos(angle);
+                var y = centerY + r2 * Math.sin(angle);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
         });
 
-        // Divider line
-        var divY = startY + lines.length * 24 + 15;
-        ctx.strokeStyle = '#c4a35a44';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(150, divY); ctx.lineTo(450, divY); ctx.stroke();
-
-        // Top dimensions
-        var topDims = r.vector.map(function(v, i) { return { name: r.dn[i], val: v }; }).sort(function(a, b) { return b.val - a.val; });
+        // Axis lines + labels
         ctx.fillStyle = '#999';
         ctx.font = '12px Inter, sans-serif';
-        var dimsText = '⭐ ' + topDims.slice(0, 3).map(function(d) { return d.name + ' ' + d.val.toFixed(1); }).join('  ·  ');
-        ctx.fillText(dimsText, 300, divY + 25);
+        ctx.textAlign = 'center';
+        for (var i = 0; i < n; i++) {
+            var angle = startAngle + i * angleStep;
+            var x1 = centerX + radius * Math.cos(angle);
+            var y1 = centerY + radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(x1, y1);
+            ctx.stroke();
+            // Label
+            var lx = centerX + (radius + 25) * Math.cos(angle);
+            var ly = centerY + (radius + 25) * Math.sin(angle);
+            ctx.fillText(dims[i], lx, ly + 4);
+        }
+
+        // Data polygon (filled)
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(196,163,90,0.2)';
+        ctx.strokeStyle = '#c4a35a';
+        ctx.lineWidth = 2.5;
+        for (var i = 0; i < n; i++) {
+            var angle = startAngle + i * angleStep;
+            var val = r.vector[i] / 10;
+            var x = centerX + val * radius * Math.cos(angle);
+            var y = centerY + val * radius * Math.sin(angle);
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Data points
+        ctx.fillStyle = '#c4a35a';
+        for (var i = 0; i < n; i++) {
+            var angle = startAngle + i * angleStep;
+            var val = r.vector[i] / 10;
+            var x = centerX + val * radius * Math.cos(angle);
+            var y = centerY + val * radius * Math.sin(angle);
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Values next to points
+        ctx.fillStyle = '#c4a35a';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        for (var i = 0; i < n; i++) {
+            var angle = startAngle + i * angleStep;
+            var val = r.vector[i] / 10;
+            var x = centerX + (val * radius + 15) * Math.cos(angle);
+            var y = centerY + (val * radius + 15) * Math.sin(angle);
+            ctx.fillText(r.vector[i].toFixed(1), x, y + 4);
+        }
+
+        // Top 3 dims
+        var topDims = r.vector.map(function(v, i) { return { name: dims[i], val: v }; }).sort(function(a, b) { return b.val - a.val; });
+        ctx.fillStyle = '#888';
+        ctx.font = '13px Inter, sans-serif';
+        ctx.fillText('⭐ ' + topDims.slice(0, 3).map(function(d) { return d.name + ' ' + d.val.toFixed(1); }).join('  ·  '), 400, 640);
+
+        // Variables
+        ctx.fillStyle = '#666';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.fillText('E:' + r.E.toFixed(1) + '  T:' + r.T.toFixed(1) + '  C:' + r.C.toFixed(1) + '  V:' + r.V.toFixed(1) + '  I:' + r.I.toFixed(1), 400, 665);
+
+        // Divider
+        ctx.strokeStyle = '#c4a35a44';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(200, 690); ctx.lineTo(600, 690); ctx.stroke();
 
         // CTA
         ctx.fillStyle = '#c4a35a';
-        ctx.font = '13px Inter, sans-serif';
-        ctx.fillText('Descubre tu generación → pamela-ruiz9.github.io/teorema-vida/mexico.html#quiz', 300, 290);
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('Descubre tu vector → pamela-ruiz9.github.io/teorema-vida', 400, 720);
+
+        // Branding
+        ctx.fillStyle = '#555';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.fillText('La Vida que nos Tocó — por Pame Ruiz', 400, 750);
 
         // Download
         var link = document.createElement('a');
-        link.download = 'mi-generacion-mx.png';
+        link.download = 'mi-vector-generacional.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     }
