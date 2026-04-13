@@ -411,6 +411,13 @@
                     <canvas id="resultRadar"></canvas>
                 </div>
                 <div id="result-detail" style="margin-top:2rem; font-size:0.9rem; color:var(--text-dim);"></div>
+
+                <!-- Y AHORA QUÉ section -->
+                <div id="result-so-what" style="display:none; margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--card-border);">
+                    <h4 style="font-family:var(--serif); font-size:1.3rem; text-align:center; margin-bottom:1.5rem; color:var(--text);">¿Y esto qué significa?</h4>
+                    <div id="so-what-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1rem;"></div>
+                </div>
+
                 <div style="text-align:center; margin-top:2rem;">
                     <button onclick="resetQuiz()" class="gen-tag high" style="cursor:pointer; border:none; padding:0.5rem 1.5rem; font-size:0.85rem;">Volver a hacer el quiz</button>
                 </div>
@@ -421,6 +428,11 @@
                     <button onclick="shareResult('twitter')" style="padding:0.4rem 1rem; background:#1DA1F2; color:white; border:none; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">Twitter</button>
                     <button onclick="shareResult('facebook')" style="padding:0.4rem 1rem; background:#1877F2; color:white; border:none; border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">Facebook</button>
                     <button onclick="shareResult('copy')" style="padding:0.4rem 1rem; background:var(--card-bg); color:var(--text); border:1px solid var(--card-border); border-radius:4px; cursor:pointer; font-family:var(--sans); font-size:0.8rem;">Copiar enlace</button>
+                </div>
+                <!-- Canvas share & WhatsApp copy -->
+                <div id="canvas-share-buttons" style="display:none; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-top:1rem; padding-top:1rem;">
+                    <button onclick="generateShareCard()" style="padding:0.5rem 1.2rem; background:linear-gradient(135deg, #c4a35a, #a8893e); color:#1a1a1a; border:none; border-radius:6px; cursor:pointer; font-family:var(--sans); font-size:0.85rem; font-weight:600; transition:transform 0.15s;">📸 Compartir mi resultado</button>
+                    <button id="btn-copy-wa" onclick="copyForWhatsApp()" style="padding:0.5rem 1.2rem; background:#25D366; color:white; border:none; border-radius:6px; cursor:pointer; font-family:var(--sans); font-size:0.85rem; font-weight:600; transition:transform 0.15s;">📋 Copiar para WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -1130,6 +1142,8 @@
             }
         });
         document.getElementById('share-buttons').style.display = 'flex';
+        document.getElementById('canvas-share-buttons').style.display = 'flex';
+        populateSoWhat(closest);
     }
 
     // Share functionality
@@ -1157,9 +1171,160 @@
         document.getElementById('quiz-container').style.display = 'block';
         document.getElementById('quiz-results').style.display = 'none';
         document.getElementById('share-buttons').style.display = 'none';
+        document.getElementById('canvas-share-buttons').style.display = 'none';
+        document.getElementById('result-so-what').style.display = 'none';
         var rc = document.getElementById('resultRadar');
         var ex = Chart.getChart(rc); if (ex) ex.destroy();
         renderQuestion();
+    }
+
+    // ============ SHAREABLE CARD & WHATSAPP COPY ============
+    function generateShareCard() {
+        var r = window._quizResult; if (!r) return;
+        var canvas = document.createElement('canvas');
+        canvas.width = 600; canvas.height = 315;
+        var ctx = canvas.getContext('2d');
+
+        // Background
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, 0, 600, 315);
+
+        // Subtle border
+        ctx.strokeStyle = '#c4a35a';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(8, 8, 584, 299);
+
+        // Corner accents
+        ctx.fillStyle = '#c4a35a';
+        ctx.fillRect(8, 8, 40, 3);
+        ctx.fillRect(8, 8, 3, 40);
+        ctx.fillRect(552, 8, 40, 3);
+        ctx.fillRect(589, 8, 3, 40);
+        ctx.fillRect(8, 304, 40, 3);
+        ctx.fillRect(8, 267, 3, 40);
+        ctx.fillRect(552, 304, 40, 3);
+        ctx.fillRect(589, 267, 3, 40);
+
+        // Header label
+        ctx.fillStyle = '#888';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Teorema de Vida — Mi resultado', 300, 45);
+
+        // Generation name in gold
+        ctx.fillStyle = '#c4a35a';
+        ctx.font = 'bold 28px "Cormorant Garamond", Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(r.closest, 300, 95);
+
+        // Narrative in italic
+        ctx.fillStyle = '#e0d8c8';
+        ctx.font = 'italic 17px "Cormorant Garamond", Georgia, serif';
+        var narrative = r.narrative.replace(/[“”"]/g, '');
+        var words = narrative.split(' ');
+        var lines = []; var currentLine = '';
+        words.forEach(function(word) {
+            var test = currentLine ? currentLine + ' ' + word : word;
+            if (ctx.measureText(test).width > 480) {
+                lines.push(currentLine); currentLine = word;
+            } else { currentLine = test; }
+        });
+        if (currentLine) lines.push(currentLine);
+        var startY = 135;
+        lines.forEach(function(line, i) {
+            ctx.fillText(line, 300, startY + i * 24);
+        });
+
+        // Divider line
+        var divY = startY + lines.length * 24 + 15;
+        ctx.strokeStyle = '#c4a35a44';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(150, divY); ctx.lineTo(450, divY); ctx.stroke();
+
+        // Top dimensions
+        var topDims = r.vector.map(function(v, i) { return { name: r.dn[i], val: v }; }).sort(function(a, b) { return b.val - a.val; });
+        ctx.fillStyle = '#999';
+        ctx.font = '12px Inter, sans-serif';
+        var dimsText = '⭐ ' + topDims.slice(0, 3).map(function(d) { return d.name + ' ' + d.val.toFixed(1); }).join('  ·  ');
+        ctx.fillText(dimsText, 300, divY + 25);
+
+        // CTA
+        ctx.fillStyle = '#c4a35a';
+        ctx.font = '13px Inter, sans-serif';
+        ctx.fillText('Descubre tu generación → pamela-ruiz9.github.io/teorema-vida/mexico.html#quiz', 300, 290);
+
+        // Download
+        var link = document.createElement('a');
+        link.download = 'mi-generacion-mx.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    }
+
+    function copyForWhatsApp() {
+        var r = window._quizResult; if (!r) return;
+        var text = 'Según el Teorema de Vida, soy de la ' + r.closest + '. ' + r.narrative + '\nDescubre tu perfil 👉 https://pamela-ruiz9.github.io/teorema-vida/mexico.html#quiz';
+        navigator.clipboard.writeText(text).then(function() {
+            var btn = document.getElementById('btn-copy-wa');
+            if (btn) { var orig = btn.textContent; btn.textContent = '✓ ¡Copiado!'; setTimeout(function() { btn.textContent = orig; }, 2500); }
+        });
+    }
+
+    // ============ Y AHORA QUÉ ============
+    function populateSoWhat(genName) {
+        var soWhatData = {
+            'Generación del Milagro': {
+                shaped: 'Creciste en un México donde el sistema parecía funcionar. El PRI gobernaba, la economía crecía, y el esfuerzo individual tenía recompensa visible. Esa estabilidad te formó.',
+                strengths: 'Disciplina, lealtad institucional, capacidad de construir a largo plazo. Sabes trabajar dentro de estructuras y generar resultados sostenidos.',
+                challenge: 'El mundo que te formó ya no existe. Tu reto es soltar la expectativa de que "así deberían ser las cosas" y entender que las generaciones que te siguen no son indisciplinadas — enfrentan reglas distintas.',
+                icon_shaped: '🏛️',
+                icon_strengths: '💪',
+                icon_challenge: '🌉'
+            },
+            'Generación de las Crisis': {
+                shaped: 'Devaluaciones, inflación de tres dígitos, crisis tras crisis. Aprendiste que no puedes confiar en el sistema — solo en ti mismo. Eso te hizo resiliente, pero también desconfiado.',
+                strengths: 'Autonomía radical, adaptabilidad, pragmatismo. Cuando todo se cae, tú sigues de pie. Sabes improvisar y sobrevivir con lo que hay.',
+                challenge: 'La desconfianza que te protegió también te aísla. Tu reto es aprender a construir en colectivo sin sentir que te van a traicionar. No todo es supervivencia.',
+                icon_shaped: '🌪️',
+                icon_strengths: '🛡️',
+                icon_challenge: '🤝'
+            },
+            'Generación de la Transición': {
+                shaped: 'Viste caer al PRI, llegar la democracia, explotar el internet. Todo parecía posible. Pero también viste que la alternancia no cambió tanto, que los sueños se tardan, que el narco creció.',
+                strengths: 'Búsqueda de sentido, creatividad, pensamiento crítico. No te conformas con "porque sí". Buscas que tu vida tenga propósito y cuestionas lo establecido.',
+                challenge: 'La parálisis del significado. Quieres que todo tenga sentido, y eso a veces te impide actuar. Tu reto es aceptar que el sentido se construye caminando, no esperando a verlo claro.',
+                icon_shaped: '🔄',
+                icon_strengths: '💡',
+                icon_challenge: '🎯'
+            },
+            'Generación de la Saturación': {
+                shaped: 'Naciste con internet. Nunca conociste un México sin narco, sin crisis, sin redes sociales. La saturación informativa es tu estado natural. COVID te golpeó en plena formación.',
+                strengths: 'Adaptabilidad digital, conciencia social, capacidad de procesar complejidad. Ves el mundo con menos filtros que cualquier generación anterior.',
+                challenge: 'La sobrecarga te desensibiliza. Tu reto es pasar de la conciencia a la acción, de saber que todo está mal a elegir qué puedes cambiar. Menos scroll, más construcción.',
+                icon_shaped: '📱',
+                icon_strengths: '🌐',
+                icon_challenge: '🏗️'
+            }
+        };
+
+        var data = soWhatData[genName];
+        if (!data) { document.getElementById('result-so-what').style.display = 'none'; return; }
+
+        var cardsHtml = '';
+        var cards = [
+            { title: 'Lo que te formó', icon: data.icon_shaped, text: data.shaped },
+            { title: 'Tu fortaleza', icon: data.icon_strengths, text: data.strengths },
+            { title: 'Tu desafío', icon: data.icon_challenge, text: data.challenge }
+        ];
+        cards.forEach(function(card) {
+            cardsHtml += '<div style="background:var(--card-bg); border:1px solid var(--card-border); border-radius:8px; padding:1.2rem; transition:transform 0.2s;">' +
+                '<div style="font-size:1.5rem; margin-bottom:0.5rem;">' + card.icon + '</div>' +
+                '<h5 style="font-family:var(--serif); font-size:1rem; color:var(--gold); margin-bottom:0.5rem;">' + card.title + '</h5>' +
+                '<p style="font-size:0.85rem; color:var(--text-dim); line-height:1.5;">' + card.text + '</p>' +
+                '</div>';
+        });
+
+        document.getElementById('so-what-cards').innerHTML = cardsHtml;
+        document.getElementById('result-so-what').style.display = 'block';
     }
 
     renderQuestion();
