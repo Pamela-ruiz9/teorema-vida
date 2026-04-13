@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { width:1080px; height:1080px; background:#0a0a0a; color:#f0ece4; font-family:'Inter',sans-serif; overflow:hidden; }
+        .post { width:1080px; height:1080px; padding:60px; display:flex; flex-direction:column; justify-content:space-between; }
+        .header { text-align:center; }
+        .eyebrow { font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#c4a35a; margin-bottom:12px; }
+        .title { font-family:'Cormorant Garamond',Georgia,serif; font-size:42px; font-weight:300; line-height:1.2; margin-bottom:8px; }
+        .subtitle { font-size:18px; color:#888; }
+        .gold { color:#c4a35a; }
+        .chart-area { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 0; }
+        .insight { text-align:center; padding:20px 40px; border-top:1px solid rgba(196,163,90,0.2); }
+        .insight-text { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:24px; color:#c4a35a; line-height:1.4; }
+        .footer { display:flex; justify-content:space-between; align-items:center; padding-top:15px; border-top:1px solid rgba(255,255,255,0.05); }
+        .source { font-size:11px; color:#555; }
+        .brand { font-size:13px; color:#c4a35a; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- POST 2: CONFIANZA -->
+<div class="post">
+    <div class="header">
+        <div class="eyebrow">La Vida que nos Tocó</div>
+        <div class="title">La confianza que <span class="gold">nunca tuvimos</span></div>
+        <div class="subtitle">% que confía en el gobierno · EE.UU. vs México</div>
+    </div>
+    <div class="chart-area">
+        <canvas id="chart2" width="900" height="420"></canvas>
+    </div>
+    <div class="insight">
+        <div class="insight-text">"Perder algo que tenías duele diferente<br>a nunca haberlo tenido."</div>
+    </div>
+    <div class="footer">
+        <div class="source">Fuente: Pew Research Center (EE.UU.) · Latinobarómetro (MX) · 1958-2025</div>
+        <div class="brand">lavidaquenostoco.mx</div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script>
+new Chart(document.getElementById('chart2').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: ['1960','1970','1980','1990','2000','2010','2020','2025'],
+        datasets: [
+            { label:'EE.UU.', data:[73,54,25,35,42,22,20,22], borderColor:'#4169e1', backgroundColor:'rgba(65,105,225,0.1)', tension:0.3, fill:true, borderWidth:3, pointRadius:5, pointBackgroundColor:'#4169e1' },
+            { label:'México', data:[null,null,null,30,35,28,25,28], borderColor:'#c4a35a', backgroundColor:'rgba(196,163,90,0.1)', tension:0.3, fill:true, borderWidth:3, pointRadius:5, pointBackgroundColor:'#c4a35a' }
+        ]
+    },
+    options: {
+        responsive:true, maintainAspectRatio:false,
+        scales: {
+            y: { beginAtZero:true, max:80, grid:{color:'rgba(255,255,255,0.05)'}, ticks:{color:'#888', font:{size:14}, callback:v=>v+'%'} },
+            x: { grid:{color:'rgba(255,255,255,0.03)'}, ticks:{color:'#888', font:{size:13}} }
+        },
+        plugins: { legend:{labels:{color:'#ccc', font:{size:14}, usePointStyle:true}}, tooltip:{backgroundColor:'rgba(10,10,10,0.95)'} }
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { width:1080px; height:1080px; background:#0a0a0a; color:#f0ece4; font-family:'Inter',sans-serif; overflow:hidden; }
+        .post { width:1080px; height:1080px; padding:60px; display:flex; flex-direction:column; justify-content:space-between; }
+        .header { text-align:center; }
+        .eyebrow { font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#c4a35a; margin-bottom:12px; }
+        .title { font-family:'Cormorant Garamond',Georgia,serif; font-size:40px; font-weight:300; line-height:1.2; margin-bottom:8px; }
+        .subtitle { font-size:18px; color:#888; }
+        .gold { color:#c4a35a; }
+        .stats { display:grid; grid-template-columns:1fr 1fr; gap:30px; padding:30px 0; }
+        .stat { text-align:center; padding:30px; border:1px solid rgba(196,163,90,0.15); border-radius:12px; }
+        .stat-num { font-family:'Cormorant Garamond',serif; font-size:64px; color:#c4a35a; line-height:1; }
+        .stat-label { font-size:14px; color:#888; margin-top:8px; line-height:1.4; }
+        .stat-note { font-size:11px; color:#555; margin-top:4px; }
+        .insight { text-align:center; padding:25px 40px; border-top:1px solid rgba(196,163,90,0.2); }
+        .insight-text { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:24px; color:#c4a35a; line-height:1.4; }
+        .footer { display:flex; justify-content:space-between; align-items:center; padding-top:15px; border-top:1px solid rgba(255,255,255,0.05); }
+        .source { font-size:11px; color:#555; }
+        .brand { font-size:13px; color:#c4a35a; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- POST 3: CRISIS CADA 7 AÑOS -->
+<div class="post">
+    <div class="header">
+        <div class="eyebrow">La Vida que nos Tocó</div>
+        <div class="title">Una crisis económica<br>cada <span class="gold">7 años</span></div>
+        <div class="subtitle">México desde 1976</div>
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-num">7</div>
+            <div class="stat-label">crisis económicas<br>desde 1976</div>
+            <div class="stat-note">76 · 82 · 87 · 94 · 01 · 08 · 20</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">55%</div>
+            <div class="stat-label">trabaja en la<br>informalidad</div>
+            <div class="stat-note">Sin seguro, sin Afore, sin red</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">0.4%</div>
+            <div class="stat-label">crecimiento PIB<br>2025</div>
+            <div class="stat-note">Banxico · Estancamiento</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">39.1</div>
+            <div class="stat-label">coeficiente Gini<br>2024</div>
+            <div class="stat-note">Mínimo histórico · ENIGH</div>
+        </div>
+    </div>
+    <div class="insight">
+        <div class="insight-text">"La escasez en México no es episódica.<br>Es crónica."</div>
+    </div>
+    <div class="footer">
+        <div class="source">Fuentes: Banxico · INEGI · ENIGH 2024 · World Bank</div>
+        <div class="brand">lavidaquenostoco.mx</div>
+    </div>
+</div>
+</body>
+</html>
