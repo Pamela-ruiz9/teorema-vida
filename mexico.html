@@ -1298,18 +1298,24 @@
 
         // Header
         ctx.fillStyle = '#888';
-        ctx.font = '16px Inter, sans-serif';
+        ctx.font = '14px Inter, sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText('La Vida que nos Tocó — Mi vector de sentido', 400, 45);
+        ctx.fillText('La Vida que nos Tocó', 400, 40);
+
+        // Generation emoji
+        var genEmojis = {'Generación del Milagro':'🌅','Generación de las Crisis':'⚡','Generación de la Transición':'🌊','Generación de la Saturación':'📱'};
+        var emoji = genEmojis[r.closest] || '🌙';
+        ctx.font = '40px serif';
+        ctx.fillText(emoji, 400, 85);
 
         // Generation name
         ctx.fillStyle = '#c4a35a';
-        ctx.font = 'bold 36px "Cormorant Garamond", Georgia, serif';
-        ctx.fillText(r.closest, 400, 85);
+        ctx.font = 'bold 32px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText(r.closest, 400, 120);
 
         // Narrative
         ctx.fillStyle = '#e0d8c8';
-        ctx.font = 'italic 22px "Cormorant Garamond", Georgia, serif';
+        ctx.font = 'italic 20px "Cormorant Garamond", Georgia, serif';
         ctx.fillText(r.narrative.replace(/[“”"]/g, ''), 400, 115);
 
         // Draw radar chart manually
@@ -1403,10 +1409,24 @@
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.moveTo(200, 665); ctx.lineTo(600, 665); ctx.stroke();
 
+        // Reflexive question
+        var genQuestions = {
+            'Generación del Milagro': '¿Qué de lo que valoras es tuyo — y qué es inercia del sistema?',
+            'Generación de las Crisis': '¿Tu escepticismo te protege o te aísla?',
+            'Generación de la Transición': '¿El sentido que buscas es tuyo o respuesta a lo que NO tuvieron tus padres?',
+            'Generación de la Saturación': '¿Tu adaptabilidad es libertad o nunca te dejaron echar raíces?'
+        };
+        var question = genQuestions[r.closest] || '';
+        if (question) {
+            ctx.fillStyle = '#c4a35a';
+            ctx.font = 'italic 16px "Cormorant Garamond", Georgia, serif';
+            ctx.fillText(question, 400, 685);
+        }
+
         // CTA
-        ctx.fillStyle = '#c4a35a';
-        ctx.font = '17px Inter, sans-serif';
-        ctx.fillText('Descubre tu vector → pamela-ruiz9.github.io/teorema-vida', 400, 700);
+        ctx.fillStyle = '#888';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('Descubre tu vector → pamela-ruiz9.github.io/teorema-vida', 400, 720);
 
         // Branding
         ctx.fillStyle = '#555';
