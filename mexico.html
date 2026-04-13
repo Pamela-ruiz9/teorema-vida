@@ -495,7 +495,8 @@
         <div class="content fade-in" style="margin:0 auto; max-width:800px;">
             <p class="small gold" style="margin-bottom:0.5rem;">Experimento</p>
             <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:0.5rem;">Modo Cultural</h2>
-            <p class="dim" style="font-size:0.85rem; margin-bottom:2rem;">Selecciona un fenómeno cultural y ve qué dimensiones del sentido activa y qué generación lo amplifica.</p>
+            <p class="dim" style="font-size:0.85rem; margin-bottom:1rem;">Selecciona un fenómeno cultural y ve qué dimensiones del sentido activa y qué generación lo amplifica.</p>
+            <p class="dim" style="font-size:0.8rem; margin-bottom:2rem; padding:0.8rem; border:1px solid rgba(196,163,90,0.15); border-radius:6px;">💡 <strong style="color:var(--gold);">Variable emergente P:</strong> Varios de estos fenómenos son síntomas o reacciones a la <em>Presión de Performance</em> (P ≈ T·0.3 + I·0.4 + E·0.2). Donde P es alta, aparecen válvulas de escape. Donde S (tejido social) amortigua P, la reacción es diferente. Busca el indicador <span style="color:var(--gold);">P↑</span> en los resultados.</p>
 
             <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:2rem;" id="culture-buttons"></div>
 
@@ -1736,6 +1737,10 @@
         document.getElementById('culture-name').textContent = ev.name;
         document.getElementById('culture-desc').textContent = ev.desc;
 
+        // Check if P-related
+        const pRelated = ['TikTok','ChatGPT','K-Pop','Mindfulness','OnlyFans','Tang Ping','COVID'].some(k => ev.name.includes(k));
+        const sRelated = ['Terremoto','Otis','Gaming','Gaza'].some(k => ev.name.includes(k));
+
         // Dimensions
         let dimsHtml = '';
         ev.dims.forEach(d => {
@@ -1755,11 +1760,17 @@
         });
         document.getElementById('culture-dims').innerHTML = dimsHtml;
 
-        // Generation
-        document.getElementById('culture-gen').innerHTML = `
+        // Generation + P/S indicators
+        let genHtml = `
             <p style="font-family:var(--serif); font-size:1.1rem; color:var(--text); margin-bottom:0.3rem;">Gen. de la ${ev.gen}</p>
-            <p style="font-size:0.85rem; color:var(--text-dim);">${ev.genWhy}</p>
-        `;
+            <p style="font-size:0.85rem; color:var(--text-dim);">${ev.genWhy}</p>`;
+        if (pRelated || sRelated) {
+            genHtml += '<div style="display:flex; gap:0.4rem; margin-top:0.8rem;">';
+            if (pRelated) genHtml += '<span class="gen-tag high" style="font-size:0.7rem;">P↑ Presión de Performance</span>';
+            if (sRelated) genHtml += '<span class="gen-tag high" style="font-size:0.7rem;">S↑ Tejido Social</span>';
+            genHtml += '</div>';
+        }
+        document.getElementById('culture-gen').innerHTML = genHtml;
 
         // Insight
         document.getElementById('culture-insight').textContent = ev.insight;
