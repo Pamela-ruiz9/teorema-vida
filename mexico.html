@@ -475,6 +475,38 @@
         </div>
     </section>
 
+    <!-- MODO CULTURAL -->
+    <section style="padding:2rem 2rem 5rem;">
+        <div class="content fade-in" style="margin:0 auto; max-width:800px;">
+            <p class="small gold" style="margin-bottom:0.5rem;">Experimento</p>
+            <h2 style="font-size:clamp(1.3rem,3vw,1.8rem); margin-bottom:0.5rem;">Modo Cultural</h2>
+            <p class="dim" style="font-size:0.85rem; margin-bottom:2rem;">Selecciona un fenómeno cultural y ve qué dimensiones del sentido activa y qué generación lo amplifica.</p>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin-bottom:2rem;" id="culture-buttons"></div>
+
+            <div id="culture-result" style="display:none;">
+                <div style="text-align:center; margin-bottom:1.5rem;">
+                    <span id="culture-emoji" style="font-size:3rem;"></span>
+                    <h3 id="culture-name" style="font-family:var(--serif); font-size:1.5rem; font-weight:400; margin-top:0.5rem;"></h3>
+                    <p id="culture-desc" style="font-size:0.9rem; color:var(--text-dim); margin-top:0.5rem;"></p>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;">
+                    <div>
+                        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.8rem;">Dimensiones que activa</p>
+                        <div id="culture-dims"></div>
+                    </div>
+                    <div>
+                        <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); margin-bottom:0.8rem;">Generación que lo amplifica</p>
+                        <div id="culture-gen" style="padding:1rem; border:1px solid var(--card-border); border-radius:8px;"></div>
+                    </div>
+                </div>
+
+                <div id="culture-insight" style="margin-top:1.5rem; padding:1.2rem; border-left:3px solid var(--gold); font-family:var(--serif); font-style:italic; font-size:1rem; color:var(--gold);"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- COMPARADOR -->
     <section style="padding:2rem 2rem 4rem;">
         <div class="content fade-in" style="margin:0 auto; max-width:900px;">
@@ -1304,6 +1336,94 @@
 
     tlUpdate(0);
     } catch(e) { console.error('Timelapse error:', e); }
+
+    // ============ MODO CULTURAL ============
+    const culturalEvents = [
+        { emoji:'🐰', name:'Bad Bunny', desc:'Reggaetón, identidad latina, género fluido, clase trabajadora como estética.',
+          dims:[{d:'Identidad',v:9},{d:'Experiencia',v:8},{d:'Autonomía',v:7}], gen:'Saturación', genWhy:'Autenticidad como rebeldía. No pide permiso.',
+          insight:'Bad Bunny no es música. Es un corolario V en persona — la corrección contra el pop sanitizado.' },
+        { emoji:'📱', name:'TikTok', desc:'Algoritmos, microcontenido, democratización de la fama, dopamina instantánea.',
+          dims:[{d:'Identidad',v:10},{d:'Experiencia',v:7},{d:'Afiliación',v:5}], gen:'Saturación', genWhy:'Nacieron con él. Es su medio nativo.',
+          insight:'TikTok es el Corolario IV hecho app — más información no produce más acción, produce más fricción.' },
+        { emoji:'🏠', name:'Home Office / Remote Work', desc:'Pandemia normalizó el trabajo remoto. Libertad geográfica. Soledad laboral.',
+          dims:[{d:'Autonomía',v:9},{d:'Experiencia',v:6},{d:'Afiliación',v:-5}], gen:'Transición', genWhy:'Estaban en su pico productivo cuando llegó COVID.',
+          insight:'El home office activó Autonomía pero destruyó Afiliación. El vector se polarizó.' },
+        { emoji:'🤖', name:'ChatGPT / IA Generativa', desc:'IA accesible para todos. Amenaza laboral. Herramienta creativa. Crisis de autenticidad.',
+          dims:[{d:'Autonomía',v:8},{d:'Identidad',v:7},{d:'Seguridad',v:-6}], gen:'Saturación + Alpha', genWhy:'Son los que van a competir con IA por trabajo.',
+          insight:'La IA activa Autonomía (puedo hacer más solo) pero destruye Seguridad (mi trabajo puede desaparecer).' },
+        { emoji:'🌍', name:'Greta / Movimiento Climático', desc:'Activismo juvenil, ansiedad climática, urgencia existencial.',
+          dims:[{d:'Trascendencia',v:9},{d:'Afiliación',v:7},{d:'Resiliencia',v:6}], gen:'Saturación', genWhy:'Crecer sabiendo que el planeta tiene fecha de vencimiento.',
+          insight:'El activismo climático es Corolario III en acción — cuando el futuro es incierto, el horizonte se comprime.' },
+        { emoji:'🎮', name:'Gaming / Esports', desc:'Comunidades virtuales, identidad digital, competencia global, escape.',
+          dims:[{d:'Afiliación',v:8},{d:'Identidad',v:7},{d:'Experiencia',v:8}], gen:'Saturación + Transición', genWhy:'La generación que creció con consolas como extensión social.',
+          insight:'Gaming crea Afiliación digital cuando la presencial se rompe. Es el sustituto, no el escape.' },
+        { emoji:'🇺🇸', name:'MAGA / Trumpismo', desc:'Populismo, nostalgia, polarización, anti-institucional.',
+          dims:[{d:'Seguridad',v:9},{d:'Afiliación',v:8},{d:'Identidad',v:7}], gen:'Milagro + Crisis', genWhy:'Boomers que quieren volver al vector de su juventud. Gen X que desconfía de todo.',
+          insight:'MAGA es Corolario I + V: cuando la Seguridad se siente amenazada, domina todo. Y cada generación corrige a la anterior.' },
+        { emoji:'🎵', name:'K-Pop', desc:'Industria cultural coreana, fandoms globales, estética perfeccionista, presión de performance.',
+          dims:[{d:'Afiliación',v:9},{d:'Identidad',v:6},{d:'Experiencia',v:7}], gen:'Saturación', genWhy:'Fandoms como familia elegida. Pertenencia en un mundo fragmentado.',
+          insight:'K-Pop vende Afiliación empaquetada como Experiencia. Es sentido de pertenencia industrializado.' },
+        { emoji:'💸', name:'Crypto / NFTs', desc:'Descentralización, especulación, desconfianza en bancos, FOMO.',
+          dims:[{d:'Autonomía',v:9},{d:'Seguridad',v:-4},{d:'Estatus',v:6}], gen:'Transición + Saturación', genWhy:'Millennials que perdieron en 2008, Gen Z que no confía en instituciones financieras.',
+          insight:'Crypto es Corolario II financiero — cuando las instituciones fallan, construyes tu propio sistema.' },
+        { emoji:'🧘', name:'Mindfulness / Terapia', desc:'Salud mental como prioridad, autocuidado, vulnerabilidad como fortaleza.',
+          dims:[{d:'Identidad',v:8},{d:'Resiliencia',v:7},{d:'Trascendencia',v:6}], gen:'Transición + Saturación', genWhy:'Las generaciones que crecieron con sobrecarga emocional buscan herramientas para procesarla.',
+          insight:'La terapia masificada es evidencia del Corolario IV — la saturación informacional genera necesidad de filtro interno.' },
+        { emoji:'🇲🇽', name:'Terremoto CDMX 2017', desc:'Trauma compartido, solidaridad espontánea, desconfianza en gobierno, resiliencia colectiva.',
+          dims:[{d:'Resiliencia',v:10},{d:'Afiliación',v:9},{d:'Autonomía',v:7}], gen:'Transición', genWhy:'Tenían 21-36 años. Pico de ventana formativa. Los marcó para siempre.',
+          insight:'El terremoto activó Resiliencia y Afiliación simultáneamente — la solidaridad como respuesta cuando el Estado falla.' },
+        { emoji:'📲', name:'OnlyFans / Creator Economy', desc:'Monetización personal, autonomía económica, estigma vs libertad.',
+          dims:[{d:'Autonomía',v:10},{d:'Identidad',v:8},{d:'Estatus',v:-3}], gen:'Saturación', genWhy:'Cuando el empleo formal no alcanza, monetizas lo que eres.',
+          insight:'La creator economy es Corolario II económico — si el camino institucional no funciona, inventas el tuyo.' }
+    ];
+
+    // Render culture buttons
+    const cbEl = document.getElementById('culture-buttons');
+    culturalEvents.forEach((ev, i) => {
+        const btn = document.createElement('button');
+        btn.style.cssText = 'padding:0.5rem 1rem; background:var(--card-bg); border:1px solid var(--card-border); color:var(--text); border-radius:20px; cursor:pointer; font-family:var(--sans); font-size:0.8rem; transition:all 0.3s;';
+        btn.textContent = ev.emoji + ' ' + ev.name;
+        btn.addEventListener('mouseenter', () => { btn.style.borderColor='var(--gold)'; btn.style.color='var(--gold)'; });
+        btn.addEventListener('mouseleave', () => { btn.style.borderColor='var(--card-border)'; btn.style.color='var(--text)'; });
+        btn.addEventListener('click', () => showCulture(i));
+        cbEl.appendChild(btn);
+    });
+
+    function showCulture(i) {
+        const ev = culturalEvents[i];
+        document.getElementById('culture-result').style.display = 'block';
+        document.getElementById('culture-emoji').textContent = ev.emoji;
+        document.getElementById('culture-name').textContent = ev.name;
+        document.getElementById('culture-desc').textContent = ev.desc;
+
+        // Dimensions
+        let dimsHtml = '';
+        ev.dims.forEach(d => {
+            const isNeg = d.v < 0;
+            const width = Math.abs(d.v) * 10;
+            const color = isNeg ? '#dc143c' : 'var(--gold)';
+            const arrow = isNeg ? '↓' : '↑';
+            dimsHtml += `<div style="margin-bottom:0.8rem;">
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:0.3rem;">
+                    <span style="color:var(--text);">${arrow} ${d.d}</span>
+                    <span style="color:${color};">${d.v > 0 ? '+' : ''}${d.v}</span>
+                </div>
+                <div style="height:6px; background:var(--card-border); border-radius:3px; overflow:hidden;">
+                    <div style="height:100%; width:${width}%; background:${color}; border-radius:3px; transition:width 0.5s;"></div>
+                </div>
+            </div>`;
+        });
+        document.getElementById('culture-dims').innerHTML = dimsHtml;
+
+        // Generation
+        document.getElementById('culture-gen').innerHTML = `
+            <p style="font-family:var(--serif); font-size:1.1rem; color:var(--text); margin-bottom:0.3rem;">Gen. de la ${ev.gen}</p>
+            <p style="font-size:0.85rem; color:var(--text-dim);">${ev.genWhy}</p>
+        `;
+
+        // Insight
+        document.getElementById('culture-insight').textContent = ev.insight;
+    }
 
     // ============ COMPARADOR ============
     const genProfiles = {
