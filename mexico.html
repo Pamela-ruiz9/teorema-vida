@@ -412,6 +412,9 @@
                 </div>
                 <div id="result-detail" style="margin-top:2rem; font-size:0.9rem; color:var(--text-dim);"></div>
 
+                <!-- SO WHAT -->
+                <div id="result-sowhat" style="margin-top:2.5rem;"></div>
+
                 <!-- Y AHORA QUÉ section -->
                 <div id="result-so-what" style="display:none; margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--card-border);">
                     <h4 style="font-family:var(--serif); font-size:1.3rem; text-align:center; margin-bottom:1.5rem; color:var(--text);">¿Y esto qué significa?</h4>
@@ -1153,6 +1156,72 @@
         dh += `<p>Escasez: ${E.toFixed(1)} | Tecnología: ${T.toFixed(1)} | Confianza: ${C.toFixed(1)} | Violencia: ${V.toFixed(1)} | Info: ${Iv.toFixed(1)}</p>`;
         if (birthYear) dh += '<p style="margin-top:1rem; font-size:0.85rem; color:var(--text-dim);"><em>Tu resultado combina las condiciones estructurales de tu generación (75%) con tu experiencia personal (25%). Aunque tu situación individual sea diferente, tu generación te formó.</em></p>';
         document.getElementById('result-detail').innerHTML = dh;
+
+        // ===== SO WHAT: profundidad del resultado =====
+        const soWhats = {
+            'Generación del Milagro': {
+                meaning: 'Creciste en un México donde el sistema, aunque imperfecto, funcionaba. El PRI daba certeza. Había un camino claro: estudiar, trabajar, progresar. Tu sentido de vida se construyó sobre la <strong>estabilidad como base</strong>.',
+                conflict: 'Tu conflicto interno: <strong>el mundo que conociste ya no existe</strong>. Las reglas cambiaron, la tecnología aceleró todo, y las generaciones más jóvenes no valoran lo que tú construiste. Puedes sentir que el país se está cayendo — pero quizá es que se está transformando.',
+                strength: 'Tu fortaleza: <strong>sabes construir</strong>. Tienes la disciplina de quien creció con estructura. Eso no se pierde.',
+                challenge: 'Tu reto: <strong>soltar el control</strong>. El mundo ya no es predecible, y eso no significa que esté mal — significa que es diferente.',
+                question: '¿Qué de lo que valoras es tuyo — y qué es solo inercia del sistema que te formó?'
+            },
+            'Generación de las Crisis': {
+                meaning: 'Te formaron las crisis. 82, 87, 94 — aprendiste que el peso se puede devaluar en una noche y que nadie te va a salvar. Tu sentido de vida se construyó sobre la <strong>autonomía como supervivencia</strong>.',
+                conflict: 'Tu conflicto interno: <strong>confundes independencia con aislamiento</strong>. "Me hago cargo" se convirtió en "no necesito a nadie". Pero sí necesitas. Todos necesitamos.',
+                strength: 'Tu fortaleza: <strong>eres resiliente de verdad</strong>. No de Instagram — de haber visto tu moneda perder valor tres veces.',
+                challenge: 'Tu reto: <strong>permitirte la vulnerabilidad</strong>. Pedir ayuda no es debilidad. Confiar no es ingenuidad.',
+                question: '¿Tu escepticismo te protege o te aísla?'
+            },
+            'Generación de la Transición': {
+                meaning: 'Eres la generación bisagra. Viviste el fin del PRI, la llegada de internet, la guerra narco, y el terremoto de 2017. Tu sentido de vida se construyó sobre una <strong>búsqueda de propósito en medio del caos</strong>.',
+                conflict: 'Tu conflicto interno: <strong>quieres que tu vida tenga sentido, pero todo tiembla</strong>. Literalmente. Buscas trascendencia en un país que no te da estabilidad para buscarla.',
+                strength: 'Tu fortaleza: <strong>eres la generación más adaptable</strong>. Creciste análoga y te volviste digital. Viviste el PRI y la alternancia. Conoces ambos mundos.',
+                challenge: 'Tu reto: <strong>dejar de compararte</strong>. Con tus padres (que tenían menos opciones pero más certeza), con los jóvenes (que parecen más libres pero cargan más ansiedad).',
+                question: '¿El sentido que buscas es tuyo o es la respuesta a todo lo que NO tuvieron tus padres?'
+            },
+            'Generación de la Saturación': {
+                meaning: 'Nunca conociste estabilidad. Internet siempre estuvo ahí. La violencia es paisaje de fondo. Tu sentido de vida se construyó sobre la <strong>adaptación constante como modo de existir</strong>.',
+                conflict: 'Tu conflicto interno: <strong>ves todo pero puedes cambiar poco</strong>. Tienes más información que cualquier generación anterior y menos certeza sobre el futuro. Eso pesa.',
+                strength: 'Tu fortaleza: <strong>la autenticidad</strong>. No finges. No sigues el guión. Si algo no tiene sentido, lo dices.',
+                challenge: 'Tu reto: <strong>sostener algo</strong>. La flexibilidad es poder, pero sin raíces el viento te lleva. Elegir no es limitarse — es construir.',
+                question: '¿Tu adaptabilidad es libertad o es que nunca te han dejado echar raíces?'
+            }
+        };
+
+        const sw = soWhats[closest];
+        if (sw) {
+            document.getElementById('result-sowhat').innerHTML = `
+                <div style="border-top:1px solid var(--card-border); padding-top:2rem;">
+                    <p class="small gold" style="margin-bottom:1.5rem;">¿Y esto qué significa para ti?</p>
+                    
+                    <div style="margin-bottom:1.5rem;">
+                        <h4 style="font-family:var(--serif); font-size:1.1rem; font-weight:400; margin-bottom:0.5rem;">Lo que esto dice de ti</h4>
+                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${sw.meaning}</p>
+                    </div>
+
+                    <div style="margin-bottom:1.5rem;">
+                        <h4 style="font-family:var(--serif); font-size:1.1rem; font-weight:400; margin-bottom:0.5rem;">Tu conflicto interno</h4>
+                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${sw.conflict}</p>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
+                        <div style="padding:1.2rem; border:1px solid rgba(107,142,35,0.3); border-radius:8px;">
+                            <p style="font-size:0.7rem; color:#6b8e23; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu fortaleza</p>
+                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${sw.strength}</p>
+                        </div>
+                        <div style="padding:1.2rem; border:1px solid rgba(220,20,60,0.3); border-radius:8px;">
+                            <p style="font-size:0.7rem; color:#dc143c; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu reto</p>
+                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${sw.challenge}</p>
+                        </div>
+                    </div>
+
+                    <div style="padding:1.5rem; border-left:3px solid var(--gold); margin-top:1.5rem;">
+                        <p style="font-family:var(--serif); font-style:italic; font-size:1.15rem; color:var(--gold);">${sw.question}</p>
+                    </div>
+                </div>
+            `;
+        }
 
         window._quizResult = { closest, narrative: rp.narrative, vector, dn, E, T, C, V, I: Iv };
 
