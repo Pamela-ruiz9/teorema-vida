@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>México — Teorema de Vida</title>
+    <title>México — La Vida que nos Tocó</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 <body>
 
     <nav class="nav">
-        <a href="index.html" class="nav-logo">Teorema de Vida</a>
+        <a href="index.html" class="nav-logo">La Vida que nos Tocó</a>
         <div class="nav-tabs">
             <a href="index.html" class="nav-tab">Inicio</a>
             <a href="teorema.html" class="nav-tab">Teorema</a>
@@ -683,7 +683,7 @@
     </section>
 
     <footer>
-        <p>Un teorema de <strong>Pame Ruiz</strong></p>
+        <p><strong>La Vida que nos Tocó</strong> — Un modelo del sentido generacional<br>por <strong>Pame Ruiz</strong></p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
@@ -1189,35 +1189,35 @@
             }
         };
 
-        const sw = soWhats[closest];
-        if (sw) {
+        const swResult = soWhats[closest];
+        if (swResult) {
             document.getElementById('result-sowhat').innerHTML = `
                 <div style="border-top:1px solid var(--card-border); padding-top:2rem;">
                     <p class="small gold" style="margin-bottom:1.5rem;">¿Y esto qué significa para ti?</p>
                     
                     <div style="margin-bottom:1.5rem;">
                         <h4 style="font-family:var(--serif); font-size:1.1rem; font-weight:400; margin-bottom:0.5rem;">Lo que esto dice de ti</h4>
-                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${sw.meaning}</p>
+                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${swResult.meaning}</p>
                     </div>
 
                     <div style="margin-bottom:1.5rem;">
                         <h4 style="font-family:var(--serif); font-size:1.1rem; font-weight:400; margin-bottom:0.5rem;">Tu conflicto interno</h4>
-                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${sw.conflict}</p>
+                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${swResult.conflict}</p>
                     </div>
 
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
                         <div style="padding:1.2rem; border:1px solid rgba(107,142,35,0.3); border-radius:8px;">
                             <p style="font-size:0.7rem; color:#6b8e23; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu fortaleza</p>
-                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${sw.strength}</p>
+                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${swResult.strength}</p>
                         </div>
                         <div style="padding:1.2rem; border:1px solid rgba(220,20,60,0.3); border-radius:8px;">
                             <p style="font-size:0.7rem; color:#dc143c; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu reto</p>
-                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${sw.challenge}</p>
+                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${swResult.challenge}</p>
                         </div>
                     </div>
 
                     <div style="padding:1.5rem; border-left:3px solid var(--gold); margin-top:1.5rem;">
-                        <p style="font-family:var(--serif); font-style:italic; font-size:1.15rem; color:var(--gold);">${sw.question}</p>
+                        <p style="font-family:var(--serif); font-style:italic; font-size:1.15rem; color:var(--gold);">${swResult.question}</p>
                     </div>
                 </div>
             `;

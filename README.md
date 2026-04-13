@@ -1,6 +1,6 @@
-# Teorema de Vida
+# La Vida que nos Tocó
 
-**El Sentido Generacional** — Un modelo matemático de por qué cada generación busca algo diferente.
+**Un modelo del sentido generacional** — ¿Por qué cada generación busca algo diferente?
 
 > *El sentido de vida no es una elección libre. Es una adaptación estructural que luego interpretamos como identidad.*
 
@@ -10,4 +10,4 @@
 
 Por **Pame Ruiz**
 
-Fase 1: México · Próximamente: América Latina · Global
+México · Estados Unidos · Global
