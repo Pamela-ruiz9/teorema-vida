@@ -3,67 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
         * { margin:0; padding:0; box-sizing:border-box; }
         body { width:1080px; height:1080px; background:#0a0a0a; color:#f0ece4; font-family:'Inter',sans-serif; overflow:hidden; }
-        .post { width:1080px; height:1080px; padding:60px; display:flex; flex-direction:column; justify-content:space-between; }
-        .header { text-align:center; }
-        .eyebrow { font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#c4a35a; margin-bottom:12px; }
-        .title { font-family:'Cormorant Garamond',Georgia,serif; font-size:42px; font-weight:300; line-height:1.2; margin-bottom:8px; }
-        .subtitle { font-size:18px; color:#888; }
+        .post { width:1080px; height:1080px; padding:50px 60px; display:flex; flex-direction:column; }
+        .eyebrow { font-size:20px; letter-spacing:4px; text-transform:uppercase; color:#c4a35a; margin-bottom:15px; text-align:center; }
+        .title { font-family:'Cormorant Garamond',Georgia,serif; font-size:72px; font-weight:300; line-height:1.15; text-align:center; margin-bottom:8px; }
+        .subtitle { font-size:28px; color:#888; text-align:center; margin-bottom:30px; }
         .gold { color:#c4a35a; }
-        .chart-area { flex:1; display:flex; align-items:center; justify-content:center; padding:20px 0; }
-        .chart-area canvas { max-width:100%; max-height:100%; }
-        .insight { text-align:center; padding:20px 40px; border-top:1px solid rgba(196,163,90,0.2); }
-        .insight-text { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:24px; color:#c4a35a; line-height:1.4; }
-        .footer { display:flex; justify-content:space-between; align-items:center; padding-top:15px; border-top:1px solid rgba(255,255,255,0.05); }
-        .source { font-size:11px; color:#555; }
-        .brand { font-size:13px; color:#c4a35a; }
+        .red { color:#dc143c; }
+        .chart-area { flex:1; display:flex; align-items:center; justify-content:center; }
+        .quote { text-align:center; padding:25px 30px; border-top:1px solid rgba(196,163,90,0.2); margin-top:auto; }
+        .quote-text { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:38px; color:#c4a35a; line-height:1.35; }
+        .footer { display:flex; justify-content:space-between; align-items:center; padding-top:12px; margin-top:15px; border-top:1px solid rgba(255,255,255,0.05); }
+        .source { font-size:18px; color:#555; }
+        .brand { font-size:20px; color:#c4a35a; font-weight:500; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- POST 1: HOMICIDIOS -->
-<div class="post" id="post1">
-    <div class="header">
-        <div class="eyebrow">La Vida que nos Tocó</div>
-        <div class="title">De <span class="gold">8</span> a <span class="gold">29</span> homicidios<br>por cada 100,000</div>
-        <div class="subtitle">México 2007 → 2018</div>
-    </div>
+<div class="post">
+    <div class="eyebrow">La Vida que nos Tocó</div>
+    <div class="title">De <span class="gold">8</span> a <span class="red">29</span> homicidios</div>
+    <div class="subtitle">por cada 100,000 · México 2007→2018</div>
     <div class="chart-area">
-        <canvas id="chart1" width="900" height="450"></canvas>
+        <canvas id="chart" width="950" height="420"></canvas>
     </div>
-    <div class="insight">
-        <div class="insight-text">"La violencia no es un evento.<br>En México es una variable estructural."</div>
+    <div class="quote">
+        <div class="quote-text">"La violencia no es un evento.<br>En México es una variable estructural."</div>
     </div>
     <div class="footer">
-        <div class="source">Fuente: INEGI / SNSP / UNODC · Datos 1990-2025</div>
-        <div class="brand">lavidaquenostoco.mx</div>
+        <div class="source">Fuente: INEGI / SNSP · 1990-2025</div>
+        <div class="brand">La Vida que nos Tocó — Pame Ruiz</div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <script>
-new Chart(document.getElementById('chart1').getContext('2d'), {
-    type: 'bar',
-    data: {
-        labels: ['1990','1995','2000','2005','2007','2010','2012','2015','2018','2020','2024','2025'],
-        datasets: [{
-            data: [18,17,11,10,8,22,24,20,29,28,25.6,17.5],
-            backgroundColor: function(ctx) {
-                return ctx.raw > 20 ? 'rgba(220,20,60,0.8)' : ctx.raw > 15 ? 'rgba(255,165,0,0.7)' : 'rgba(107,142,35,0.6)';
-            },
-            borderRadius: 4
-        }]
-    },
-    options: {
-        responsive:true, maintainAspectRatio:false,
-        scales: {
-            y: { beginAtZero:true, max:35, grid:{color:'rgba(255,255,255,0.05)'}, ticks:{color:'#888', font:{size:14}}, title:{display:true, text:'por 100,000 hab.', color:'#888', font:{size:13}} },
-            x: { grid:{display:false}, ticks:{color:'#888', font:{size:12}} }
-        },
-        plugins: { legend:{display:false} }
-    }
+Chart.defaults.color = '#888';
+Chart.defaults.font.size = 16;
+Chart.defaults.font.family = 'Inter';
+new Chart(document.getElementById('chart').getContext('2d'), {
+    type:'bar', data:{ labels:['90','95','00','05','07','10','12','15','18','20','24','25'],
+    datasets:[{data:[18,17,11,10,8,22,24,20,29,28,25.6,17.5],
+    backgroundColor:ctx=>ctx.raw>20?'rgba(220,20,60,0.8)':ctx.raw>15?'rgba(255,165,0,0.7)':'rgba(107,142,35,0.6)',
+    borderRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:false,
+    scales:{y:{beginAtZero:true,max:35,grid:{color:'rgba(255,255,255,0.05)'},ticks:{font:{size:18}},title:{display:true,text:'por 100K hab.',font:{size:18}}},
+    x:{grid:{display:false},ticks:{font:{size:16}}}},
+    plugins:{legend:{display:false}}}
 });
 </script>
-</body>
-</html>
+</body></html>

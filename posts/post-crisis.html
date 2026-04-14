@@ -3,63 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
         * { margin:0; padding:0; box-sizing:border-box; }
         body { width:1080px; height:1080px; background:#0a0a0a; color:#f0ece4; font-family:'Inter',sans-serif; overflow:hidden; }
-        .post { width:1080px; height:1080px; padding:60px; display:flex; flex-direction:column; justify-content:space-between; }
-        .header { text-align:center; }
-        .eyebrow { font-size:14px; letter-spacing:3px; text-transform:uppercase; color:#c4a35a; margin-bottom:12px; }
-        .title { font-family:'Cormorant Garamond',Georgia,serif; font-size:40px; font-weight:300; line-height:1.2; margin-bottom:8px; }
-        .subtitle { font-size:18px; color:#888; }
+        .post { width:1080px; height:1080px; padding:50px 60px; display:flex; flex-direction:column; }
+        .eyebrow { font-size:20px; letter-spacing:4px; text-transform:uppercase; color:#c4a35a; margin-bottom:15px; text-align:center; }
+        .title { font-family:'Cormorant Garamond',Georgia,serif; font-size:72px; font-weight:300; line-height:1.15; text-align:center; margin-bottom:8px; }
+        .subtitle { font-size:28px; color:#888; text-align:center; margin-bottom:35px; }
         .gold { color:#c4a35a; }
-        .stats { display:grid; grid-template-columns:1fr 1fr; gap:30px; padding:30px 0; }
-        .stat { text-align:center; padding:30px; border:1px solid rgba(196,163,90,0.15); border-radius:12px; }
-        .stat-num { font-family:'Cormorant Garamond',serif; font-size:64px; color:#c4a35a; line-height:1; }
-        .stat-label { font-size:14px; color:#888; margin-top:8px; line-height:1.4; }
-        .stat-note { font-size:11px; color:#555; margin-top:4px; }
-        .insight { text-align:center; padding:25px 40px; border-top:1px solid rgba(196,163,90,0.2); }
-        .insight-text { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:24px; color:#c4a35a; line-height:1.4; }
-        .footer { display:flex; justify-content:space-between; align-items:center; padding-top:15px; border-top:1px solid rgba(255,255,255,0.05); }
-        .source { font-size:11px; color:#555; }
-        .brand { font-size:13px; color:#c4a35a; }
+
+        /* Timeline */
+        .timeline { position:relative; padding:30px 0 20px; margin:10px 0; }
+        .timeline-line { position:absolute; top:45px; left:40px; right:40px; height:3px; background:linear-gradient(90deg, #c4a35a, rgba(196,163,90,0.3)); }
+        .timeline-items { display:flex; justify-content:space-between; padding:0 20px; position:relative; }
+        .timeline-item { text-align:center; width:120px; }
+        .timeline-dot { width:16px; height:16px; border-radius:50%; background:#c4a35a; margin:0 auto 10px; position:relative; z-index:1; }
+        .timeline-year { font-size:30px; font-weight:600; color:#c4a35a; margin-bottom:4px; }
+        .timeline-label { font-size:18px; color:#888; line-height:1.3; }
+
+        /* Stats row */
+        .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; margin:25px 0; }
+        .stat { text-align:center; padding:25px 15px; border:1px solid rgba(196,163,90,0.15); border-radius:10px; }
+        .stat-num { font-family:'Cormorant Garamond',serif; font-size:66px; font-weight:600; color:#c4a35a; line-height:1; }
+        .stat-label { font-size:22px; color:#888; margin-top:8px; line-height:1.3; }
+
+        .quote { text-align:center; padding:25px 30px; border-top:1px solid rgba(196,163,90,0.2); margin-top:auto; }
+        .quote-text { font-family:'Cormorant Garamond',Georgia,serif; font-style:italic; font-size:38px; color:#c4a35a; line-height:1.35; }
+
+        .footer { display:flex; justify-content:space-between; align-items:center; padding-top:12px; margin-top:15px; border-top:1px solid rgba(255,255,255,0.05); }
+        .source { font-size:18px; color:#555; }
+        .brand { font-size:20px; color:#c4a35a; font-weight:500; }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-<!-- POST 3: CRISIS CADA 7 AÑOS -->
 <div class="post">
-    <div class="header">
-        <div class="eyebrow">La Vida que nos Tocó</div>
-        <div class="title">Una crisis económica<br>cada <span class="gold">7 años</span></div>
-        <div class="subtitle">México desde 1976</div>
-    </div>
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-num">7</div>
-            <div class="stat-label">crisis económicas<br>desde 1976</div>
-            <div class="stat-note">76 · 82 · 87 · 94 · 01 · 08 · 20</div>
+    <div class="eyebrow">La Vida que nos Tocó</div>
+    <div class="title">Una crisis cada <span class="gold">7 años</span></div>
+    <div class="subtitle">México desde 1976</div>
+
+    <div class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-items">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">1976</div>
+                <div class="timeline-label">Devaluación</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">1982</div>
+                <div class="timeline-label">Deuda externa</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">1987</div>
+                <div class="timeline-label">Inflación 159%</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">1994</div>
+                <div class="timeline-label">Tequilazo</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2001</div>
+                <div class="timeline-label">Dot-com</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2008</div>
+                <div class="timeline-label">Crisis global</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2020</div>
+                <div class="timeline-label">COVID</div>
+            </div>
         </div>
+    </div>
+
+    <div class="stats">
         <div class="stat">
             <div class="stat-num">55%</div>
             <div class="stat-label">trabaja en la<br>informalidad</div>
-            <div class="stat-note">Sin seguro, sin Afore, sin red</div>
         </div>
         <div class="stat">
             <div class="stat-num">0.4%</div>
             <div class="stat-label">crecimiento PIB<br>2025</div>
-            <div class="stat-note">Banxico · Estancamiento</div>
         </div>
         <div class="stat">
             <div class="stat-num">39.1</div>
-            <div class="stat-label">coeficiente Gini<br>2024</div>
-            <div class="stat-note">Mínimo histórico · ENIGH</div>
+            <div class="stat-label">Gini 2024<br>mínimo histórico</div>
         </div>
     </div>
-    <div class="insight">
-        <div class="insight-text">"La escasez en México no es episódica.<br>Es crónica."</div>
+
+    <div class="quote">
+        <div class="quote-text">"La escasez en México no es episódica.<br>Es crónica."</div>
     </div>
+
     <div class="footer">
         <div class="source">Fuentes: Banxico · INEGI · ENIGH 2024 · World Bank</div>
-        <div class="brand">lavidaquenostoco.mx</div>
+        <div class="brand">La Vida que nos Tocó — Pame Ruiz</div>
     </div>
 </div>
 </body>
