@@ -1152,50 +1152,70 @@
         document.getElementById('result-narrative').textContent = rp.narrative;
 
         const dn = ['Seguridad','Estatus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
+        const dimDescriptions = {
+            'Seguridad': 'Necesidad de estabilidad, certeza y protección. Qué tanto priorizas saber que mañana las cosas estarán bien.',
+            'Estatus': 'Importancia del reconocimiento social y la posición. Qué tanto el "qué dirán" o el logro visible guía tus decisiones.',
+            'Autonomía': 'Capacidad de hacerte cargo solo/a. Qué tanto dependes de ti mismo/a para resolver lo que venga.',
+            'Afiliación': 'Necesidad de pertenencia — familia, comunidad, grupo. Qué tanto te define estar conectado/a con otros.',
+            'Experiencia': 'Búsqueda de vivencias, conocimiento y exploración. Qué tanto valoras probar, viajar, aprender.',
+            'Identidad': 'Proceso de definir quién eres. Qué tanto estás construyendo (o reconstruyendo) tu sentido de ser.',
+            'Trascendencia': 'Búsqueda de propósito más allá de lo inmediato. Qué tanto necesitas que tu vida "signifique algo".',
+            'Resiliencia': 'Capacidad de absorber golpes y seguir. No es virtud — es adaptación a un entorno que no para de mover el piso.'
+        };
         let topDims = vector.map((v,i) => ({name:dn[i], val:v})).sort((a,b) => b.val-a.val);
         let dh = '<p style="margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus dimensiones más fuertes:</strong></p>';
-        topDims.slice(0,3).forEach(d => { dh += `<p>⭐ <strong style="color:var(--gold);">${d.name}</strong> (${d.val.toFixed(1)}/10)</p>`; });
-        dh += '<p style="margin-top:1rem; margin-bottom:0.8rem;"><strong style="color:var(--text);">Tus variables formativas:</strong></p>';
-        dh += `<p>Escasez: ${E.toFixed(1)} | Tecnología: ${T.toFixed(1)} | Confianza: ${C.toFixed(1)} | Violencia: ${V.toFixed(1)} | Info: ${Iv.toFixed(1)}</p>`;
+        topDims.slice(0,3).forEach(d => {
+            dh += `<div class="dim-card" style="padding:0.8rem 1rem; margin-bottom:0.5rem; border:1px solid var(--card-border); border-radius:6px; cursor:pointer; transition:all 0.2s;">`;
+            dh += `<div style="display:flex; justify-content:space-between; align-items:center;"><span>⭐ <strong style="color:var(--gold);">${d.name}</strong> <span style="color:var(--text-dim); font-size:0.85rem;">${d.val.toFixed(1)}/10</span></span><span style="color:var(--text-dim); font-size:0.8rem; transition:transform 0.2s;" class="dim-arrow">▼</span></div>`;
+            dh += `<p class="dim-desc" style="font-size:0.85rem; color:var(--text-dim); margin-top:0.6rem; display:none; line-height:1.6;">${dimDescriptions[d.name]}</p>`;
+            dh += `</div>`;
+        });
         if (birthYear) {
-            dh += '<p style="margin-top:1rem; font-size:0.85rem; color:var(--text-dim);"><em>Tu resultado combina las condiciones estructurales de tu generación (60%) con tu experiencia personal (40%).</em></p>';
+            dh += '<p style="margin-top:1.2rem; font-size:0.85rem; color:var(--text-dim);"><em>Resultado basado en tus respuestas personales y el contexto de tu generación.</em></p>';
             if (expectedGen && expectedGen !== closest) {
-                dh += '<div style="margin-top:1.2rem; padding:1rem 1.2rem; background:rgba(196,163,90,0.08); border-left:3px solid var(--gold); border-radius:0 6px 6px 0;">';
-                dh += '<p style="font-size:0.9rem; color:var(--text);"><strong>\uD83D\uDD0D Dato interesante:</strong> Por tu año de nacimiento (' + birthYear + ') perteneces a la <strong>' + expectedGen + '</strong>, pero tu experiencia de vida te acerca más a la <strong>' + closest + '</strong>.</p>';
-                dh += '<p style="font-size:0.85rem; color:var(--text-dim); margin-top:0.5rem;"><em>Esto es exactamente lo que predice el Existencialismo Orgánico: las circunstancias te moldean, pero no te determinan. Tu vector de vida es único.</em></p>';
-                dh += '</div>';
+                dh += '<p style="margin-top:0.8rem; font-size:0.85rem; color:var(--text-dim);"><em>Por tu año de nacimiento perteneces a la ' + expectedGen + ', pero tu experiencia personal te acerca a otro perfil. Eso es normal — las etiquetas generacionales son promedios, no destinos.</em></p>';
             }
         }
         document.getElementById('result-detail').innerHTML = dh;
 
+        // Toggle dimension descriptions on click
+        document.querySelectorAll('.dim-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const desc = this.querySelector('.dim-desc');
+                const arrow = this.querySelector('.dim-arrow');
+                const isOpen = desc.style.display === 'block';
+                // Close all others
+                document.querySelectorAll('.dim-card .dim-desc').forEach(d => d.style.display = 'none');
+                document.querySelectorAll('.dim-card .dim-arrow').forEach(a => { a.style.transform = ''; });
+                document.querySelectorAll('.dim-card').forEach(c => c.style.borderColor = '');
+                if (!isOpen) {
+                    desc.style.display = 'block';
+                    arrow.style.transform = 'rotate(180deg)';
+                    this.style.borderColor = 'var(--gold)';
+                }
+            });
+        });
+
         // ===== SO WHAT: profundidad del resultado =====
         const soWhats = {
             'Generación del Milagro': {
-                meaning: 'Creciste en un México donde el sistema, aunque imperfecto, funcionaba. El PRI daba certeza. Había un camino claro: estudiar, trabajar, progresar. Tu sentido de vida se construyó sobre la <strong>estabilidad como base</strong>.',
-                conflict: 'Tu conflicto interno: <strong>el mundo que conociste ya no existe</strong>. Las reglas cambiaron, la tecnología aceleró todo, y las generaciones más jóvenes no valoran lo que tú construiste. Puedes sentir que el país se está cayendo — pero quizá es que se está transformando.',
-                strength: 'Tu fortaleza: <strong>sabes construir</strong>. Tienes la disciplina de quien creció con estructura. Eso no se pierde.',
-                challenge: 'Tu reto: <strong>soltar el control</strong>. El mundo ya no es predecible, y eso no significa que esté mal — significa que es diferente.',
-                question: '¿Qué de lo que valoras es tuyo — y qué es solo inercia del sistema que te formó?'
+                strength: '<strong>Sabes construir.</strong> Tienes la disciplina de quien creció con estructura.',
+                challenge: '<strong>Soltar el control.</strong> El mundo ya no es predecible, y eso no significa que esté mal.',
+                question: '¿Qué de lo que valoras es tuyo — y qué es inercia?'
             },
             'Generación de las Crisis': {
-                meaning: 'Te formaron las crisis. 82, 87, 94 — aprendiste que el peso se puede devaluar en una noche y que nadie te va a salvar. Tu sentido de vida se construyó sobre la <strong>autonomía como supervivencia</strong>.',
-                conflict: 'Tu conflicto interno: <strong>confundes independencia con aislamiento</strong>. "Me hago cargo" se convirtió en "no necesito a nadie". Pero sí necesitas. Todos necesitamos.',
-                strength: 'Tu fortaleza: <strong>eres resiliente de verdad</strong>. No de Instagram — de haber visto tu moneda perder valor tres veces.',
-                challenge: 'Tu reto: <strong>permitirte la vulnerabilidad</strong>. Pedir ayuda no es debilidad. Confiar no es ingenuidad.',
+                strength: '<strong>Resiliencia real.</strong> No de hashtag — de haber aprendido que nadie te va a salvar.',
+                challenge: '<strong>Permitirte la vulnerabilidad.</strong> Pedir ayuda no es debilidad.',
                 question: '¿Tu escepticismo te protege o te aísla?'
             },
             'Generación de la Transición': {
-                meaning: 'Eres la generación bisagra. Viviste el fin del PRI, la llegada de internet, la guerra narco, y el terremoto de 2017. Tu sentido de vida se construyó sobre una <strong>búsqueda de propósito en medio del caos</strong>.',
-                conflict: 'Tu conflicto interno: <strong>quieres que tu vida tenga sentido, pero todo tiembla</strong>. Literalmente. Buscas trascendencia en un país que no te da estabilidad para buscarla.',
-                strength: 'Tu fortaleza: <strong>eres la generación más adaptable</strong>. Creciste análoga y te volviste digital. Viviste el PRI y la alternancia. Conoces ambos mundos.',
-                challenge: 'Tu reto: <strong>dejar de compararte</strong>. Con tus padres (que tenían menos opciones pero más certeza), con los jóvenes (que parecen más libres pero cargan más ansiedad).',
-                question: '¿El sentido que buscas es tuyo o es la respuesta a todo lo que NO tuvieron tus padres?'
+                strength: '<strong>Adaptabilidad.</strong> Conoces el mundo analógico y el digital. Puedes navegar ambos.',
+                challenge: '<strong>Dejar de compararte.</strong> Ni con tus padres ni con los más jóvenes — tu camino es otro.',
+                question: '¿El sentido que buscas es tuyo o es la respuesta a lo que no tuvieron tus padres?'
             },
             'Generación de la Saturación': {
-                meaning: 'Nunca conociste estabilidad. Internet siempre estuvo ahí. La violencia es paisaje de fondo. Tu sentido de vida se construyó sobre la <strong>adaptación constante como modo de existir</strong>.',
-                conflict: 'Tu conflicto interno: <strong>ves todo pero puedes cambiar poco</strong>. Tienes más información que cualquier generación anterior y menos certeza sobre el futuro. Eso pesa.',
-                strength: 'Tu fortaleza: <strong>la autenticidad</strong>. No finges. No sigues el guión. Si algo no tiene sentido, lo dices.',
-                challenge: 'Tu reto: <strong>sostener algo</strong>. La flexibilidad es poder, pero sin raíces el viento te lleva. Elegir no es limitarse — es construir.',
+                strength: '<strong>Autenticidad.</strong> No finges. Si algo no tiene sentido, lo dices.',
+                challenge: '<strong>Sostener algo.</strong> La flexibilidad es poder, pero sin raíces el viento te lleva.',
                 question: '¿Tu adaptabilidad es libertad o es que nunca te han dejado echar raíces?'
             }
         };
@@ -1204,18 +1224,6 @@
         if (swResult) {
             document.getElementById('result-sowhat').innerHTML = `
                 <div style="border-top:1px solid var(--card-border); padding-top:2rem;">
-                    <p class="small gold" style="margin-bottom:1.5rem;">¿Y esto qué significa para ti?</p>
-                    
-                    <div style="margin-bottom:1.5rem;">
-                        <h4 style="font-family:var(--serif); font-size:1.1rem; font-weight:400; margin-bottom:0.5rem;">Lo que esto dice de ti</h4>
-                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${swResult.meaning}</p>
-                    </div>
-
-                    <div style="margin-bottom:1.5rem;">
-                        <h4 style="font-family:var(--serif); font-size:1.1rem; font-weight:400; margin-bottom:0.5rem;">Tu conflicto interno</h4>
-                        <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.7;">${swResult.conflict}</p>
-                    </div>
-
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
                         <div style="padding:1.2rem; border:1px solid rgba(107,142,35,0.3); border-radius:8px;">
                             <p style="font-size:0.7rem; color:#6b8e23; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu fortaleza</p>
@@ -1227,8 +1235,8 @@
                         </div>
                     </div>
 
-                    <div style="padding:1.5rem; border-left:3px solid var(--gold); margin-top:1.5rem;">
-                        <p style="font-family:var(--serif); font-style:italic; font-size:1.15rem; color:var(--gold);">${swResult.question}</p>
+                    <div style="padding:1.2rem; border-left:3px solid var(--gold);">
+                        <p style="font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--gold);">${swResult.question}</p>
                     </div>
                 </div>
             `;
