@@ -1006,16 +1006,19 @@
     const questions = [
         { variable: '_age', type: 'input', text: '¿En qué año naciste?', inputType: 'number', placeholder: 'ej: 1995', min: 1940, max: 2015 },
         { variable: 'E_income', text: '¿Cuál era el ingreso aproximado de tu hogar cuando tenías 16 años?', options: [{t:'Menos de $5,000/mes',v:9},{t:'$5,000 - $15,000/mes',v:6},{t:'$15,000 - $40,000/mes',v:3},{t:'Más de $40,000/mes',v:1}] },
-        { variable: 'F', text: '¿Con quién creciste?', options: [{t:'Ambos padres juntos',v:2},{t:'Padres separados / reconstituida',v:5},{t:'Un solo padre/madre',v:7},{t:'Abuelos u otros familiares',v:6}] },
+        { variable: 'F', text: 'Cuando tenías 15 años, ¿qué tan estable sentías tu hogar?', options: [{t:'Muy estable — sabía qué esperar cada día',v:2},{t:'Estable en general, con momentos difíciles',v:4},{t:'Inestable — las cosas cambiaban seguido',v:7},{t:'Caótico — no sabía qué iba a pasar',v:9}] },
         { variable: '_edu', text: '¿Cuál es tu nivel de estudios (o el que estás cursando)?', options: [{t:'Básica (primaria/secundaria)',v:2},{t:'Preparatoria',v:4},{t:'Universidad',v:7},{t:'Posgrado',v:9}] },
         { variable: '_state', text: '¿En qué zona creciste principalmente?', options: [{t:'Rural / pueblo pequeño',v:2},{t:'Ciudad mediana',v:5},{t:'Ciudad grande (MTY, GDL, PUE...)',v:7},{t:'Zona metropolitana CDMX',v:9}] },
         { variable: 'V', text: '¿Alguna vez te asaltaron, robaron o fuiste víctima directa de un delito?', options: [{t:'Nunca',v:1},{t:'Una vez',v:4},{t:'Varias veces',v:7},{t:'Es parte de mi cotidiano',v:9}] },
         { variable: 'V2', text: '¿Alguien cercano a ti fue víctima de violencia grave (secuestro, homicidio, desaparición)?', options: [{t:'No',v:1},{t:'Conozco casos lejanos',v:4},{t:'Sí, alguien cercano',v:8}] },
         { variable: 'T', text: '¿A qué edad tuviste acceso regular a internet?', options: [{t:'Después de los 25 / nunca tuve de joven',v:1},{t:'Entre 18 y 25',v:4},{t:'Entre 12 y 17',v:7},{t:'Antes de los 12',v:9}] },
-        { variable: 'C', text: '¿Confías en que el gobierno resuelve los problemas del país?', options: [{t:'Sí, en general',v:8},{t:'Depende del tema',v:5},{t:'Casi nunca',v:2},{t:'Para nada',v:1}] },
+        { variable: 'C', text: 'Si mañana te acusan injustamente de algo, ¿confías en que el sistema te protegería?', options: [{t:'Sí, confío en las instituciones',v:8},{t:'Dependería de las circunstancias',v:5},{t:'Probablemente no',v:2},{t:'Tendría que resolverlo yo',v:1}] },
         { variable: 'E_perc', text: '¿Sientes que tu generación vive mejor, igual o peor que la de tus padres?', options: [{t:'Mejor',v:2},{t:'Igual',v:5},{t:'Peor económicamente pero mejor en otras cosas',v:6},{t:'Peor en general',v:8}] },
-        { variable: 'I', text: '¿Sientes que la cantidad de información disponible te ayuda o te abruma?', options: [{t:'Me ayuda',v:2},{t:'Depende',v:5},{t:'Me abruma más de lo que ayuda',v:8}] },
-        { variable: 'A', text: '¿El cambio climático afecta tus decisiones de vida (dónde vivir, tener hijos, etc.)?', options: [{t:'No',v:1},{t:'Lo pienso pero no cambia mis planes',v:4},{t:'Sí, influye en mis decisiones',v:8}] }
+        { variable: 'I', text: '¿Cuántas veces al día desbloqueas tu celular sin saber para qué?', options: [{t:'Casi nunca — lo uso con propósito',v:2},{t:'Algunas veces',v:5},{t:'Muchas — es automático',v:7},{t:'Vivo pegado a la pantalla',v:9}] },
+        { variable: 'A', text: '¿Sientes ansiedad por el futuro del planeta (clima, recursos, sociedad)?', options: [{t:'No realmente',v:1},{t:'A veces lo pienso',v:4},{t:'Sí, me preocupa bastante',v:7},{t:'Sí, y afecta mis decisiones de vida',v:9}] },
+        { variable: 'AUT', text: 'Si las cosas se ponen difíciles económicamente, ¿cuál es tu primer instinto?', options: [{t:'Buscar ayuda de familia o amigos',v:2},{t:'Ajustar gastos y aguantar',v:5},{t:'Buscar otra fuente de ingreso por mi cuenta',v:7},{t:'Ya tengo un plan B siempre listo',v:9}] },
+        { variable: 'AFI', text: '¿Qué pesa más en tus decisiones importantes: lo que tú quieres o lo que tu familia espera?', options: [{t:'Lo que mi familia espera',v:8},{t:'Intento equilibrar ambos',v:5},{t:'Lo que yo quiero, pero escucho',v:3},{t:'Lo que yo quiero — es mi vida',v:1}] },
+        { variable: 'ID', text: '¿Sientes que ya sabes quién eres, o todavía estás descubriéndolo?', options: [{t:'Sé bien quién soy',v:3},{t:'Tengo una buena idea pero sigo evolucionando',v:6},{t:'Estoy en pleno proceso de descubrirme',v:8},{t:'No tengo idea — y está bien',v:9}] }
     ];
 
     let quizAnswers = new Array(questions.length).fill(null);
@@ -1060,7 +1063,7 @@
 
         // Collect raw answers
         let birthYear = null, eduScore = 5, urbanScore = 5, incomeScore = 5;
-        const raw = { V:[], V2:[], T:[], C:[], E_perc:[], I:[], A:[], F:[] };
+        const raw = { V:[], V2:[], T:[], C:[], E_perc:[], I:[], A:[], F:[], AUT:[], AFI:[], ID:[] };
         questions.forEach((q, i) => {
             if (quizAnswers[i] === null) return;
             if (q.variable === '_age')     { birthYear = quizAnswers[i]; return; }
@@ -1104,15 +1107,23 @@
         const V = V_s*sw + avg([...raw.V, ...raw.V2])*pw;
         const Iv = I_s*sw + avg(raw.I)*pw;
 
-        // Calculate vector + education/urban bonuses
+        // Calculate vector + education/urban bonuses + new personal dimensions
         const vec = calcVector(E, T, C, V, Iv);
-        const eb = (eduScore - 5) * 0.3;  // educación: doble peso (posgrado = +1.2)
-        const ub = (urbanScore - 5) * 0.15; // urbanización: más peso
-        const ib = Math.max(0, (5 - incomeScore)) * 0.2; // ingreso medio+ sube Trascendencia
-        vec[5] = Math.min(10, Math.max(1, vec[5] + eb + ub*0.5));     // Identidad: edu + urban
-        vec[6] = Math.min(10, Math.max(1, vec[6] + eb + ib));         // Trascendencia: edu + ingreso
-        vec[4] = Math.min(10, Math.max(1, vec[4] + eb*0.5 + ub));     // Experiencia: edu + urban
-        vec[3] = Math.min(10, Math.max(1, vec[3] + ub*0.5));          // Afiliación: urban
+        const eb = (eduScore - 5) * 0.3;
+        const ub = (urbanScore - 5) * 0.15;
+        const ib = Math.max(0, (5 - incomeScore)) * 0.2;
+
+        // New personal variables: Autonomy, Affiliation, Identity
+        const autScore = avg(raw.AUT);  // higher = more autonomous
+        const afiScore = avg(raw.AFI);  // higher = more family-oriented
+        const idScore = avg(raw.ID);    // higher = still discovering
+
+        vec[2] = Math.min(10, Math.max(1, vec[2] + (autScore - 5) * 0.25));  // Autonomía: boost from personal autonomy
+        vec[3] = Math.min(10, Math.max(1, vec[3] + (afiScore - 5) * 0.25 + ub*0.5));  // Afiliación: family weight + urban
+        vec[4] = Math.min(10, Math.max(1, vec[4] + eb*0.5 + ub));            // Experiencia: edu + urban
+        vec[5] = Math.min(10, Math.max(1, vec[5] + eb + ub*0.5 + (idScore - 5) * 0.2));  // Identidad: edu + urban + self-discovery
+        vec[6] = Math.min(10, Math.max(1, vec[6] + eb + ib));                // Trascendencia: edu + ingreso
+        vec[7] = Math.min(10, Math.max(1, vec[7] + (avg(raw.F) - 5) * 0.15)); // Resiliencia: boost from instability
         const vector = vec.map(v => Math.round(v*10)/10);
 
         // Find closest generation
