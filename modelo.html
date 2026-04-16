@@ -80,6 +80,42 @@
             background: var(--gold-dim);
         }
 
+        /* ===== DIMENSION PILLS ===== */
+        .dim-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.6rem;
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+        }
+        .dim-pill .pill-bar {
+            flex: 1;
+            height: 3px;
+            background: var(--card-border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .dim-pill .pill-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.4s ease, background 0.3s;
+            background: var(--text-dim);
+        }
+        .dim-pill.active {
+            border-color: var(--gold);
+            color: var(--text);
+            background: rgba(196,163,90,0.06);
+        }
+        .dim-pill.active .pill-bar-fill {
+            background: var(--gold);
+        }
+        .dim-pill .pill-emoji { font-size: 0.85rem; }
+
         /* ===== DIM DETAIL GRID (4x2) ===== */
         .dim-detail-grid {
             display: grid;
@@ -245,6 +281,10 @@
             <h2 style="font-size:clamp(1.4rem,3vw,2rem); text-align:center; margin-bottom:2rem;">Cada generación, una forma única</h2>
 
             <div id="viz-container"></div>
+
+            <!-- DIMENSION PILLS - pulsan según orientación de la esfera -->
+            <div id="dim-pills" style="display:grid; grid-template-columns:repeat(4,1fr); gap:0.4rem; margin-top:1.2rem;">
+            </div>
 
             <div class="viz-label">
                 <div class="gen-name" id="gen-name">Generación del Milagro</div>
@@ -613,8 +653,31 @@
             const LERP_COLOR = 0.05;
             const AUTO_ROT = 0.003;
 
+            // --- Dimension pills setup ---
+            const DIM_NAMES = ['Seguridad','Estátus','Autonomía','Afiliación','Experiencia','Identidad','Trascendencia','Resiliencia'];
+            const DIM_EMOJIS = ['🛡️','👑','🦅','🤝','✨','🪩','🌱','🔥'];
+            const pillsEl = document.getElementById('dim-pills');
+            const pillEls = [];
+            DIM_NAMES.forEach((name, i) => {
+                const pill = document.createElement('div');
+                pill.className = 'dim-pill';
+                pill.innerHTML = `<span class="pill-emoji">${DIM_EMOJIS[i]}</span><span class="pill-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${name}</span><div class="pill-bar"><div class="pill-bar-fill" id="pill-fill-${i}" style="width:50%"></div></div>`;
+                pillsEl.appendChild(pill);
+                pillEls.push(pill);
+            });
+
+            function updatePills(genData) {
+                // Update bar widths based on gen data
+                genData.forEach((val, i) => {
+                    const fill = document.getElementById('pill-fill-' + i);
+                    if (fill) fill.style.width = (val * 10) + '%';
+                });
+            }
+
+            let frameCount = 0;
             function animate() {
                 requestAnimationFrame(animate);
+                frameCount++;
 
                 // Auto rotate (slower when user was dragging)
                 if (!isDragging) {
@@ -644,6 +707,26 @@
                 currentColor.lerp(targetColor, LERP_COLOR);
                 solidMat.color.copy(currentColor);
 
+                // Update pills highlight every 6 frames (no need every frame)
+                if (frameCount % 6 === 0) {
+                    // Camera direction in world space
+                    const camDir = new THREE.Vector3(0, 0, 1);
+                    camDir.applyQuaternion(camera.quaternion).normalize();
+                    // Transform to group local space
+                    const invRot = new THREE.Quaternion().copy(group.quaternion).invert();
+                    const localCam = camDir.applyQuaternion(invRot);
+
+                    const genData = gens[activeKey].data;
+                    const dots = AXES.map(ax => ax.dot(localCam));
+                    const maxDot = Math.max(...dots);
+                    const threshold = maxDot * 0.45; // top ~2-3 axes
+
+                    pillEls.forEach((pill, i) => {
+                        const isFront = dots[i] >= threshold && dots[i] > 0;
+                        pill.classList.toggle('active', isFront);
+                    });
+                }
+
                 renderer.render(scene, camera);
             }
             animate();
@@ -661,6 +744,7 @@
                 document.getElementById('gen-name').style.color = g.color;
                 document.getElementById('gen-period').textContent = g.period;
                 document.getElementById('gen-narrative').textContent = g.narrative;
+                updatePills(g.data);
 
                 document.querySelectorAll('.gen-btn').forEach(b => {
                     b.classList.toggle('active', b.dataset.gen === key);
@@ -673,6 +757,7 @@
 
             // Initial color on gen-name
             document.getElementById('gen-name').style.color = gens[activeKey].color;
+            updatePills(gens[activeKey].data);
         })();
     </script>
 
