@@ -1223,18 +1223,7 @@
         const swResult = soWhats[closest];
         if (swResult) {
             document.getElementById('result-sowhat').innerHTML = `
-                <div style="border-top:1px solid var(--card-border); padding-top:2rem;">
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem;">
-                        <div style="padding:1.2rem; border:1px solid rgba(107,142,35,0.3); border-radius:8px;">
-                            <p style="font-size:0.7rem; color:#6b8e23; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu fortaleza</p>
-                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${swResult.strength}</p>
-                        </div>
-                        <div style="padding:1.2rem; border:1px solid rgba(220,20,60,0.3); border-radius:8px;">
-                            <p style="font-size:0.7rem; color:#dc143c; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">Tu reto</p>
-                            <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.6;">${swResult.challenge}</p>
-                        </div>
-                    </div>
-
+                <div style="border-top:1px solid var(--card-border); padding-top:1.5rem; margin-top:1rem;">
                     <div style="padding:1.2rem; border-left:3px solid var(--gold);">
                         <p style="font-family:var(--serif); font-style:italic; font-size:1.1rem; color:var(--gold);">${swResult.question}</p>
                     </div>
