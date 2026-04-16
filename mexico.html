@@ -1258,23 +1258,33 @@
         populateSoWhat(closest);
 
         // ===== SAVE TO SUPABASE =====
-        saveQuizResponse({
-            birthYear,
-            answers: questions.map((q, i) => ({
-                variable: q.variable,
-                question: q.text,
-                answerIndex: quizAnswers[i],
-                answerText: q.type === 'input' ? String(quizAnswers[i]) : (quizAnswers[i] !== null && q.options ? q.options[quizAnswers[i]].t : null),
-                value: q.type === 'input' ? quizAnswers[i] : (quizAnswers[i] !== null && q.options ? q.options[quizAnswers[i]].v : null)
-            })),
-            variables: { E: +E.toFixed(2), T: +T.toFixed(2), C: +C.toFixed(2), V: +V.toFixed(2), I: +Iv.toFixed(2) },
-            vector: dn.map((name, i) => ({ dimension: name, value: vector[i] })),
-            resultGeneration: closest,
-            expectedGeneration: expectedGen,
-            education: questions[3].options[quizAnswers[3]]?.t || null,
-            urbanZone: questions[4].options[quizAnswers[4]]?.t || null,
-            incomeLevel: questions[1].options[quizAnswers[1]]?.t || null
-        });
+        try {
+            var eduText = null, urbanText = null, incomeText = null;
+            try { eduText = questions[3].options[quizAnswers[3]].t; } catch(e) {}
+            try { urbanText = questions[4].options[quizAnswers[4]].t; } catch(e) {}
+            try { incomeText = questions[1].options[quizAnswers[1]].t; } catch(e) {}
+            saveQuizResponse({
+                birthYear,
+                answers: questions.map((q, i) => {
+                    try {
+                        return {
+                            variable: q.variable,
+                            question: q.text,
+                            answerIndex: quizAnswers[i],
+                            answerText: q.type === 'input' ? String(quizAnswers[i]) : (quizAnswers[i] !== null && q.options ? q.options[quizAnswers[i]].t : null),
+                            value: q.type === 'input' ? quizAnswers[i] : (quizAnswers[i] !== null && q.options ? q.options[quizAnswers[i]].v : null)
+                        };
+                    } catch(e) { return { variable: q.variable, error: true }; }
+                }),
+                variables: { E: +E.toFixed(2), T: +T.toFixed(2), C: +C.toFixed(2), V: +V.toFixed(2), I: +Iv.toFixed(2) },
+                vector: dn.map((name, i) => ({ dimension: name, value: vector[i] })),
+                resultGeneration: closest,
+                expectedGeneration: expectedGen,
+                education: eduText,
+                urbanZone: urbanText,
+                incomeLevel: incomeText
+            });
+        } catch(e) { console.error('Quiz data prep error:', e); }
     }
 
     // ===== SUPABASE BACKEND =====
