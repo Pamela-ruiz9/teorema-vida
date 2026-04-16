@@ -80,6 +80,25 @@
             background: var(--gold-dim);
         }
 
+        /* ===== COUNTRY TABS ===== */
+        .country-tab {
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-dim);
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .country-tab:hover { border-color: rgba(196,163,90,0.4); color: var(--text); }
+        .country-tab.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: var(--gold-dim);
+        }
+
         /* ===== DIMENSION PILLS ===== */
         .dim-pill {
             display: flex;
@@ -278,7 +297,14 @@
     <section style="padding:2rem 2rem 5rem;">
         <div class="content fade-in" style="margin:0 auto; max-width:760px;">
             <p class="small gold" style="margin-bottom:0.5rem; text-align:center;">Visualización</p>
-            <h2 style="font-size:clamp(1.4rem,3vw,2rem); text-align:center; margin-bottom:2rem;">Cada generación, una forma única</h2>
+            <h2 style="font-size:clamp(1.4rem,3vw,2rem); text-align:center; margin-bottom:1.5rem;">Cada contexto, una forma única</h2>
+
+            <!-- COUNTRY TABS -->
+            <div id="country-tabs" style="display:flex; justify-content:center; gap:0.5rem; margin-bottom:2rem;">
+                <button class="country-tab active" data-country="global">🌍 Global</button>
+                <button class="country-tab" data-country="mx">🇲🇽 México</button>
+                <button class="country-tab" data-country="us">🇺🇸 EE.UU.</button>
+            </div>
 
             <div id="viz-container"></div>
 
@@ -287,16 +313,13 @@
             </div>
 
             <div class="viz-label">
-                <div class="gen-name" id="gen-name">Generación del Milagro</div>
-                <div class="gen-period" id="gen-period">1946–1964</div>
-                <div class="gen-narrative" id="gen-narrative">"El sistema funciona. Si te esfuerzas, avanzas."</div>
+                <div class="gen-name" id="gen-name">Mundo contemporáneo</div>
+                <div class="gen-period" id="gen-period">2000–2025</div>
+                <div class="gen-narrative" id="gen-narrative">"¿Qué queda cuando las instituciones fallan y el futuro es incierto?"</div>
             </div>
 
-            <div class="gen-buttons">
-                <button class="gen-btn active" data-gen="milagro">Milagro</button>
-                <button class="gen-btn" data-gen="crisis">Crisis</button>
-                <button class="gen-btn" data-gen="transicion">Transición</button>
-                <button class="gen-btn" data-gen="saturacion">Saturación</button>
+            <div class="gen-buttons" id="gen-buttons">
+                <button class="gen-btn active" data-gen="global">Global</button>
             </div>
 
             <p class="dim" style="text-align:center; font-size:0.78rem; margin-top:1.5rem; opacity:0.7;">Arrastra para rotar. Cada eje "empuja" la forma según su intensidad.</p>
@@ -403,12 +426,37 @@
 
     <script>
         // ===== DATOS =====
-        const gens = {
-            milagro:    { label:'Generación del Milagro',     period:'1946–1964', data:[8,8,4,7,4,3,5,3], color:'#6b8e23', narrative:'"El sistema funciona. Si te esfuerzas, avanzas."' },
-            crisis:     { label:'Generación de las Crisis',   period:'1965–1980', data:[7,5,8,4,5,5,3,9], color:'#dc143c', narrative:'"No confíes en nadie. Hazte cargo."' },
-            transicion: { label:'Generación de la Transición', period:'1981–1996', data:[5,3,6,7,7,8,8,7], color:'#4169e1', narrative:'"Quiero que mi vida tenga sentido — pero todo tiembla."' },
-            saturacion: { label:'Generación de la Saturación', period:'1997–2012', data:[4,2,8,5,7,9,5,9], color:'#ffa500', narrative:'"No es seguro. Mejor me adapto."' }
+        // ===== DATASETS POR PAÍS =====
+        const COUNTRIES = {
+            global: {
+                label: 'Global',
+                entries: {
+                    global: { label:'Mundo contemporáneo', period:'2000–2025', data:[5,4,7,6,7,8,6,7], color:'#c4a35a',
+                        narrative:'"¿Qué queda cuando las instituciones fallan y el futuro es incierto?"' }
+                }
+            },
+            mx: {
+                label: 'México',
+                entries: {
+                    milagro:    { label:'Generación del Milagro',     period:'1946–1964', data:[8,8,4,7,4,3,5,3], color:'#6b8e23', narrative:'"El sistema funciona. Si te esfuerzas, avanzas."' },
+                    crisis:     { label:'Generación de las Crisis',    period:'1965–1980', data:[7,5,8,4,5,5,3,9], color:'#dc143c', narrative:'"No confíes en nadie. Hazte cargo."' },
+                    transicion: { label:'Generación de la Transición', period:'1981–1996', data:[5,3,6,7,7,8,8,7], color:'#4169e1', narrative:'"Quiero que mi vida tenga sentido — pero todo tiembla."' },
+                    saturacion: { label:'Generación de la Saturación', period:'1997–2012', data:[4,2,8,5,7,9,5,9], color:'#ffa500', narrative:'"No es seguro. Mejor me adapto."' }
+                }
+            },
+            us: {
+                label: 'EE.UU.',
+                entries: {
+                    boomers:     { label:'Boomers',      period:'1946–1964', data:[8,8,4,7,5,4,7,3], color:'#6b8e23', narrative:'"Trabajamos duro, construimos el sueño americano."' },
+                    genx:        { label:'Gen X',         period:'1965–1980', data:[6,5,8,4,7,6,4,6], color:'#dc143c', narrative:'"Nadie nos dio nada. Nos hicimos solos."' },
+                    millennials: { label:'Millennials',   period:'1981–1996', data:[4,3,5,7,7,8,8,5], color:'#4169e1', narrative:'"Queremos propósito, no solo un cheque."' },
+                    genz:        { label:'Gen Z',          period:'1997–2012', data:[3,2,8,5,7,9,5,8], color:'#ffa500', narrative:'"El sistema está roto. Construimos el nuestro."' }
+                }
+            }
         };
+
+        let activeCountry = 'global';
+        let gens = COUNTRIES[activeCountry].entries;
 
         const DIM_NAMES = [
             { emoji:'🛡️', name:'Seguridad' },
@@ -557,7 +605,7 @@
             }
 
             // Active state
-            let activeKey = 'milagro';
+            let activeKey = 'global';
             let targetPositions = computePositionsFor(gens[activeKey].data);
             let currentPositions = new Float32Array(targetPositions); // start at target
 
@@ -753,6 +801,36 @@
 
             document.querySelectorAll('.gen-btn').forEach(btn => {
                 btn.addEventListener('click', () => setGen(btn.dataset.gen));
+            });
+
+            // ===== COUNTRY TAB SWITCHING =====
+            function setCountry(countryKey) {
+                activeCountry = countryKey;
+                gens = COUNTRIES[countryKey].entries;
+
+                // Update tab styles
+                document.querySelectorAll('.country-tab').forEach(t => {
+                    t.classList.toggle('active', t.dataset.country === countryKey);
+                });
+
+                // Rebuild gen-buttons
+                const btnContainer = document.getElementById('gen-buttons');
+                btnContainer.innerHTML = '';
+                Object.entries(gens).forEach(([key, g], i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'gen-btn' + (i === 0 ? ' active' : '');
+                    btn.dataset.gen = key;
+                    btn.textContent = g.label.replace('Generación de la ','').replace('Generación de las ','').replace('Generación del ','').replace('Generación ','');
+                    btn.addEventListener('click', () => setGen(btn.dataset.gen));
+                    btnContainer.appendChild(btn);
+                });
+
+                // Activate first gen of new country
+                setGen(Object.keys(gens)[0]);
+            }
+
+            document.querySelectorAll('.country-tab').forEach(tab => {
+                tab.addEventListener('click', () => setCountry(tab.dataset.country));
             });
 
             // Initial color on gen-name
