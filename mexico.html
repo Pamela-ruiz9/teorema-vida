@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/base.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1256,6 +1257,51 @@
         document.getElementById('share-buttons').style.display = 'flex';
         document.getElementById('canvas-share-buttons').style.display = 'flex';
         populateSoWhat(closest);
+
+        // ===== SAVE TO SUPABASE =====
+        saveQuizResponse({
+            birthYear,
+            answers: questions.map((q, i) => ({
+                variable: q.variable,
+                question: q.text,
+                answerIndex: quizAnswers[i],
+                answerText: q.type === 'input' ? String(quizAnswers[i]) : (quizAnswers[i] !== null && q.options ? q.options[quizAnswers[i]].t : null),
+                value: q.type === 'input' ? quizAnswers[i] : (quizAnswers[i] !== null && q.options ? q.options[quizAnswers[i]].v : null)
+            })),
+            variables: { E: +E.toFixed(2), T: +T.toFixed(2), C: +C.toFixed(2), V: +V.toFixed(2), I: +Iv.toFixed(2) },
+            vector: dn.map((name, i) => ({ dimension: name, value: vector[i] })),
+            resultGeneration: closest,
+            expectedGeneration: expectedGen,
+            education: questions[3].options[quizAnswers[3]]?.t || null,
+            urbanZone: questions[4].options[quizAnswers[4]]?.t || null,
+            incomeLevel: questions[1].options[quizAnswers[1]]?.t || null
+        });
+    }
+
+    // ===== SUPABASE CLIENT =====
+    const SUPABASE_URL = 'https://vbhnvpkqoumygbdxxugg.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_0STUgHFwh8PYgjYO88Wx6w_i19Gpitc';
+    const supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+    async function saveQuizResponse(data) {
+        if (!supabase) { console.warn('Supabase not loaded'); return; }
+        try {
+            const { error } = await supabase.from('quiz_responses').insert({
+                birth_year: data.birthYear,
+                answers: data.answers,
+                variables: data.variables,
+                vector: data.vector,
+                result_generation: data.resultGeneration,
+                expected_generation: data.expectedGeneration,
+                education: data.education,
+                urban_zone: data.urbanZone,
+                income_level: data.incomeLevel
+            });
+            if (error) console.error('Quiz save error:', error);
+            else console.log('Quiz response saved successfully');
+        } catch (e) {
+            console.error('Quiz save failed:', e);
+        }
     }
 
     // Share functionality
