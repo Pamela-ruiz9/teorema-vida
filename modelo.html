@@ -797,6 +797,11 @@
                 activeCountry = countryKey;
                 gens = COUNTRIES[countryKey].entries;
 
+                // Reset activeKey to first key of new country (avoids stale key from previous country)
+                activeKey = Object.keys(gens)[0];
+                targetPositions = computePositionsFor(gens[activeKey].data);
+                targetColor.set(gens[activeKey].color);
+
                 // Update tab styles
                 document.querySelectorAll('.country-tab').forEach(t => {
                     t.classList.toggle('active', t.dataset.country === countryKey);
@@ -815,7 +820,7 @@
                 });
 
                 // Activate first gen of new country
-                setGen(Object.keys(gens)[0]);
+                setGen(activeKey);
             }
 
             document.querySelectorAll('.country-tab').forEach(tab => {
