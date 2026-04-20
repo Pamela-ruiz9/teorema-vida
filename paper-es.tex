@@ -1,0 +1,290 @@
+\documentclass[conference,spanish]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{url}
+
+\begin{document}
+
+\title{Más allá de las etiquetas generacionales: Un modelo vectorial del sentido de vida y su aplicación al contexto mexicano}
+
+\author{
+  \IEEEauthorblockN{Ingrid Pamela Ruiz Puga}
+  \IEEEauthorblockA{Investigación independiente\\
+  Ciudad de México, México\\
+  ipruizpuga@ciencias.unam.mx}
+}
+
+\maketitle
+
+\begin{abstract}
+Las taxonomías generacionales dominantes ---\textit{Baby Boomer}, \textit{Generación X}, \textit{Millennial}, \textit{Generación Z}--- fueron construidas a partir de eventos formativos propios de la sociedad estadounidense de la segunda mitad del siglo XX. Su aplicación acrítica al contexto mexicano ignora diferencias estructurales profundas: la hegemonía política del PRI durante 71 años, la recurrencia sexenal de crisis económicas, la guerra contra el narcotráfico iniciada en 2006 y una desigualdad de ingreso persistente. Este artículo propone un modelo vectorial del sentido de vida, $\mathbf{S} = (S_1, S_2, \ldots, S_8)$, que describe la configuración existencial de una cohorte mediante ocho dimensiones ---Seguridad, Estatus, Autonomía, Afiliación, Experiencia, Identidad, Trascendencia y Resiliencia--- calculadas a partir de cinco variables de régimen: escasez económica ($E$), disrupción tecnológica ($T$), confianza institucional ($C$), violencia estructural ($V$) y saturación informacional ($I$). La ventana formativa se delimita entre los 10 y los 25 años, siguiendo a Mannheim. El modelo se aplica a cuatro generaciones mexicanas ---Milagro, Crisis, Transición y Saturación--- produciendo vectores distintos de sus contrapartes estadounidenses y revelando narrativas de sentido propias. Se discuten implicaciones, limitaciones y la validación en curso mediante un cuestionario web.
+\end{abstract}
+
+\begin{IEEEkeywords}
+generaciones, sentido de vida, modelo vectorial, México, sociología de las generaciones, teoría de régimen
+\end{IEEEkeywords}
+
+\section{Introducción}
+
+El uso cotidiano ---y progresivamente académico--- de las etiquetas \textit{Baby Boomer}, \textit{Generación X}, \textit{Millennial} y \textit{Generación Z} presupone que las fronteras generacionales trazadas en la literatura estadounidense \cite{strauss1991} son válidas para describir cohortes en cualquier país. Esta presunción entra en tensión con la tesis original de Mannheim \cite{mannheim1928}, según la cual una generación no se define por la fecha de nacimiento sino por la exposición compartida a eventos históricos durante una ventana formativa, aproximadamente entre los diez y los veinticinco años de edad.
+
+México no experimentó la prosperidad de la posguerra bajo la misma forma que Estados Unidos, no participó en la Guerra de Vietnam, no vivió los movimientos por los derechos civiles de los años sesenta con igual centralidad, y la revolución digital llegó con un desfase temporal significativo. En cambio, su historia reciente está marcada por 71 años de presidencialismo hegemónico del Partido Revolucionario Institucional (PRI) \cite{banxico2024}, siete crisis económicas entre 1976 y 2020 \cite{banxico2024}, una guerra contra el narcotráfico que triplicó la tasa de homicidios entre 2007 y 2018 \cite{inegi2024homicidios}, y una desigualdad de ingreso con un coeficiente de Gini promedio de 49.8 en el periodo 1984--2024 \cite{worldbank2024}.
+
+El presente trabajo propone una alternativa formal. En lugar de asignar cohortes a etiquetas nominales, se modela el sentido de vida de una cohorte como un vector $\mathbf{S}$ en un espacio de ocho dimensiones derivadas de necesidades psicosociales reconocidas por la literatura \cite{maslow1943, inglehart1977}. Los valores de $\mathbf{S}$ se calculan a partir de cinco variables de régimen que caracterizan el entorno histórico durante la ventana formativa. El modelo es, por construcción, extensible a cualquier país con un mínimo de datos históricos disponibles.
+
+El artículo se organiza como sigue. La Sección~\ref{sec:related} revisa las taxonomías generacionales existentes y sus límites. La Sección~\ref{sec:modelo} define formalmente el modelo vectorial. La Sección~\ref{sec:mexico} lo aplica a México, identificando cuatro generaciones con vectores diferenciados. La Sección~\ref{sec:validacion} describe la validación empírica en curso. La Sección~\ref{sec:discusion} discute implicaciones y limitaciones. La Sección~\ref{sec:conclusion} concluye.
+
+\section{Trabajos Relacionados}
+\label{sec:related}
+
+\subsection{Teoría clásica de las generaciones}
+
+Mannheim \cite{mannheim1928} propuso en 1928 que una generación constituye una \textit{unidad social} cuando una cohorte de edad comparte la exposición a eventos históricos relevantes durante su periodo formativo. La ventana formativa ---hoy habitualmente situada entre los 10 y los 25 años--- marca el momento de mayor plasticidad en la construcción de disposiciones valorativas.
+
+\subsection{Teoría generacional estadounidense}
+
+Strauss y Howe \cite{strauss1991} popularizaron en 1991 un esquema cíclico que identifica generaciones estadounidenses con ventanas históricas concretas. Su esquema se fundamenta en eventos como la Gran Depresión, la Segunda Guerra Mundial, la prosperidad de la posguerra, la guerra de Vietnam, el fin de la Guerra Fría y la revolución digital. La taxonomía es local en dos sentidos: sus fronteras responden a la historia estadounidense y su lógica cíclica supone una regularidad institucional que no se verifica fuera de Estados Unidos.
+
+\subsection{Valores y modernización}
+
+Inglehart \cite{inglehart1977} documentó un desplazamiento de valores materialistas hacia valores post-materialistas en sociedades donde las necesidades de seguridad física y económica son satisfechas en la infancia. La literatura del \textit{World Values Survey} \cite{wvs2022} ha refinado esta tesis durante las últimas cuatro décadas, mostrando que la transición hacia valores post-materialistas no es monotónica.
+
+\subsection{Límites de la literatura existente}
+
+Cuatro limitaciones motivan el presente modelo. \textit{Primero}, las taxonomías nominales no permiten comparaciones cuantitativas entre cohortes ni entre países. \textit{Segundo}, las fronteras cronológicas estadounidenses se trasladan mecánicamente a otros contextos. \textit{Tercero}, los marcos existentes no modelan de forma explícita la relación entre variables del entorno y la estructura de sentido de una cohorte. \textit{Cuarto}, las taxonomías nominales tienden a esencializar la cohorte, atribuyendo características uniformes a todos sus miembros.
+
+\section{El Modelo Vectorial del Sentido de Vida}
+\label{sec:modelo}
+
+\subsection{Definición del vector}
+
+Se define el \textit{vector de sentido} de una cohorte como:
+
+\begin{equation}
+\mathbf{S} = (S_1, S_2, S_3, S_4, S_5, S_6, S_7, S_8)
+\end{equation}
+
+donde cada componente $S_i \in [0, 10]$ representa la intensidad de una dimensión existencial:
+
+\begin{itemize}
+  \item $S_1$ --- \textbf{Seguridad}: necesidad de estabilidad material y certeza sobre el futuro inmediato.
+  \item $S_2$ --- \textbf{Estatus}: importancia atribuida al reconocimiento social y a la posición relativa.
+  \item $S_3$ --- \textbf{Autonomía}: capacidad percibida y deseada de actuar de forma independiente.
+  \item $S_4$ --- \textbf{Afiliación}: necesidad de pertenencia, comunidad y vínculo.
+  \item $S_5$ --- \textbf{Experiencia}: búsqueda de vivencias, conocimiento y estímulo.
+  \item $S_6$ --- \textbf{Identidad}: grado de centralidad del proceso de construcción del yo.
+  \item $S_7$ --- \textbf{Trascendencia}: búsqueda de propósito más allá de lo inmediato y lo material.
+  \item $S_8$ --- \textbf{Resiliencia}: capacidad desarrollada de adaptación ante la adversidad.
+\end{itemize}
+
+\subsection{Variables de régimen}
+
+Las componentes de $\mathbf{S}$ se calculan a partir de cinco variables de régimen definidas sobre la ventana formativa de la cohorte, cada una en $[0, 10]$:
+
+\begin{itemize}
+  \item $E$ --- Escasez económica
+  \item $T$ --- Disrupción tecnológica
+  \item $C$ --- Confianza institucional \cite{latinobarometro2023, monsivais2021}
+  \item $V$ --- Violencia estructural \cite{inegi2024homicidios}
+  \item $I$ --- Saturación informacional (derivada parcialmente de $T$)
+\end{itemize}
+
+\subsection{Ecuaciones del vector}
+
+Las componentes de $\mathbf{S}$ se obtienen mediante la función de saturación $f(x) = \min(10, \max(0, \mathrm{round}(x,1)))$ aplicada sobre combinaciones lineales de las variables de régimen, como se muestra en la Tabla~\ref{tab:ecuaciones}.
+
+\begin{table}[htbp]
+\caption{Ecuaciones del vector de sentido $\mathbf{S}$}
+\label{tab:ecuaciones}
+\begin{tabular}{ll}
+\toprule
+Dimensión & Ecuación \\
+\midrule
+$S_1$ (Seguridad) & $f(9 - 0.4E + 0.3C - 0.15V)$ \\
+$S_2$ (Estatus) & $f(7 - 0.35E + 0.2C - 0.3T)$ \\
+$S_3$ (Autonomía) & $f(1 + 0.35E + 0.25T - 0.25C + 0.1V)$ \\
+$S_4$ (Afiliación) & $f(4 + 0.35C - 0.25V - 0.05T)$ \\
+$S_5$ (Experiencia) & $f(1 + 0.45T + 0.15I)$ \\
+$S_6$ (Identidad) & $f(0.5 + 0.35T + 0.35I - 0.15C)$ \\
+$S_7$ (Trascendencia) & $f(3 - 0.2E - 0.2V + 0.15C + 0.2T + 0.1I)$ \\
+$S_8$ (Resiliencia) & $f(0.5 + 0.45E + 0.35V - 0.15C)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Magnitud del vector}
+
+La magnitud o norma euclidiana del vector se define como:
+
+\begin{equation}
+\|\mathbf{S}\| = \sqrt{\sum_{i=1}^{8} S_i^{2}}
+\end{equation}
+
+La magnitud captura la \textit{intensidad total} con la que el sentido de vida está cargado, sin importar el signo existencial de sus componentes.
+
+\subsection{Ventana formativa}
+
+Se adopta la ventana de Mannheim \cite{mannheim1928}, operacionalizada como el intervalo en que una persona tiene entre 10 y 25 años. Para una cohorte nacida en el intervalo $[a, b]$, la ventana formativa del régimen se aproxima como $[a + 10, b + 25]$.
+
+\section{Aplicación al Contexto Mexicano}
+\label{sec:mexico}
+
+\subsection{Justificación del contexto diferencial}
+
+Las cuatro variables históricas que distinguen a México de Estados Unidos durante el periodo 1946--2024 hacen imposible una traducción directa de las fronteras generacionales estadounidenses:
+
+\begin{enumerate}
+  \item \textbf{Régimen político.} El PRI mantuvo la presidencia de forma ininterrumpida entre 1929 y 2000, produciendo un régimen de certidumbre institucional sostenida por clientelismo y hegemonía mediática.
+  \item \textbf{Ciclicidad económica.} México sufrió crisis mayores en 1976, 1982, 1987, 1994, 2001, 2008 y 2020 \cite{banxico2024}. La crisis de 1982 implicó una devaluación cercana al 48\%; la inflación de 1987 alcanzó 159\%; el Tequilazo de 1994 contrajo el PIB 6.2\%.
+  \item \textbf{Violencia estructural.} La tasa de homicidios pasó de 8 por cada 100\,000 habitantes en 2007 a 29 en 2018 \cite{inegi2024homicidios}. La Generación de la Saturación no conoce un México con menos de 20 homicidios por 100\,000 habitantes.
+  \item \textbf{Desigualdad persistente.} El índice de Gini promedió 49.8 en el periodo 1984--2024, con un máximo de 53.4 en 1994 y una reducción reciente a 39.1 en 2024 \cite{worldbank2024}.
+\end{enumerate}
+
+\subsection{Variables de régimen por generación}
+
+La Tabla~\ref{tab:variables} resume las cinco variables de régimen estimadas para cada cohorte mexicana.
+
+\begin{table}[htbp]
+\caption{Variables de régimen por generación mexicana (escala 0--10)}
+\label{tab:variables}
+\begin{tabular}{lllccccc}
+\toprule
+Generación & Nacimiento & Ventana & $E$ & $T$ & $C$ & $V$ & $I$ \\
+\midrule
+Milagro    & 1946--1964 & 1956--1989 & 2 & 1 & 8 & 2 & 1 \\
+Crisis     & 1965--1980 & 1975--2005 & 8 & 3 & 4 & 4 & 3 \\
+Transición & 1981--1996 & 1991--2021 & 6 & 7 & 3 & 7 & 7 \\
+Saturación & 1997--2012 & 2007--2037* & 9 & 10 & 2 & 9 & 10 \\
+\bottomrule
+\multicolumn{8}{l}{*Ventana en curso al momento de publicación.}
+\end{tabular}
+\end{table}
+
+\subsection{Vectores resultantes}
+
+La Tabla~\ref{tab:vectores} muestra los vectores de sentido calculados a partir de las variables de la Tabla~\ref{tab:variables}.
+
+\begin{table}[htbp]
+\caption{Vectores de sentido $\mathbf{S}$ por generación mexicana}
+\label{tab:vectores}
+\begin{tabular}{lccccccccr}
+\toprule
+Generación & $S_1$ & $S_2$ & $S_3$ & $S_4$ & $S_5$ & $S_6$ & $S_7$ & $S_8$ & $\|\mathbf{S}\|$ \\
+\midrule
+Milagro    & 8 & 8 & 4 & 7 & 4 & 3 & 5 & 3 & 14.4 \\
+Crisis     & 7 & 5 & 8 & 4 & 5 & 5 & 3 & 9 & 15.5 \\
+Transición & 5 & 3 & 6 & 7 & 7 & 8 & 8 & 7 & 16.6 \\
+Saturación & 4 & 2 & 8 & 5 & 7 & 9 & 5 & 9 & 16.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Distancias intergeneracionales}
+
+La Tabla~\ref{tab:distancias} muestra la matriz de distancias euclidianas entre los cuatro vectores. La distancia Milagro--Saturación (11.5) es la mayor, indicando una quiebra estructural que coincide históricamente con el colapso del modelo estabilizador a finales de los años setenta.
+
+\begin{table}[htbp]
+\caption{Distancias euclidianas $d(\mathbf{S}^A, \mathbf{S}^B)$ entre generaciones mexicanas}
+\label{tab:distancias}
+\begin{tabular}{lcccc}
+\toprule
+ & Milagro & Crisis & Transición & Saturación \\
+\midrule
+Milagro    & 0.0 & 8.5 & 9.0  & 11.5 \\
+Crisis     & 8.5 & 0.0 & 7.3  & 6.4  \\
+Transición & 9.0 & 7.3 & 0.0  & 4.9  \\
+Saturación & 11.5 & 6.4 & 4.9 & 0.0  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Validación Preliminar}
+\label{sec:validacion}
+
+El modelo se está validando mediante un cuestionario web de auto-reporte, accesible en el sitio del proyecto \textit{Teorema de Vida} (\url{https://pamela-ruiz9.github.io/teorema-vida}), con el fin de contrastar los vectores teóricos de la Tabla~\ref{tab:vectores} con vectores empíricos calculados a partir de respuestas individuales agregadas por cohorte.
+
+El instrumento consta de ítems medidos en escala Likert de 5 puntos, complementados con reactivos demográficos (año de nacimiento, escolaridad, estado de residencia). Se prevén tres pruebas de validación: coherencia interna ($\alpha$ de Cronbach $\geq 0.70$), validez convergente por cohorte (correlación de Pearson entre vectores teóricos y empíricos) y discriminación entre cohortes (MANOVA).
+
+La recolección de datos inició recientemente y los resultados completos serán reportados en un trabajo posterior. La validación no es el objetivo central del presente artículo, sino un paso previsto dentro de un programa de investigación más amplio.
+
+\section{Discusión}
+\label{sec:discusion}
+
+\subsection{Implicaciones teóricas}
+
+El modelo propuesto reformula el problema generacional en cuatro sentidos. \textit{Primero}, desplaza el foco desde fronteras cronológicas nominales hacia configuraciones multidimensionales continuas. \textit{Segundo}, hace explícita la dependencia entre régimen histórico y estructura de sentido. \textit{Tercero}, permite comparaciones cuantitativas interculturales mediante distancias y ángulos entre vectores. \textit{Cuarto}, integra la sociología de las generaciones con la psicología de las motivaciones humanas \cite{maslow1943, inglehart1977}.
+
+\subsection{Implicaciones prácticas}
+
+Para diseñadores de política pública, el vector $\mathbf{S}$ ofrece un mapa de prioridades perceptuales por cohorte. Una intervención dirigida a la Generación de la Saturación mexicana --- con $S_1$ bajo y $S_8$ alto--- requerirá un lenguaje distinto al que funcionaría con la Generación del Milagro. Para el sector privado, el modelo sugiere que estrategias de comunicación basadas en segmentaciones generacionales estadounidenses pueden fallar sistemáticamente en México.
+
+\subsection{Limitaciones}
+
+El modelo presenta cinco limitaciones principales: (1) coeficientes calibrados teóricamente, no estadísticamente; (2) variables de régimen nacionales, no subnacionales; (3) ventana formativa uniforme, sin distinción por dimensión; (4) número de dimensiones fijo en ocho; (5) linealidad de las ecuaciones.
+
+\subsection{Extensibilidad}
+
+El modelo no es específico de México. Para aplicarlo a otro país es suficiente con estimar sus cinco variables de régimen sobre las ventanas formativas correspondientes. Un programa de investigación comparado podría producir un \textit{atlas vectorial} de generaciones por país.
+
+\section{Conclusión}
+\label{sec:conclusion}
+
+Las etiquetas generacionales importadas describen mal al México contemporáneo. El presente trabajo ha propuesto un modelo vectorial del sentido de vida, $\mathbf{S} = (S_1, \ldots, S_8)$, cuyas componentes se calculan a partir de cinco variables de régimen evaluadas sobre la ventana formativa de cada cohorte. Al aplicarlo a cuatro generaciones mexicanas, el modelo produce configuraciones diferenciadas que son consistentes con los indicadores históricos disponibles \cite{inegi2024homicidios, worldbank2024, latinobarometro2023, inegi2024endutih} y que resisten la analogía directa con las cohortes estadounidenses.
+
+El valor principal del modelo reside en tres desplazamientos conceptuales: (i) representar una cohorte como un vector en lugar de una etiqueta; (ii) hacer explícita la dependencia del sentido respecto al régimen histórico; (iii) permitir comparaciones cuantitativas, interculturales e intertemporales.
+
+Describir una generación mexicana requiere más que traducir una etiqueta: requiere medir su régimen. El vector $\mathbf{S}$ es un instrumento para esa medición.
+
+\begin{thebibliography}{14}
+
+\bibitem{mannheim1928}
+K. Mannheim, ``The Problem of Generations,'' in \textit{Essays on the Sociology of Knowledge}. London, U.K.: Routledge \& Kegan Paul, 1952 (original 1928), pp. 276--322.
+
+\bibitem{maslow1943}
+A. H. Maslow, ``A theory of human motivation,'' \textit{Psychological Review}, vol. 50, no. 4, pp. 370--396, 1943.
+
+\bibitem{inglehart1977}
+R. Inglehart, \textit{The Silent Revolution: Changing Values and Political Styles Among Western Publics}. Princeton, NJ, USA: Princeton University Press, 1977.
+
+\bibitem{strauss1991}
+W. Strauss and N. Howe, \textit{Generations: The History of America's Future, 1584 to 2069}. New York, NY, USA: William Morrow, 1991.
+
+\bibitem{latinobarometro2023}
+Corporación Latinobarómetro, \textit{Informe Latinobarómetro 2023: La recesión democrática de América Latina}. Santiago, Chile: Latinobarómetro, 2023. [Online]. Available: \url{https://www.latinobarometro.org}
+
+\bibitem{inegi2024homicidios}
+Instituto Nacional de Estadística y Geografía (INEGI), \textit{Estadísticas de Mortalidad: Defunciones por homicidio 1990--2024}. Aguascalientes, México: INEGI, 2024. [Online]. Available: \url{https://www.inegi.org.mx}
+
+\bibitem{worldbank2024}
+World Bank, \textit{World Development Indicators: Mexico, 1984--2024 (GDP per capita, Gini index)}. Washington, DC, USA: The World Bank, 2024. [Online]. Available: \url{https://data.worldbank.org}
+
+\bibitem{inegi2024endutih}
+INEGI, \textit{Encuesta Nacional sobre Disponibilidad y Uso de Tecnologías de la Información en los Hogares (ENDUTIH)}, 1995--2024. Aguascalientes, México: INEGI, 2024.
+
+\bibitem{monsivais2021}
+A. Monsiváis-Carrillo, ``La confianza institucional en América Latina: determinantes y dinámicas de cambio,'' \textit{Perfiles Latinoamericanos}, vol. 29, no. 58, pp. 151--178, 2021.
+
+\bibitem{unicef2024}
+UNICEF, \textit{The State of the World's Children 2024: Youth, Technology and Mental Health}. New York, NY, USA: United Nations Children's Fund, 2024.
+
+\bibitem{oecd2023}
+OECD, \textit{Employment Outlook 2023: Artificial Intelligence and the Labour Market}. Paris, France: OECD Publishing, 2023.
+
+\bibitem{banxico2024}
+Banco de México, \textit{Informes Anuales y Boletines Históricos: Crisis económicas 1976--2020}. Ciudad de México, México: Banxico, 2024. [Online]. Available: \url{https://www.banxico.org.mx}
+
+\bibitem{wvs2022}
+World Values Survey Association, \textit{World Values Survey: Mexico, Waves 1--7}. Vienna, Austria: WVSA, 2022. [Online]. Available: \url{https://www.worldvaluessurvey.org}
+
+\bibitem{sesnsp2024}
+Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública (SESNSP), \textit{Incidencia Delictiva del Fuero Común 2015--2024}. Ciudad de México, México: SESNSP, 2024.
+
+\end{thebibliography}
+
+\end{document}
