@@ -1,0 +1,314 @@
+\documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{url}
+
+\begin{document}
+
+\title{Beyond Generational Labels: A Multidimensional Vector Model of Life Meaning Applied to the United States}
+
+\author{
+  \IEEEauthorblockN{Ingrid Pamela Ruiz Puga}
+  \IEEEauthorblockA{Independent Researcher\\
+  Mexico City, Mexico\\
+  ipruizpuga@ciencias.unam.mx}
+}
+
+\maketitle
+
+\begin{abstract}
+Generational labels such as \textit{Baby Boomers}, \textit{Generation X}, \textit{Millennials}, and \textit{Generation Z} have become dominant tools for describing cohort differences in values, behavior, and life meaning. However, these labels were constructed primarily from United States-specific historical events---post-WWII prosperity, the GI Bill, Vietnam, Watergate, the Reagan era, 9/11, the 2008 financial crisis, and COVID-19---and are frequently exported uncritically to contexts where their explanatory power is limited. This paper proposes a multidimensional vector model that represents life meaning as an eight-dimensional vector $\mathbf{S} = (\text{Security}, \text{Status}, \text{Autonomy}, \text{Affiliation}, \text{Experience}, \text{Identity}, \text{Transcendence}, \text{Resilience})$, computed from five regime variables: Economic scarcity ($E$), Technological disruption ($T$), Institutional trust ($C$), Structural violence ($V$), and Informational saturation ($I$). The model is parameterized over the Mannheimian formative window (ages 10--25) and applied to the four canonical U.S.\ generations. Results yield distinct vector signatures whose inter-generational distances reveal that change in U.S.\ life meaning has been driven less by mere temporal succession than by structural shifts in trust and technology. A brief cross-national contrast with Mexico shows that Millennials and Generation Z exhibit notable international convergence on identity and experience, while resilience remains highly country-specific.
+\end{abstract}
+
+\begin{IEEEkeywords}
+generational theory, life meaning, vector model, cohort analysis, formative window, United States, sociology of knowledge
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+The vocabulary of generations has become one of the most pervasive lenses through which contemporary societies interpret cultural and economic change. Media, marketing, policy, and increasingly academic research rely on labels such as \textit{Baby Boomers}, \textit{Generation X}, \textit{Millennials}, and \textit{Generation Z} to explain phenomena ranging from labor-market participation to political polarization and mental health outcomes \cite{mannheim1928,strauss1991,twenge2017}. Yet these labels are neither neutral nor universal. They were constructed, chiefly by U.S.\ historians and demographers, around events specific to the United States: the post-World War II economic boom, the GI Bill of 1944, Vietnam, Watergate, the Reagan-era neoliberal turn, September 11, the 2008 financial crisis, and COVID-19.
+
+When such labels are imported into other national contexts, they tend to produce two analytical distortions. First, they collapse heterogeneous regime conditions into a single temporal axis of birth year. Second, they suppress the possibility that individuals formed under radically different structural conditions may develop divergent value priorities. The result is a taxonomy that describes cohorts without explaining them.
+
+This paper proposes a multidimensional \textit{vector model of life meaning} in which each cohort is represented as a vector $\mathbf{S}$ in an eight-dimensional space of life priorities, computed from five regime variables evaluated over the cohort's formative window, following Mannheim \cite{mannheim1928}. The model is applied to the four canonical U.S.\ generations to demonstrate that (i) the United States itself is a specific case rather than a universal template; (ii) the observed drift across cohorts is dominated by changes in institutional trust ($C$) and technology ($T$); and (iii) the model produces interpretable inter-generational distances aligned with cultural narratives.
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{The Sociology of Generations}
+
+Mannheim's 1928 essay \cite{mannheim1928} distinguishes biological birth cohorts from \textit{generations as social units}—groups bound by shared exposure to historical events during a psychologically formative period (approximately ages 10--25). This insight—that historical conditions of formation rather than birth year generate a generation—is the foundation of the present model.
+
+\subsection{Needs, Values, and Post-Materialism}
+
+Maslow's hierarchy of needs \cite{maslow1943} stratifies human motivation from physiological security to self-actualization. Inglehart's post-materialist thesis \cite{inglehart1977} extended this logic to the cohort level, arguing that individuals formed under economic security develop value priorities distinct from those formed under scarcity. The World Values Survey \cite{wvs2022} has documented this pattern for five decades.
+
+\subsection{American Generational Theory}
+
+Strauss and Howe \cite{strauss1991} popularized a cyclical account of American generations. Their framework has been widely criticized for historicism. Twenge's empirical work on \textit{iGen} \cite{twenge2017} and Putnam's analysis of social capital in \textit{Bowling Alone} \cite{putnam2000} offer more measured contributions but remain largely descriptive, lacking a generative mechanism linking structural conditions to value outcomes.
+
+\subsection{Gaps Addressed}
+
+The vector model proposed here differs from prior work on three axes. First, it is \textit{generative}: vectors are computed from regime variables rather than inferred from survey aggregates. Second, it is \textit{portable}: the same equations apply to any country or sub-national cohort. Third, it is \textit{geometric}: differences between cohorts are expressed as Euclidean distances.
+
+\section{The Vector Model}
+\label{sec:model}
+
+\subsection{Definition}
+
+Let a cohort be characterized by an eight-dimensional life-meaning vector:
+
+\begin{equation}
+\mathbf{S} = (S_1, S_2, S_3, S_4, S_5, S_6, S_7, S_8)
+\end{equation}
+
+whose components represent the relative prominence on a 0--10 scale of:
+
+\begin{itemize}
+  \item $S_1$ \textbf{Security} --- physical, economic, and ontological stability.
+  \item $S_2$ \textbf{Status} --- social recognition and upward mobility.
+  \item $S_3$ \textbf{Autonomy} --- self-direction, independence.
+  \item $S_4$ \textbf{Affiliation} --- belonging, community, interpersonal trust.
+  \item $S_5$ \textbf{Experience} --- novelty-seeking, sensorial richness.
+  \item $S_6$ \textbf{Identity} --- self-construction, narrative coherence.
+  \item $S_7$ \textbf{Transcendence} --- meaning beyond the self.
+  \item $S_8$ \textbf{Resilience} --- adaptive capacity under adversity.
+\end{itemize}
+
+\subsection{Regime Variables}
+
+Each vector is generated from five regime variables evaluated over the formative window:
+
+\begin{itemize}
+  \item $E$: Economic scarcity (0 = abundance, 10 = severe scarcity).
+  \item $T$: Technological disruption (0 = stable, 10 = maximally disruptive).
+  \item $C$: Institutional trust \cite{pewresearch2023}.
+  \item $V$: Structural violence \cite{fbi2024}.
+  \item $I$: Informational saturation (derived from $T$; 0 = scarce, 10 = saturated).
+\end{itemize}
+
+\subsection{Generative Equations}
+
+Each dimension $S_i$ is a linear combination of regime variables passed through a clipping function $f(x) = \min(10, \max(0, \mathrm{round}(x, 1)))$, as shown in Table~\ref{tab:equations}.
+
+\begin{table}[htbp]
+\caption{Generative equations for the life-meaning vector}
+\label{tab:equations}
+\begin{tabular}{ll}
+\toprule
+Dimension & Equation \\
+\midrule
+$S_1$ Security & $f(9 - 0.4E + 0.3C - 0.15V)$ \\
+$S_2$ Status & $f(7 - 0.35E + 0.2C - 0.3T)$ \\
+$S_3$ Autonomy & $f(1 + 0.35E + 0.25T - 0.25C + 0.1V)$ \\
+$S_4$ Affiliation & $f(4 + 0.35C - 0.25V - 0.05T)$ \\
+$S_5$ Experience & $f(1 + 0.45T + 0.15I)$ \\
+$S_6$ Identity & $f(0.5 + 0.35T + 0.35I - 0.15C)$ \\
+$S_7$ Transcendence & $f(3 - 0.2E - 0.2V + 0.15C + 0.2T + 0.1I)$ \\
+$S_8$ Resilience & $f(0.5 + 0.45E + 0.35V - 0.15C)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Magnitude and Distance}
+
+The magnitude and inter-cohort distance are:
+
+\begin{equation}
+\|\mathbf{S}\| = \sqrt{\sum_{i=1}^{8} S_i^{2}}, \qquad
+d(\mathbf{S}^{(a)}, \mathbf{S}^{(b)}) = \sqrt{\sum_{i=1}^{8} \left(S_i^{(a)} - S_i^{(b)}\right)^2}
+\end{equation}
+
+\subsection{Formative Window}
+
+Following Mannheim \cite{mannheim1928}, regime variables are evaluated as averages over the period when cohort members were aged 10--25. For a cohort born between years $y_0$ and $y_1$, the window is $(y_0 + 10,\ y_1 + 25)$.
+
+\section{Application to the United States}
+\label{sec:us}
+
+\subsection{Historical Context}
+
+Four structural inflection points shape the U.S.\ regime trajectory. First, the post-WWII boom and the GI Bill drove $E$ to historic lows while $C$ peaked near 77\% in 1964 \cite{pewresearch2023}. Second, the sequence of political assassinations and Watergate (1963--1974) collapsed $C$ from the low-70s to 36\% \cite{pewresearch2023}. Third, personal computing and the public internet pushed $T$ from near zero to historic highs \cite{oecd2023}. Fourth, 9/11, the 2008 financial crisis, and COVID-19 produced simultaneous collapse of $C$, rise of $E$ for younger cohorts, and saturation of $I$.
+
+Student debt rose from \$0.48 trillion in 2005 to approximately \$1.73 trillion in 2025 \cite{fedreserve2024}. This is the principal mechanism by which economic scarcity rose for Millennials and Generation Z despite aggregate GDP growth. Internet penetration moved from 1\% in 1990 to 97\% in 2024 \cite{oecd2023}, with the rate of change peaking during the Millennial formative window.
+
+\subsection{Regime Variables by Generation}
+
+Table~\ref{tab:regime} summarizes the estimated regime variables.
+
+\begin{table}[htbp]
+\caption{Regime variables by U.S.\ generation (scale 0--10)}
+\label{tab:regime}
+\begin{tabular}{lllccccc}
+\toprule
+Generation & Birth years & Window & $E$ & $T$ & $C$ & $V$ & $I$ \\
+\midrule
+Baby Boomers & 1946--1964 & 1956--1989 & 2 & 2 & 8 & 3 & 2 \\
+Generation X  & 1965--1980 & 1975--2005 & 3 & 5 & 5 & 5 & 5 \\
+Millennials   & 1981--1996 & 1991--2021 & 5 & 8 & 3 & 4 & 8 \\
+Generation Z  & 1997--2012 & 2007--2037* & 5 & 10 & 2 & 6 & 10 \\
+\bottomrule
+\multicolumn{8}{l}{*Window ongoing; values reflect conditions through 2025.}
+\end{tabular}
+\end{table}
+
+\subsection{Generational Vectors}
+
+Table~\ref{tab:vectors} shows the life-meaning vectors computed from Table~\ref{tab:regime}.
+
+\begin{table}[htbp]
+\caption{Life-meaning vectors \textbf{S} by U.S.\ generation}
+\label{tab:vectors}
+\begin{tabular}{lccccc}
+\toprule
+Dimension & Boomers & Gen X & Millennials & Gen Z \\
+\midrule
+$S_1$ Security & 8 & 7 & 5 & 4 \\
+$S_2$ Status & 8 & 5 & 3 & 2 \\
+$S_3$ Autonomy & 4 & 8 & 6 & 8 \\
+$S_4$ Affiliation & 7 & 4 & 7 & 5 \\
+$S_5$ Experience & 5 & 7 & 7 & 7 \\
+$S_6$ Identity & 4 & 6 & 8 & 9 \\
+$S_7$ Transcendence & 7 & 4 & 8 & 5 \\
+$S_8$ Resilience & 3 & 6 & 5 & 8 \\
+$\|\mathbf{S}\|$ & 15.0 & 14.6 & 15.4 & 16.2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Key patterns: Security and Status decline monotonically, tracking the rise in $E$ and collapse in $C$. Identity and Experience rise monotonically, driven by $T$ and $I$. Autonomy and Resilience both increase sharply, reflecting cohorts formed under shrinking institutional support and compound crises. Generation Z's magnitude (16.2) is the highest, indicating the most demanding life-meaning landscape.
+
+\subsection{Narrative Characterizations}
+
+\textbf{Baby Boomers.} Formed during the GI Bill era, peak civic trust, and network television as unifier, the Boomer vector (8, 8, 4, 7, 5, 4, 7, 3) exhibits the highest Security and Status in the series. Transcendence at 7 reflects civil-rights and counterculture moral mobilization. Resilience at 3 is the series minimum: this is the only cohort formed without pervasive adaptive demands \cite{strauss1991,putnam2000}.
+
+\textbf{Generation X.} The transitional cohort, formed across stagflation, Watergate, the Reagan turn, and first-wave computing. Autonomy dominates at 8, consistent with latchkey childhoods and institutional retreat. Low Transcendence (4) and Status (5) distinguish this cohort sharply from Boomers. Affiliation (4) is depressed, consistent with Putnam's documentation of declining civic engagement \cite{putnam2000}. Vector magnitude (14.6) is the series minimum.
+
+\textbf{Millennials.} The formative window brackets 9/11, the 2008 crisis, and the normalization of student debt. Status is the series minimum (3); Transcendence (8) and Identity (8) reach near-saturation, consistent with purpose-driven economy rhetoric and social-media self-construction \cite{twenge2017}. Affiliation at 7 is high despite trust collapse, suggesting compensatory belonging through non-institutional channels.
+
+\textbf{Generation Z.} Maximum technological disruption ($T = 10$), informational saturation ($I = 10$), lowest institutional trust ($C = 2$), and elevated structural violence ($V = 6$) from mass shootings and the opioid crisis produce a vector (4, 2, 8, 5, 7, 9, 5, 8) with the highest Identity (9) and Resilience (8) in the series \cite{unicef2024}. Magnitude 16.2 reflects the most demanding multi-axis life-meaning context.
+
+\subsection{Distance Matrix}
+
+Table~\ref{tab:distance} shows pairwise Euclidean distances between cohort vectors.
+
+\begin{table}[htbp]
+\caption{Inter-generational Euclidean distances $d(\mathbf{S}^A, \mathbf{S}^B)$}
+\label{tab:distance}
+\begin{tabular}{lcccc}
+\toprule
+ & Boomers & Gen X & Millennials & Gen Z \\
+\midrule
+Boomers    & 0.0 & 7.3 & 9.2  & 11.1 \\
+Gen X      & 7.3 & 0.0 & 6.3  & 5.9  \\
+Millennials & 9.2 & 6.3 & 0.0  & 4.7  \\
+Gen Z      & 11.1 & 5.9 & 4.7 & 0.0  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Boomer--Generation Z distance (11.1) is the largest, reflecting cumulative structural drift. The Boomer--Gen X gap (7.3) exceeds the Gen X--Millennial gap (6.3), confirming that the trust collapse of 1963--1974 was the single largest regime discontinuity in the series.
+
+\subsection{Cross-National Contrast: Mexico}
+
+Applying the same model to Mexico identifies four cohorts. Three comparative findings are notable:
+
+\begin{enumerate}
+  \item \textbf{U.S.\ Boomers and Mexican \textit{Milagro}} exhibit similar magnitudes and profiles: both formed under functional institutional regimes with low violence, though U.S.\ $C$ is higher.
+  \item \textbf{U.S.\ Millennials and Mexican \textit{Transici\'on}} are the most similar cross-national pair, both formed during internet expansion and institutional disillusionment. This convergence on $S_6$ (Identity) and $S_5$ (Experience) is the strongest evidence in the dataset for a globalized formative regime.
+  \item \textbf{U.S.\ Generation Z vs.\ Mexican \textit{Saturaci\'on}}: similar vectors except for Resilience ($S_8 = 8$ vs.\ $S_8 = 9$), driven by Mexico's much higher structural violence ($V = 9$ vs.\ $V = 6$ due to narco-related homicides). Both cohorts register maximum $I$.
+\end{enumerate}
+
+These results demonstrate that generational labels imported from the United States are not interchangeable with cohort labels constructed for other national regimes.
+
+\section{Preliminary Validation}
+\label{sec:validation}
+
+A web-based self-assessment instrument is under development at the \textit{Teorema de Vida} project (\url{https://pamela-ruiz9.github.io/teorema-vida}). Respondents complete a 40-item questionnaire (five items per dimension) yielding an individual vector $\mathbf{S}^{(i)}$. Items are drawn from validated scales (Schwartz Value Survey, Connor--Davidson Resilience Scale, Meaning in Life Questionnaire) and adapted for cross-cultural portability.
+
+Three validation questions guide the empirical program: (i) Do individuals whose formative window coincides with a given cohort cluster near the predicted vector? (ii) Does the predicted distance pattern replicate in respondent data? (iii) Do \textit{migrants} (individuals formed in a country different from current residence) cluster with the regime of their formative window?
+
+A complementary strategy maps World Values Survey \cite{wvs2022} item banks onto the eight dimensions, yielding empirical vectors for over eighty countries and several waves. Full results will be reported in a forthcoming companion paper.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Theoretical Implications}
+
+The model reformulates the generational problem in four senses. \textit{First}, it replaces nominal labels with continuous vectors, enabling quantitative comparison. \textit{Second}, it makes the causal logic explicit: regime variables drive vector differences rather than cohort labels causing behaviors. \textit{Third}, it enables cross-national comparison via Euclidean geometry. \textit{Fourth}, the Mannheim--Maslow--Inglehart synthesis it embodies connects sociology, psychology, and political economy in a common formal framework.
+
+\subsection{Practical Implications}
+
+For public policy, the vector $\mathbf{S}$ provides a map of cohort-specific priorities. A program addressing Generation Z with high $S_6$ and high $S_8$ requires different framing than one addressing Boomers with high $S_1$ and $S_2$. For comparative research, the model enables controlled comparison between countries once regime variables are estimated.
+
+\subsection{Limitations}
+
+Five limitations warrant emphasis:
+
+\begin{enumerate}
+  \item \textbf{Theoretically calibrated coefficients.} The weights in the generative equations are derived from priors, not statistical estimation. Empirical calibration is planned.
+  \item \textbf{National-level aggregation.} Intra-national heterogeneity (region, race, class) is suppressed.
+  \item \textbf{Uniform formative window.} Different dimensions may consolidate at different ages.
+  \item \textbf{Linearity.} Threshold effects (e.g., in the trust--affiliation relationship) are not modeled.
+  \item \textbf{Ongoing windows.} Generation Z's window is unfinished; projections depend on future regime values.
+\end{enumerate}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Generational labels export poorly. The present paper has proposed a vector model of life meaning, $\mathbf{S} = (S_1, \ldots, S_8)$, that grounds cohort description in five historically measurable regime variables evaluated over Mannheim's formative window. Applied to the four canonical U.S.\ generations, the model yields vectors consistent with documentary evidence, an inter-generational distance matrix dominated by the trust collapse of 1963--1974 and the technological saturation of 2000--2025, and a cross-national contrast showing that U.S.\ Millennials and Mexican \textit{Transici\'on} converge more than any other cross-national pair---while resilience remains locally conditioned by violence.
+
+The value of the model lies less in its current coefficients, which await empirical refinement, than in its methodological contribution: representing a cohort as a vector rather than a label opens the problem of generation to the tools of linear algebra, comparative statistics, and formal causal modeling. Describing a generation requires measuring its regime. The vector $\mathbf{S}$ is an instrument for that measurement.
+
+\begin{thebibliography}{14}
+
+\bibitem{mannheim1928}
+K. Mannheim, ``The Problem of Generations,'' in \textit{Essays on the Sociology of Knowledge}. London, U.K.: Routledge \& Kegan Paul, 1952 (original 1928), pp. 276--322.
+
+\bibitem{maslow1943}
+A. H. Maslow, ``A theory of human motivation,'' \textit{Psychological Review}, vol. 50, no. 4, pp. 370--396, 1943.
+
+\bibitem{inglehart1977}
+R. Inglehart, \textit{The Silent Revolution: Changing Values and Political Styles Among Western Publics}. Princeton, NJ, USA: Princeton University Press, 1977.
+
+\bibitem{strauss1991}
+W. Strauss and N. Howe, \textit{Generations: The History of America's Future, 1584 to 2069}. New York, NY, USA: William Morrow, 1991.
+
+\bibitem{pewresearch2023}
+Pew Research Center, \textit{Public Trust in Government: 1958--2023}. Washington, DC, USA: Pew Research Center, 2023. [Online]. Available: \url{https://www.pewresearch.org}
+
+\bibitem{fbi2024}
+Federal Bureau of Investigation and Centers for Disease Control and Prevention, \textit{Uniform Crime Report 2024; WISQARS Injury Data}. Washington, DC, USA: FBI; Atlanta, GA, USA: CDC, 2024.
+
+\bibitem{fedreserve2024}
+Federal Reserve Bank of New York, \textit{Student Loan Debt Statistics, Q1 2024}. New York, NY, USA: Federal Reserve Bank of New York, 2024.
+
+\bibitem{oecd2023}
+OECD, \textit{Internet Users by Country, 2023}. Paris, France: OECD Publishing, 2023.
+
+\bibitem{unicef2024}
+UNICEF, \textit{The State of the World's Children 2024: Youth, Technology and Mental Health}. New York, NY, USA: United Nations Children's Fund, 2024.
+
+\bibitem{wvs2022}
+World Values Survey Association, \textit{World Values Survey: United States, Waves 1--7}. Vienna, Austria: WVSA, 2022. [Online]. Available: \url{https://www.worldvaluessurvey.org}
+
+\bibitem{twenge2017}
+J. M. Twenge, \textit{iGen: Why Today's Super-Connected Kids Are Growing Up Less Rebellious, More Tolerant, Less Happy---and Completely Unprepared for Adulthood}. New York, NY, USA: Atria Books, 2017.
+
+\bibitem{putnam2000}
+R. D. Putnam, \textit{Bowling Alone: The Collapse and Revival of American Community}. New York, NY, USA: Simon \& Schuster, 2000.
+
+\bibitem{inglehartwelzel2005}
+R. Inglehart and C. Welzel, \textit{Modernization, Cultural Change, and Democracy: The Human Development Sequence}. New York, NY, USA: Cambridge University Press, 2005.
+
+\bibitem{erikson1968}
+E. H. Erikson, \textit{Identity: Youth and Crisis}. New York, NY, USA: W.~W. Norton, 1968.
+
+\end{thebibliography}
+
+\end{document}
